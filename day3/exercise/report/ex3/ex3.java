@@ -4,10 +4,6 @@ public class ex3{
 	
 	private String string_user_input = "";
 	
-	ex3(){
-		string_user_input = "";
-	}
-	
 	public void inputString(){
 		Scanner sc = new Scanner(System.in);
 		System.out.println("please input your string :");
