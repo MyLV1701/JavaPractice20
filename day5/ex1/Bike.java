@@ -1,3 +1,5 @@
+package ex1;
+
 public class Bike extends Vehicle{
 	Bike(){
 	   price = 500; 

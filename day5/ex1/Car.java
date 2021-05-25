@@ -1,4 +1,6 @@
-public class Car extends Vehicle{
+package ex1;
+
+public class Car extends Vehicle {
 	Car(){
 	   price = 3000; 
 	   color = "Red";
@@ -13,7 +15,7 @@ public class Car extends Vehicle{
 	public void accelerate(){
 		
 	}
-	
+
 }
 
 
