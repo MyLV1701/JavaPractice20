@@ -1,0 +1,23 @@
+************* 22 - 06 - 2021 *************
+	phân biệt doGet() vs doPost() methods
+
+các form liên quan 
+	nặng hay không
+	bảo mật
+	
+
+web-inf : configurations
+
+		PrintWriter pw = response.getWriter();
+		StringBuilder sb = new StringBuilder();
+		sb.append("<!DOCTYPE html>");
+		sb.append( "<html>");
+		sb.append( "<head>");
+		sb.append( "<meta charset=\"ISO-8859-1\">");
+		sb.append( "<title>Insert title here</title>");
+		sb.append( "</head>");
+		sb.append( "<body>");
+		sb.append( "<h1> Hi guys </h1>");
+		sb.append("</body>");
+		sb.append( "</html>");
+		pw.append(sb.toString());
