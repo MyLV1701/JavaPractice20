@@ -108,6 +108,13 @@
 								<td><%=dmsp.getGiaBan()%></td>
 								<td><%=dmsp.getGiamGia()%></td>
 
+								<td>
+									<form action="./modifyProductAction">
+										<input type="hidden" name="productID" value=<%=dmsp.getSanPhamCode()%>>
+										<button type="submit" class="btn btn-success btn-sm">
+											Edit</button>
+									</form>
+								</td>
 							</tr>
 							<%
 							}
@@ -118,10 +125,6 @@
 					</table>
 
 				</div>
-
-
-
-
 
 			</div>
 			<div class="col-sm-8" style="background-color: lavender;">

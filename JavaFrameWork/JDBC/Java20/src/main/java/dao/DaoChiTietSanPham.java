@@ -5,8 +5,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import dbConnection.DBConnection;
 import model.ModelChiTietSanPham;
@@ -64,12 +68,46 @@ public class DaoChiTietSanPham {
 	}
 	
 	
+	public void modifySanPham(String tenSP, String ngayNhap, int giaNhap, int giaBan, int soLuong, int giamGia, int loaiSPCode, int nhaCungCapCode, int editItemID) throws SQLException {
+		
+		String modifySanPhamSQL = " UPDATE sanpham  \n"
+				+ "SET tenSP = ?, ngayNhap = ?, giaNhap = ?, giaban = ?, soLuong = ?, giamGia = ?, loaiSPCode = ?, nhaCungCapCode = ? \n"
+				+ "where sanPhamCode = ?";
+		
+		Connection connection = DBConnection.GET_CONNECTION();
+		PreparedStatement stmt = connection.prepareStatement(modifySanPhamSQL);		
+		
+		stmt.setString(1, tenSP);
+		stmt.setString(2, ngayNhap);
+		stmt.setInt(3, giaNhap);
+		stmt.setInt(4, giaBan);
+		stmt.setInt(5, soLuong);
+		stmt.setInt(6, giamGia);
+		stmt.setInt(7, loaiSPCode);
+		stmt.setInt(8, nhaCungCapCode);
+		stmt.setInt(9, editItemID);
+		stmt.executeUpdate();
+	}
+	
+	public ModelChiTietSanPham getParticularSanPhamByID(int productID) throws SQLException, ParseException{
+		Connection connection =  DBConnection.GET_CONNECTION();
 
-	public static void main(String ... args) throws SQLException{
-		DaoChiTietSanPham daoSanPham = new DaoChiTietSanPham();
-		List<ModelChiTietSanPham> spList = daoSanPham.getAllSanPham();
+		String queryProductSql = "select * from sanpham where sanPhamCode = " + productID;
+				
+		Statement sta = connection.createStatement();
+		ResultSet rs = sta.executeQuery(queryProductSql);
 		
-		System.out.println(spList);
-		
+		ModelChiTietSanPham nSP = null;
+
+		while(rs.next()){
+			
+			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+			String importDate = rs.getString(3);
+			Date date = formatter.parse(importDate);
+			
+			nSP = new ModelChiTietSanPham(rs.getInt(1),rs.getString(2),rs.getInt(4),rs.getInt(5),
+			rs.getInt(6),rs.getInt(7), rs.getInt(8), "", rs.getInt(9), "", date);
+		}
+		return nSP;
 	}
 }

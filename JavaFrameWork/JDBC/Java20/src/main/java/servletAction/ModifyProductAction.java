@@ -2,7 +2,9 @@ package servletAction;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.text.ParseException;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -12,16 +14,16 @@ import javax.servlet.http.HttpServletResponse;
 import dao.DaoChiTietSanPham;
 
 /**
- * Servlet implementation class AddProductAction
+ * Servlet implementation class ModifyProductAction
  */
-@WebServlet("/addProductAction")
-public class AddProductAction extends HttpServlet {
+@WebServlet("/modifyProductAction")
+public class ModifyProductAction extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public AddProductAction() {
+    public ModifyProductAction() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -32,6 +34,27 @@ public class AddProductAction extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		response.getWriter().append("Served at: ").append(request.getContextPath());
+		
+		DaoChiTietSanPham daoProduct = new DaoChiTietSanPham();
+		
+		int productID = Integer.parseInt(request.getParameter("productID"));
+		
+		
+		try {
+			request.setAttribute("editItemInfo", daoProduct.getParticularSanPhamByID(productID));
+		} 
+		catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		RequestDispatcher rd = request.getRequestDispatcher("./addproduct.jsp");
+		
+		rd.forward(request, response);
+		
 	}
 
 	/**
@@ -53,8 +76,16 @@ public class AddProductAction extends HttpServlet {
 		int disCount 		= Integer.parseInt(request.getParameter("Discount"));
 		int supplierCode 	= Integer.parseInt(request.getParameter("supplierCode"));
 		
+		int editItemID = Integer.parseInt(request.getParameter("updateItemId"));
+		
 		try {
-			addSP.addSanPham( productName, importDate, importPrice, exportPrice, aMount, disCount, productTypeCode, supplierCode);
+			if(editItemID == 0) {
+				addSP.addSanPham( productName, importDate, importPrice, exportPrice, aMount, disCount, productTypeCode, supplierCode);
+			}
+			else {
+				addSP.modifySanPham(productName,importDate, importPrice, exportPrice, aMount, disCount, productTypeCode, supplierCode, editItemID);
+			}
+				
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

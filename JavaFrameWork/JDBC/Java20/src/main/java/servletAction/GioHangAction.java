@@ -35,7 +35,7 @@ public class GioHangAction extends HttpServlet {
 		} else
 			SPcode = 0;
 
-		String tenSP = request.getParameter("product's name");
+		String tenSP = request.getParameter("productName");
 		
 		ModelKhachHang khachHang = (ModelKhachHang) request.getSession().getAttribute("currentUser");
 
