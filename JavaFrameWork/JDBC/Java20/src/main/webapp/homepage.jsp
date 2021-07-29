@@ -108,13 +108,13 @@
 								<td><%=dmsp.getGiaBan()%></td>
 								<td><%=dmsp.getGiamGia()%></td>
 
-								<td>
-									<form action="./modifyProductAction">
-										<input type="hidden" name="productID" value=<%=dmsp.getSanPhamCode()%>>
-										<button type="submit" class="btn btn-success btn-sm">
-											Edit</button>
-									</form>
-								</td>
+<!-- 								<td> -->
+<!-- 									<form action="./modifyProductAction"> -->
+<%-- 										<input type="hidden" name="productID" value=<%=dmsp.getSanPhamCode()%>> --%>
+<!-- 										<button type="submit" class="btn btn-success btn-sm"> -->
+<!-- 											Edit</button> -->
+<!-- 									</form> -->
+<!-- 								</td> -->
 							</tr>
 							<%
 							}
@@ -136,7 +136,8 @@
 						<i18n:i18ntag>index.proTable.caption</i18n:i18ntag>
 						<div style="float: right">
 
-							<form action="./addproduct.jsp">
+<!-- 							<form action="./addproduct.jsp"> -->
+							<form action="./modifyProductAction">
 								<input class="btn btn-primary btn-md" type="submit"
 									value="<i18n:i18ntag>form.action.add</i18n:i18ntag>">
 							</form>
@@ -177,6 +178,14 @@
 									<input type="hidden" name="productID" value=<%=sp.getSanPhamCode()%>>
 									<button type="submit" class="btn btn-success btn-sm">
 										Chon mua</button>
+								</form>
+							</td>
+							
+							<td>
+								<form action="./modifyProductAction">
+									<input type="hidden" name="productID" value=<%=sp.getSanPhamCode()%>>
+									<button type="submit" class="btn btn-success btn-sm">
+										Edit</button>
 								</form>
 							</td>
 

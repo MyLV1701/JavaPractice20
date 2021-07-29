@@ -14,6 +14,20 @@ public class ModelChiTietSanPham {
 	private int nhaCungCapCode;
 	private String tenNhaCungCap;
 	private Date ngayNhap;
+	
+	public ModelChiTietSanPham() {
+		this.sanPhamCode = 0;
+		this.tenSP = "";
+		this.giaNhap = 0;
+		this.giaBan = 0;
+		this.soLuong = 0;
+		this.giamGia = 0;
+		this.loaiSPCode = 0;
+		this.tenLoaiSP = "";
+		this.nhaCungCapCode = 0;
+		this.tenNhaCungCap = "";
+		this.ngayNhap = new Date();
+	}
 
 	public ModelChiTietSanPham(int sanPhamCode, String tenSP, int giaNhap, int giaBan, int soLuong, int giamGia,
 			int loaiSPCode, String tenLoaiSP, int nhaCungCapCode, String tenNhaCungCap, Date ngayNhap) {

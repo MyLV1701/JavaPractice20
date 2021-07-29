@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import dao.DaoChiTietSanPham;
+import dao.DaoLoaiSanPham;
 
 /**
  * Servlet implementation class ModifyProductAction
@@ -36,12 +37,14 @@ public class ModifyProductAction extends HttpServlet {
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 		
 		DaoChiTietSanPham daoProduct = new DaoChiTietSanPham();
+		DaoLoaiSanPham daoLSP = new DaoLoaiSanPham();
 		
-		int productID = Integer.parseInt(request.getParameter("productID"));
+		int productID = (request.getParameter("productID") == null) ? 0 : Integer.parseInt(request.getParameter("productID"));
 		
 		
 		try {
 			request.setAttribute("editItemInfo", daoProduct.getParticularSanPhamByID(productID));
+			request.setAttribute("loatSanPhamList", daoLSP.getAllLoaiSanPham());
 		} 
 		catch (SQLException e) {
 			// TODO Auto-generated catch block
