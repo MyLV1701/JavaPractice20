@@ -20,6 +20,45 @@
 <script src="./bootstrap/jquery.min.js"></script>
 <script src="./bootstrap/popper.min.js"></script>
 <script src="./bootstrap/bootstrap.min.js"></script>
+
+<script>
+	var masID_ = "masLayer_";
+	$(document).ready(function() {			
+			
+		document.addEventListener("keydown", (e) => {
+		    console.log("Escape key is pressed say hi \n");
+		    $("#update_pop-up").fadeOut(500);
+			var layer = document.getElementById(masID_);
+			document.body.removeChild(layer);
+		});
+		
+		$("#close_button").click(function() {
+			$("#update_pop-up").fadeOut(500);
+			var layer = document.getElementById(masID_);
+			document.body.removeChild(layer);
+		});
+		
+
+		
+		$("#update_pơpup").click(function() {
+			$("#update_pop-up").animate({left: '630px', top: '100px'});
+			$("#update_pop-up").slideDown(500);
+			$("#update_pop-up").css("z-index", "1000");
+			
+			var layer = document.createElement("div");
+			layer.setAttribute("id", masID_);
+			$(layer).css("position", "absolute");
+			$(layer).animate({left: '0px', top: '0px'});
+			$(layer).css("width", "100%");
+			$(layer).css("height", "100%");
+			$(layer).css("background-color", "gray");
+			$(layer).css("z-index", "500");
+			$(layer).css("opacity", "0.25");
+			document.body.append(layer);
+		});		
+	});
+</script>
+
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
@@ -108,13 +147,13 @@
 								<td><%=dmsp.getGiaBan()%></td>
 								<td><%=dmsp.getGiamGia()%></td>
 
-								<td>
-									<form action="./modifyProductAction">
-										<input type="hidden" name="productID" value=<%=dmsp.getSanPhamCode()%>>
-										<button type="submit" class="btn btn-success btn-sm">
-											Edit</button>
-									</form>
-								</td>
+<!-- 								<td> -->
+<!-- 									<form action="./modifyProductAction"> -->
+<%-- 										<input type="hidden" name="productID" value=<%=dmsp.getSanPhamCode()%>> --%>
+<!-- 										<button type="submit" class="btn btn-success btn-sm"> -->
+<!-- 											Edit</button> -->
+<!-- 									</form> -->
+<!-- 								</td> -->
 							</tr>
 							<%
 							}
@@ -136,7 +175,8 @@
 						<i18n:i18ntag>index.proTable.caption</i18n:i18ntag>
 						<div style="float: right">
 
-							<form action="./addproduct.jsp">
+<!-- 							<form action="./addproduct.jsp"> -->
+							<form action="./modifyProductAction">
 								<input class="btn btn-primary btn-md" type="submit"
 									value="<i18n:i18ntag>form.action.add</i18n:i18ntag>">
 							</form>
@@ -146,7 +186,7 @@
 							<button type="button" class="btn btn-info btn-md">
 								<i18n:i18ntag>form.action.sort</i18n:i18ntag>
 							</button>
-							<button type="button" class="btn btn-success btn-sm">
+							<button id="update_pơpup" type="button" class="btn btn-success btn-sm">
 								<i18n:i18ntag>form.action.update</i18n:i18ntag>
 							</button>
 						</div>
@@ -179,6 +219,14 @@
 										Chon mua</button>
 								</form>
 							</td>
+							
+							<td>
+								<form action="./modifyProductAction">
+									<input type="hidden" name="productID" value=<%=sp.getSanPhamCode()%>>
+									<button type="submit" class="btn btn-success btn-sm">
+										Edit</button>
+								</form>
+							</td>
 
 						</tr>
 						<%
@@ -190,7 +238,12 @@
 				</table>
 
 			</div>
-
+			
+			<div id="update_pop-up" style="display: none; border: 1px solid blue; padding: 5px; width: 40%; min-width:640px;position: absolute; background-color: white;">
+				<div id="close_button" style="position: absolute; with:20px;height: 20px;top: 3px;right: 8px;z-index: 1000; color : red; cursor: pointer; ">X</div>
+				<jsp:include page="productForm.jsp" />
+			</div>
+			
 		</div>
 	</div>
 
