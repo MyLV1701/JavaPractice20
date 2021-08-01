@@ -1,8 +1,18 @@
+<%-- <%@ page language="java" contentType="text/html; charset=ISO-8859-1" --%>
+<%--     pageEncoding="ISO-8859-1"%> --%>
+    
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+	
+
 <html>
 <head>
-	<title>Product Form</title>
-	<meta charset="UTF-8">
-	<script src="./jquery.min.js"></script>
+	<title>Bài 02</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="./bootstrap/bootstrap.min.css">
+	<!-- <script src="./jquery.min.js"></script>  -->
+	<script src="./bootstrap/jquery.min.js"></script>
 	<script>
 		function loadPage(){
 			//alert("Load site");
@@ -23,7 +33,7 @@
 				//$("#productForm").show(600);
 				//$("#productForm").toggle(600);
 				//$("#productForm").slideToggle();
-				$("#productForm").animate({left: '300px', top: '100px'});
+				$("#productForm").animate({left: '110px', top: '100px'});
 				$("#productForm").slideDown(500);
 				$("#productForm").css("z-index", "1000");
 				//$("#productForm").fadeToggle(800);
@@ -49,15 +59,15 @@
 			});
 			*/
 			
-			$(document).on("mouseenter", "tr", function(){
-				$(this).css("background-color", "gray");
-				$(this).addClass("selectedRow");
-			});
+			// $(document).on("mouseenter", "tr", function(){
+				// $(this).css("background-color", "gray");
+				// $(this).addClass("selectedRow");
+			// });
 			
-			$(document).on("mouseleave", "tr", function(){
-				$(this).css("background-color", "white");
-				$(this).removeClass("selectedRow");
-			});
+			// $(document).on("mouseleave", "tr", function(){
+				// $(this).css("background-color", "white");
+				// $(this).removeClass("selectedRow");
+			// });
 			
 		});
 	</script>
@@ -93,128 +103,119 @@
 			padding-right: 10px;
 		}
 	</style>
+
+	<style>
+		h1{
+			color: blue;
+			text-shadow: 2px 2px 5px lightblue;
+		}
+		
+		p {
+			border: 1px solid black;
+			border-radius: 5px;
+			padding-left: 10px;
+		}
+		
+		.p1 {
+			color: DodgerBlue;
+			border-left: 3px solid blue;
+			padding-left: 10px;
+		}
+		
+		.p2 {
+			color: MediumSeaGreen;
+		}
+		
+		.p3{
+			color: RGB(255,255,255);
+			background-color: lightblue;
+			padding: 5px;
+		}
+		
+		.div01{
+			background-image: url("../imgs/ICanNotUnderstandForYou.jpg");
+			background-repeat: no-repeat;
+			color: white;
+			width: 100%;
+			height: 500px;
+			border: 1px double red;
+		}
+		
+		.grid-container{
+			display: grid;
+			grid-template-areas: 
+				'lMenu lMenu lMenu lMenu header header header header header header header header'
+				'lMenu lMenu lMenu lMenu content content content content content rMenu rMenu rMenu'
+				'footer footer footer footer footer footer footer footer footer rMenu rMenu rMenu'
+				'author author author author author author author author author author author author'
+			;
+			grid-gap: 5px;
+			padding: 5px 10px 5px 5px;
+			margin: 5px 10px;
+		}
+		
+		.grid-container > div {
+			border: 1px solid blue;
+			padding: 5px;
+		}
+		
+		.header{
+			grid-area: header;
+			min-height: 100px;
+			line-height: 100px;
+			font-size: 28px;
+			text-align: center;
+			font-weight: bolder;
+			text-decoration: underline;
+			text-transform: uppercase;
+		}
+		.leftMenu{grid-area: lMenu;}
+		.content{grid-area: content;}
+		.rightMenu{grid-area: rMenu;}
+		.footer{grid-area: footer;}
+		.author{grid-area: author;}
+	</style>
+
 </head>
+
+
+
 <body onload="loadPage()">
-	<div id="productForm" style="display: none; border: 1px solid blue; padding: 5px; width: 40%; min-width:640px;position: absolute; background-color: white;">
-		<!-- <form action="#" method="post"> -->
-			<!-- <table border=1 style="border-collapse: collapse"> -->
-				<!-- <caption>Product Form</caption> -->
-				<!-- <input type="hidden" name="productCode" value="0"/> -->
-				<!-- <tr> -->
-					<!-- <td class="tdHead">Loại sản phẩm:</td> -->
-					<!-- <td> -->
-						<!-- <select name="proType" id="proType"> -->
-							<!-- <option value="0">-------------</option> -->
-						<!-- </select> -->
-					<!-- </td> -->
-				<!-- </tr> -->
-				<!-- <tr> -->
-					<!-- <td class="tdHead">Mã sản phẩm:</td> -->
-					<!-- <td> -->
-						<!-- <input type="text" onchange="changeProCode(this)" name="productCode" id="proCode" size="30"> (*) -->
-					<!-- </td> -->
-				<!-- </tr> -->
-				<!-- <tr> -->
-					<!-- <td class="tdHead">Tên sản phẩm:</td> -->
-					<!-- <td> -->
-						<!-- <input type="text" name="productName" id="proName" size="50"> (*) -->
-					<!-- </td> -->
-				<!-- </tr> -->
-				<!-- <tr> -->
-					<!-- <td class="tdHead">Mầu:</td> -->
-					<!-- <td> -->
-						<!-- <input type="color" name="proColor" id="proColor" > (*) -->
-					<!-- </td> -->
-				<!-- </tr> -->
-				<!-- <tr> -->
-					<!-- <td class="tdHead">Ngày sản xuất:</td> -->
-					<!-- <td> -->
-						<!-- <input type="date" name="proDate" id="proDate" > (*) -->
-					<!-- </td> -->
-				<!-- </tr> -->
-				<!-- <tr> -->
-					<!-- <td class="tdHead">Ảnh sản phẩm:</td> -->
-					<!-- <td> -->
-						<!-- <input type="file" name="proImg"/> -->
-					<!-- </td> -->
-				<!-- </tr> -->
-				<!-- <tr> -->
-					<!-- <td class="tdHead">Giá nhập về:</td> -->
-					<!-- <td> -->
-						<!-- <input type="text" name="cost" id="proCost" style="width: 200px;" > -->
-					<!-- </td> -->
-				<!-- </tr> -->
-				<!-- <tr> -->
-					<!-- <td class="tdHead">Giá bán ra:</td> -->
-					<!-- <td> -->
-						<!-- <input type="text" name="price" id="proPri" style="width: 200px;" > -->
-					<!-- </td> -->
-				<!-- </tr> -->
-				<!-- <tr> -->
-					<!-- <td class="tdHead"><b>Giảm giá:</b></td> -->
-					<!-- <td></td> -->
-				<!-- </tr> -->
-				<!-- <tr> -->
-					<!-- <td class="tdHead">Tổng quan về sản phẩm:</td> -->
-					<!-- <td> -->
-						<!-- <textarea onmouseover="changeBackgroudYellow(this)" onmouseout="changeBackgroudWhite(this)" rows="10" cols="60" name="proSum">Mô tả sản phẩm </textarea> -->
-					<!-- </td> -->
-				<!-- </tr> -->
+	<div class="grid-container">
+		<div class="header">Site Header</div>
+		<div class="leftMenu">Left Menu</div>
+		
+		<div class="content">
+			<div id="productForm" style="display: none; border: 1px solid blue; padding: 5px; width: 40%; min-width:640px;position: absolute; background-color: white;">
+			
+			<jsp:include page="home.jsp" />  
+
+		 	<button id="Cancel">Close</button>	
 				
-				<!-- <tr> -->
-					<!-- <td class="tdHead">Gán nhãn sản phẩm:</td> -->
-					<!-- <td onmouseover="changeBackgroudYellow(this)" onmouseout="changeBackgroudWhite(this)"> -->
-						<!-- <input type="checkbox" name="tagName1" value="Smart Phone"> Smart Phone -->
-						<!-- <input type="checkbox" name="tagName2" value="iPhone">iPhone -->
-					<!-- </td> -->
-				<!-- </tr> -->
-				<!-- <tr> -->
-					<!-- <td class="tdHead">Có quà tặng:</td> -->
-					<!-- <td> -->
-						<!-- <input type="radio" name="gifRadio" value="Smart Phone"> Miếng dán màn hình -->
-						<!-- <input type="radio" name="gifRadio" value="iPhone">Ốp lưng -->
-						<!-- <input type="radio" name="gifRadio" value="iPhone" checked>Case -->
-					<!-- </td> -->
-				<!-- </tr> -->
-				<!-- <tr> -->
-					<!-- <td class="tdHead">Mô tả chi tiết:</td> -->
-					<!-- <td></td> -->
-				<!-- </tr> -->
-				<!-- <tr> -->
-					<!-- <td class="tdHead">Mật khẩu:</td> -->
-					<!-- <td> -->
-						<!-- <input type="password" style="width: 200px;"> -->
-					<!-- </td> -->
-				<!-- </tr> -->
-				<!-- <tr> -->
-					<!-- <td colspan="2" style="padding: 5px;"> -->
-						<!-- <input type="reset" value="Nhập lại"> -->
-						<!-- <input type="button" onclick="saveProduct()" value = "Lưu"> -->
-						<!-- <input type="button" value = "Thoát" id="Cancel"/> -->
-					<!-- </td> -->
-				<!-- </tr> -->
-			<!-- </table> -->
-		<!-- </form> -->
-	
-	
-	
+				
+			</div>
+			
+			<div style="width: 100%; float: right;">
+				<table border="1" style="width: 100%;border-collapse: collapse; " id="proList">
+					<caption>
+						Danh sách sản phẩm <button class="addNew">Thêm mới sản phẩm</button>
+					</caption>
+					<tr>
+						<th>Mã sản phẩm</th>
+						<th>Tên sản phẩm</th>
+						<th>Giá nhập về</th>
+						<th>Giá bán ra</th>
+						<th>#</th>
+					</tr>
+				</table>
+			</div>
+		</div>
+		
+		
+		<div class="rightMenu">Right Menu</div>
+		<div class="footer">Footer</div>
+		<div class="author">Tac Gia</div>
 	</div>
-	
-	<div style="width: 100%; float: right;">
-		<table border="1" style="width: 100%;border-collapse: collapse; " id="proList">
-			<caption>
-				Danh sách sản phẩm <button class="addNew">Thêm mới sản phẩm</button>
-			</caption>
-			<tr>
-				<th>Mã sản phẩm</th>
-				<th>Tên sản phẩm</th>
-				<th>Giá nhập về</th>
-				<th>Giá bán ra</th>
-				<th>#</th>
-			</tr>
-		<table>
-	</div>
-	
 	
 	<script type="text/javascript">
 		var inputTexts = document.getElementsByTagName("input");
@@ -334,18 +335,6 @@
 		
 	</script>
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 </body>
-<html>
+
+</html>
