@@ -1,0 +1,3 @@
+INDEX VERSION 1.131
+D:\FullStack\JavaPractice20\JavaFrameWork\JDBC\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\38279809.index
+\Java20\src\main\java
