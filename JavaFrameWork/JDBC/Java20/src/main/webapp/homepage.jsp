@@ -222,6 +222,22 @@ select, input {
 
 <script type="text/javascript">
 
+	function showProduct(productCodeView){
+		
+		console.log("=============== MYLV ================ show product");
+		var xmlhttp = new XMLHttpRequest();
+		xmlhttp.open("GET", "./productViewController?productCode=" + productCodeView, true);
+		xmlhttp.send();
+		
+		xmlhttp.onreadystatechange = function(){
+			if((xmlhttp.readyState == 4) || (xmlhttp.status == 200)){
+				var productView = xmlhttp.responseText;
+				var tbodyView = document.getElementById("productViewBody");
+				tbodyView.innerHTML = productView;
+			}
+		}
+	}
+
 
 	function getProductForm() {
 		var xmlhttp = new XMLHttpRequest();
@@ -259,6 +275,9 @@ select, input {
 	
 	var masID = "masLayer";
 	$(document).ready(function() {
+		
+		showProduct("");
+		
 		$("#Cancel").click(function() {
 			$("#productForm").fadeOut(200);
 			var layer = document.getElementById(masID);
@@ -288,10 +307,22 @@ select, input {
 			document.body.append(layer);
 			
 			getProductForm();
+		
 		});
-		
-		$(".editItem").click(function() {
-		
+			
+		$(".viewAct").click(function() {
+			var productCodeVal = $(this).closest('td').prev().prev().text();
+			
+			console.log("================================= value :" + productCodeVal);
+			
+			showProduct(productCodeVal);
+			
+		});
+			
+
+	
+	
+		$(document).on("click", '.editItem', function(event) { 
 			var productID = $(this).prev().val();
 			console.log(" ********************** toi da vao edit items ********************** " + productID);
 			
@@ -301,7 +332,7 @@ select, input {
 			});
 			$("#productForm").slideDown(150);
 			$("#productForm").css("z-index", "1000");		
-
+	
 			var layer = document.createElement("div");
 			layer.setAttribute("id", masID);
 			$(layer).css("position", "absolute");
@@ -317,8 +348,8 @@ select, input {
 			document.body.append(layer);
 			
 			editProductForm(productID);
+			
 		});
-
 
 // 		$(document).on("mouseenter", "tr", function() {
 // 			$(this).css("background-color", "gray");
@@ -331,6 +362,9 @@ select, input {
 // 		});
 
 	});
+	
+	
+
 </script>
 </head>
 
@@ -443,7 +477,7 @@ select, input {
 							<td><%=dmsp.getLoaiSPCode()%></td>
 							<td><%=dmsp.getTenLoaiSP()%></td>
 							<td class = "productCodeAction">
-		    					<button style="width: 50px; height: auto;" type="submit"  class="btn btn-success btn-sm">View</button>
+		    					<button style="width: 50px; height: auto;" type="submit"  class="viewAct btn btn-success btn-sm">View</button>
 								<button style="width: 50px; height: auto;" type="button"  class="btn btn-success btn-sm">Edit</button>
 								<button style="width: 50px; height: auto;" type="button"  class="btn btn-success btn-sm">Delete</button>
 							</td>
@@ -478,35 +512,13 @@ select, input {
 						<th style="width: 70px;">#</th>
 					</tr>
 				</thead>
-				<tbody>
-					<%
-					ModelChiTietSanPham sp;
-					int i = 1;
-					for (Object obj : spList) {
-						sp = (ModelChiTietSanPham) obj;
-					%>
-					<tr>
-						<td><%=i++%></td>
-<%-- 						<td><%=sp.getSanPhamCode()%></td> --%>
-						<td><%=sp.getTenSP()%></td>
-						<td><%=sp.getTenLoaiSP()%></td>
-						<td><%=sp.getTenNhaCungCap()%></td>
-						<td>
-							<form style="max-width: 100%; height: auto; float: left;" action="./gioHangAction" method="post">
-								<input type="hidden" name="productId" value="<%=sp.getSanPhamCode()%>">
-								<button style="" type="submit" class="btn btn-success btn-sm">+</button>
-							</form>
-							<form style="max-width: 100%; height: auto; float: right;">
-								<input ID="productCode"type="hidden" name="productID" value="<%=sp.getSanPhamCode()%>">
-								<button type="button"  class="editItem btn btn-success btn-sm">/</button>
-							</form>
-						</td>
+				
+				<tbody id="productViewBody">
+			
 
-					</tr>
-					<%
-					}
-					%>
 				</tbody>
+
+
 			</table>
 		</div>
 

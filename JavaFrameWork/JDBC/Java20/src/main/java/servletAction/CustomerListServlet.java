@@ -33,10 +33,13 @@ public class CustomerListServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+
 		// TODO Auto-generated method stub
+		
 		PrintWriter pw = response.getWriter();
 
 		StringBuilder sb = new StringBuilder();
+		
 		sb.append("<!DOCTYPE html>");
 		sb.append("<html>");
 		sb.append("<head>");
@@ -52,7 +55,9 @@ public class CustomerListServlet extends HttpServlet {
 		sb.append("	<td>Loại SP</td>");
 		sb.append("	<td>Nhà cung cấp</td>");
 		sb.append("</tr>");
+
 		DaoChiTietSanPham daoCTSP = new DaoChiTietSanPham();
+		
 		try {
 			for (ModelChiTietSanPham msp : daoCTSP.getAllSanPham()) {
 				sb.append("<tr>");
