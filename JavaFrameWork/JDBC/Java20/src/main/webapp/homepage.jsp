@@ -12,7 +12,7 @@
 <%@ page import="model.ModelDanhMucSanPham"%>
 
 
-<jsp:useBean id="spList" class="java.util.ArrayList" scope="request" />
+<%-- <jsp:useBean id="spList" class="java.util.ArrayList" scope="request" /> --%>
 <jsp:useBean id="spListdm" class="java.util.ArrayList" scope="request" />
 <!--jsp:useBean id="soLuong" class="java.lang.Object" scope="request" -->
 
@@ -224,7 +224,7 @@ select, input {
 
 	function showProduct(productCodeView){
 		
-		console.log("=============== MYLV ================ show product");
+		console.log("=============== show product() func ================ ");
 		var xmlhttp = new XMLHttpRequest();
 		xmlhttp.open("GET", "./productViewController?productCode=" + productCodeView, true);
 		xmlhttp.send();
@@ -313,18 +313,25 @@ select, input {
 		$(".viewAct").click(function() {
 			var productCodeVal = $(this).closest('td').prev().prev().text();
 			
-			console.log("================================= value :" + productCodeVal);
+			console.log("============== viewAct ==============>> value :" + productCodeVal);
 			
 			showProduct(productCodeVal);
+			$("#disableFilter").slideDown(1);
 			
+		});
+		
+		$("#disableFilter").click(function(){
+			
+			console.log("++++++++++++++++++++++++ disable filter ++++++++++++++++++++++++");
+			showProduct("");
+			$("#disableFilter").css("display", "none");
 		});
 			
 
 	
-	
 		$(document).on("click", '.editItem', function(event) { 
 			var productID = $(this).prev().val();
-			console.log(" ********************** toi da vao edit items ********************** " + productID);
+			console.log(" ********************** click button edit items ********************** " + productID);
 			
 			$("#productForm").animate({
 				left : '750px',
@@ -464,7 +471,9 @@ select, input {
 						<tr>
 							<th>Code</th>
 							<th>Loai SP</th>
-							<th>#</th>
+							<th>#
+								<span id = "disableFilter" style="float: right; color: red; cursor: pointer; display: none"> X</span>
+							</th>
 						</tr>
 					</thead>
 					<tbody>
