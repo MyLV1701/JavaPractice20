@@ -17,16 +17,13 @@ public class TagI18N extends SimpleTagSupport {
 		StringWriter sw = new StringWriter();
 		getJspBody().invoke(sw);
 		String input = sw.toString();
-		
-		System.out.println("\n\n\n>>>>>> input: " + input + "\n\n\n\n");
-		
 		MyResourceBundle mrb = new MyResourceBundle();
 		
-		PageContext pc = (PageContext) this.getJspContext();
+		PageContext pc = (PageContext)this.getJspContext();
 		HttpServletRequest request = (HttpServletRequest)pc.getRequest();
-		
 		if(request.getSession().getAttribute("selectedLanguage") != null) {
-			String selectedLanguage = request.getSession().getAttribute("selectedLanguage").toString();
+			String selectedLanguage = 
+					request.getSession().getAttribute("selectedLanguage").toString();
 			mrb.changeLocale(selectedLanguage);
 		}
 		

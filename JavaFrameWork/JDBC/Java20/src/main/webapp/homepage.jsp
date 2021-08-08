@@ -1,9 +1,10 @@
+<%@page import="model.ModelGioHang"%>
 <%@page import="model.ModelLoaiSanPham"%>
 <%@ taglib uri="/WEB-INF/i18ntag.tld" prefix="i18n"%>
 <%@page import="java.io.IOException"%>
 <%@page import="java.util.List"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@page import="com.google.gson.Gson"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="model.ModelChiTietSanPham"%>
 <%@ page import="dao.DaoChiTietSanPham"%>
 <%@ page import="dao.DaoKhachHang"%>
@@ -11,33 +12,32 @@
 <%@ page import="dao.DaoDanhMucSanPham"%>
 <%@ page import="model.ModelDanhMucSanPham"%>
 
-
-<%-- <jsp:useBean id="spList" class="java.util.ArrayList" scope="request" /> --%>
+<jsp:useBean id="spList" class="java.util.ArrayList" scope="request" />
 <jsp:useBean id="spListdm" class="java.util.ArrayList" scope="request" />
-<!--jsp:useBean id="soLuong" class="java.lang.Object" scope="request" -->
+<jsp:useBean id="cartList2" class="java.util.ArrayList" scope="request" />
 
 <html>
 <head>
 <title>Bootstrap</title>
+
 <link rel="stylesheet" href="./bootstrap/bootstrap.min.css">
-<script src="./bootstrap/jquery.min.js" type="text/javascript"></script>
-<script src="./bootstrap/popper.min.js" type="text/javascript"></script>
-<script src="./bootstrap/bootstrap.min.js" type="text/javascript"></script>
+<script src="./bootstrap/jquery.min.js"></script>
+<script src="./bootstrap/popper.min.js"></script>
+<script src="./bootstrap/bootstrap.min.js"></script>
 
 
 
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<style type="text/css">
-
+<style>
 body {
 	font-family: Arial, Helvetica, sans-serif;
 }
 
 .notification {
 	background-color: auto;
-	color: auto;
+	color: white;
 	text-decoration: none;
 	padding: 10px 10px;
 	position: relative;
@@ -46,7 +46,7 @@ body {
 }
 
 .notification:hover {
-	background: red;
+	background: auto;
 }
 
 .notification .badge {
@@ -56,40 +56,6 @@ body {
 	padding: 5px 10px;
 	border-radius: 50%;
 	background-color: red;
-	color: white;
-}
-
-.notification2 {
-	background-color: white;
-	color: black;
-	text-decoration: none;
-	padding: 10px 10px;
-	position: relative;
-	display: inline;
-	border-radius: 100px;
-}
-
-.notification2:hover {
-	background: auto;
-}
-
-.notification2 .badge2 {
-	position: absolute;
-	top: -10px;
-	right: 0px;
-	padding: 1px 1px;
-	border-radius: 100%;
-	background-color: red;
-	color: white;
-}
-
-.buttonnotification {
-	position: absolute;
-	top: 10px;
-	right: 20px;
-	padding: 2px 2px;
-	border-radius: 50%;
-	background-color: auto;
 	color: white;
 }
 
@@ -161,7 +127,7 @@ p {
 	grid-area: lMenu;
 }
 
-.Content {
+.content {
 	grid-area: content;
 }
 
@@ -183,31 +149,22 @@ p {
 }
 
 .selectedRow {
-	color: white;
+	color: auto;
 	font-weight: bold;
 }
 
-.td {
-	padding-left: 1px;
-	padding-right: 1px;
-	vertical-align: center;
+td {
+/* 	padding-top: 2px; */
+/* 	padding-left: 5px; */
+/* 	padding-right: 2px; */
+	text-align: top;
 }
 
-.productCodeAction {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  border-collapse: collapse;
+.table td, .table th
+{
+	vertical-align: middle;
+	text-align: left;     
 }
-
-.productCodeAction > button{
-	padding: 1px;
-	margin: 1px;
-	border: none;
-	background-color: seagreen;
-}
-
 
 select, input {
 	margin: 2px 5px;
@@ -217,31 +174,134 @@ select, input {
 	background-color: yellow;
 }
 
-
+.tdHead {
+	color: blue;
+	text-align: right;
+	font-size: bold;
+	padding-right: 10px;
+}
 </style>
 
-<script type="text/javascript">
+<script>
 
-	function showProduct(productCodeView){
-		
-		console.log("=============== show product() func ================ ");
+	function showProduct(productCodeView) {
 		var xmlhttp = new XMLHttpRequest();
 		xmlhttp.open("GET", "./productViewController?productCode=" + productCodeView, true);
 		xmlhttp.send();
-		
-		xmlhttp.onreadystatechange = function(){
-			if((xmlhttp.readyState == 4) || (xmlhttp.status == 200)){
-				var productView = xmlhttp.responseText;
+
+		xmlhttp.onreadystatechange = function() {
+			if ((xmlhttp.readyState == 4) || (xmlhttp.status == 200)) {
+				
+				var ptList = JSON.parse(xmlhttp.responseText);
 				var tbodyView = document.getElementById("productViewBody");
-				tbodyView.innerHTML = productView;
+				tbodyView.innerHTML = "";
+				
+				
+				for(var i = 0; i < ptList.length; i ++) {
+					
+					var genHTML = '<tr class="" style="height: 40px;">'
+								+ '	<td>'+ i +'</td>'
+								+ '	<td>'+ ptList[i].tenSP +'</td>'
+								+ '	<td>'+ ptList[i].tenLoaiSP +'</td>'
+								+ '	<td>'+ ptList[i].tenNhaCungCap +'</td>'
+								+ '	<td>'
+								+ '		<form action="./gioHangAction" method="post" style="width: 30px; float: left;">'
+								+ '			<input type="hidden" name="productId" value="' + ptList[i].sanPhamCode +'">'
+								+ '			<button type="submit" class="btn btn-success btn-sm">+</button>'
+								+ '		</form>'
+								+ '		<form style="width: 30px; float: left; margin-left: 5px;">'
+								+ '			<input type="hidden" name="productId" value="' + ptList[i].sanPhamCode +'">'
+								+ '			<button type="button" class="editItem btn btn-success btn-sm" style="width: 100%;">/</button>'
+								+ '		</form>'
+								+ '	</td>'
+								+ '</tr>'; 
+						
+					tbodyView.innerHTML += genHTML;
+					
+					/* 
+					trDom = document.createElement("tr");
+					trDom.style="height: 40px;"
+					
+						tdIDDom = document.createElement("td");
+						IDDom = document.createTextNode(i);
+						tdIDDom.appendChild(IDDom);
+						
+						tdProductNameDom = document.createElement("td");
+						ProductNameDom = document.createTextNode(ptList[i].tenSP);
+						tdProductNameDom.appendChild(ProductNameDom);
+						
+						tdCatalogNameDom = document.createElement("td");
+						catalogNameDom = document.createTextNode(ptList[i].tenLoaiSP);
+						tdCatalogNameDom.appendChild(catalogNameDom);
+							
+						tdSupplierNameDom = document.createElement("td");
+						SupplierNameDom = document.createTextNode(ptList[i].tenNhaCungCap);
+						tdSupplierNameDom.appendChild(SupplierNameDom);
+							
+							
+						tdButtonsDom = document.createElement("td");
+						
+							formPlusDom = document.createElement("form");
+							formPlusDom.style = "width: 30px; float: left;";
+							formPlusDom.action = "./gioHangAction";
+							formPlusDom.method = "post";
+							
+								inputPlusDom = document.createElement("input")
+								inputPlusDom.type = "hidden";
+								inputPlusDom.name = "productId";
+								inputPlusDom.value = ptList[i].sanPhamCode;
+								
+								buttonPlusDom = document.createElement("button");
+								buttonPlusDom.type = "submit";
+								buttonPlusDom.setAttribute("class", "btn btn-success btn-sm");
+								plusTextnode = document.createTextNode("+");
+								buttonPlusDom.appendChild(plusTextnode);
+							
+							formPlusDom.appendChild(inputPlusDom);
+							formPlusDom.appendChild(buttonPlusDom);
+							
+							
+							formEditDom = document.createElement("form");
+							formEditDom.style = "width: 30px; float: left; margin-left: 5px;";
+							
+								inputEditDom = document.createElement("input")
+								inputEditDom.type = "hidden";
+								inputEditDom.name = "productId";
+								inputEditDom.value = ptList[i].sanPhamCode;
+								
+								buttonEditDom = document.createElement("button");
+								buttonEditDom.type = "button";
+								buttonEditDom.style = "width: 100%";
+								buttonEditDom.setAttribute("class", "editItem btn btn-success btn-sm");
+								editTextnode = document.createTextNode("/");
+								buttonEditDom.appendChild(editTextnode);
+							
+							formEditDom.appendChild(inputEditDom);
+							formEditDom.appendChild(buttonEditDom);
+	
+						tdButtonsDom.appendChild(formPlusDom);
+						tdButtonsDom.appendChild(formEditDom);
+					
+					
+					trDom.appendChild(tdIDDom);
+					trDom.appendChild(tdProductNameDom);
+					trDom.appendChild(tdCatalogNameDom);
+					trDom.appendChild(tdSupplierNameDom);
+					trDom.appendChild(tdButtonsDom);
+					
+					tbodyView.appendChild(trDom); 
+					*/
+				}
 			}
 		}
+
 	}
 
-
-	function getProductForm() {
-		var xmlhttp = new XMLHttpRequest();
-		xmlhttp.open("GET", "./modifyProductAction", true);
+	function getProductForm(productID) {
+		
+		var xmlhttp = new XMLHttpRequest(productID);
+		
+		xmlhttp.open("GET", "./modifyProductAction?productID=" + productID, true);
 		xmlhttp.send();
 
 		xmlhttp.onreadystatechange = function() {
@@ -252,45 +312,46 @@ select, input {
 
 			}
 		}
+
 	}
 	
-	
-	function editProductForm(productID) {
-	
-		console.log(" ********************** get parameter value : " + productID);
+// 	function getGioHangForm() {
+// 		var xmlhttp = new XMLHttpRequest();
+// 		xmlhttp.open("GET", "./gioHangAction", true);
+// 		xmlhttp.send();
+
+// 		xmlhttp.onreadystatechange = function() {
+// 			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+// 				var gioHangPage = xmlhttp.responseText;
+// 				var formBody = document.getElementById("formBody");
+// 				formBody.innerHTML = gioHangPage;
+// 			}
+// 		}
+// 	}
+
+	function getEditProductForm() {
 		var xmlhttp = new XMLHttpRequest();
-		xmlhttp.open("GET", "./modifyProductAction?productID=" + productID, true);  /* true meant enable async */		
-		xmlhttp.send(productID);
+		xmlhttp.open("GET", "./modifyAction", true);
+		xmlhttp.send();
 
 		xmlhttp.onreadystatechange = function() {
 			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-				var productPage = xmlhttp.responseText;
+				var editProductPage = xmlhttp.responseText;
 				var formBody = document.getElementById("formBody");
-				formBody.innerHTML = productPage;
-
+				formBody.innerHTML = editProductPage;
 			}
 		}
 	}
-	
-	
-	var masID = "masLayer";
-	$(document).ready(function() {
-		
-		showProduct("");
-		
-		$("#Cancel").click(function() {
-			$("#productForm").fadeOut(200);
-			var layer = document.getElementById(masID);
-			document.body.removeChild(layer);
-		});
 
-		$(".addNew").click(function() {
-			$("#productForm").animate({
+
+	function popUpHandler() {
+		$("#productForm").animate({
 				left : '750px',
 				top : '200px'
 			});
-			$("#productForm").slideDown(150);
+			$("#productForm").slideDown(500);
 			$("#productForm").css("z-index", "1000");
+			//$("#productForm").fadeToggle(800);
 
 			var layer = document.createElement("div");
 			layer.setAttribute("id", masID);
@@ -305,80 +366,81 @@ select, input {
 			$(layer).css("z-index", "500");
 			$(layer).css("opacity", "0.25");
 			document.body.append(layer);
-			
-			getProductForm();
+	}
+
+
+	var masID = "masLayer";
+	$(document).ready(function() {
+
+		showProduct("");
 		
+		$("#Cancel").click(function() {
+			$("#productForm").fadeOut(500);
+			var layer = document.getElementById(masID);
+			document.body.removeChild(layer);
+		});
+
+		$(".addNew").click(function() {
+			popUpHandler();
+			getProductForm(0);
+		});
+		
+		$(".gioHangclick").click(function() {
+			popUpHandler();
+			getGioHangForm();
+		});
+		
+		$(".editProduct").click(function() {
+			popUpHandler();
+			getEditProductForm();
+		});
+		
+		$(document).on("click", '.editItem', function(event) { 
+			popUpHandler();
+			var productID = $(this).prev().val();
+			getProductForm(productID);
+// 			editProductForm(productID);
+			
 		});
 			
 		$(".viewAct").click(function() {
 			var productCodeVal = $(this).closest('td').prev().prev().text();
-			
-			console.log("============== viewAct ==============>> value :" + productCodeVal);
-			
 			showProduct(productCodeVal);
 			$("#disableFilter").slideDown(1);
 			
 		});
 		
 		$("#disableFilter").click(function(){
-			
-			console.log("++++++++++++++++++++++++ disable filter ++++++++++++++++++++++++");
 			showProduct("");
 			$("#disableFilter").css("display", "none");
 		});
-			
 
-	
-		$(document).on("click", '.editItem', function(event) { 
-			var productID = $(this).prev().val();
-			console.log(" ********************** click button edit items ********************** " + productID);
-			
-			$("#productForm").animate({
-				left : '750px',
-				top : '200px'
-			});
-			$("#productForm").slideDown(150);
-			$("#productForm").css("z-index", "1000");		
-	
-			var layer = document.createElement("div");
-			layer.setAttribute("id", masID);
-			$(layer).css("position", "absolute");
-			$(layer).animate({
-				left : '0px',
-				top : '0px'
-			});
-			$(layer).css("width", "100%");
-			$(layer).css("height", "100%");
-			$(layer).css("background-color", "gray");
-			$(layer).css("z-index", "500");
-			$(layer).css("opacity", "0.25");
-			document.body.append(layer);
-			
-			editProductForm(productID);
-			
+
+		$(document).on("mouseenter", "tr", function() {
+			//		$(this).css("background-color", "gray");
+			$(this).addClass("selectedRow");
 		});
 
-// 		$(document).on("mouseenter", "tr", function() {
-// 			$(this).css("background-color", "gray");
-// 			$(this).addClass("selectedRow");
-// 		});
+		$(document).on("mouseleave", "tr", function() {
+			//		$(this).css("background-color", "yellow");
+			$(this).removeClass("selectedRow");
+		});
+		$(document).on("mouseenter", "button", function() {
+			$(this).addClass("selectedRow");
+		});
 
-// 		$(document).on("mouseleave", "tr", function() {
-// 			$(this).css("background-color", "white");
-// 			$(this).removeClass("selectedRow");
-// 		});
+		$(document).on("mouseleave", "button", function() {
+			$(this).removeClass("selectedRow");
+		});
 
 	});
-	
-	
-
 </script>
 </head>
 
 <body>
-	
+
 	<div id="productForm"
-		 style="display: none; border: 1px solid blue; padding: 5px; width: auto; min-width: 150px; position: absolute; background-color: white;">
+		style="display: none; border: 1px solid blue; padding: 5px; width: auto; min-width: 150px; position: absolute; background-color: white;">
 		<div
 			style="width: 100%; height: 32px; line-height: 25px; background-color: lightgray; padding-right: 5px;">
 			<div id="Cancel"
@@ -387,7 +449,9 @@ select, input {
 		<div
 			style="margin-top: 5px; padding: 5px; min-height: 100px; border: 1px solid gray;"
 			id="formBody">
+			
 		</div>
+
 	</div>
 
 	<nav class="navbar navbar-expand-lg bg-dark navbar-dark fixed-top">
@@ -403,8 +467,7 @@ select, input {
 				<li class="nav-item dropdown"><a
 					class="nav-link dropdown-toggle " id="" data-toggle="dropdown"><i18n:i18ntag>index.menu.products</i18n:i18ntag></a>
 					<div class="dropdown-menu">
-						<a href="./daoDanhMucAction?DanhMucSP=dm" class="dropdown-item">Danh
-							muc SP</a>
+						<a href="./daoDanhMucAction?DanhMucSP=dm" class="dropdown-item">Danhmuc SP</a>
 					</div></li>
 
 				<li class="nav-item"><a href="#" class="nav-link"><i18n:i18ntag>index.menu.order</i18n:i18ntag></a></li>
@@ -423,33 +486,37 @@ select, input {
 				<button class="btn btn-success my-2 my-sm-0" type="submit">Search</button>
 			</form>
 
-			<div class="form-inline my-2 my-lg-0" style="margin-right: 60px;">
+			<div class="form-inline my-2 my-lg-0" style="margin-right: 40px;">
 
 				<ul class="navbar-nav mr-auto">
 					<li class="nav-item dropdown"><a
-						class="nav-link dropdown-toggle " id="" data-toggle="dropdown">Languages</a>
+						class="nav-link dropdown-toggle " id="" data-toggle="dropdown"
+						style="cursor: pointer">Languages</a>
 						<div class="dropdown-menu">
 							<a href="./changeLanguage?Language=vi" class="dropdown-item">Vietnamese</a>
 							<a href="./changeLanguage?Language=en" class="dropdown-item">English</a>
 						</div></li>
 				</ul>
 
-				<div class="form-inline my-2 my-lg-0" style="margin-right: 80px;">
+				<%
+				ModelGioHang cart2;
+				int sum = 0;
+				for (Object obj : cartList2) {
+					cart2 = (ModelGioHang) obj;
+					sum = sum + cart2.getSoLuong();
 
-
-
-
+				}
+				%>
+				<div class="form-inline my-2 my-lg-0" style="margin-right: 20px;">
 					<ul class="navbar-nav mr-auto">
-						<li class="nav-item dropdown" id="" data-toggle="dropdown"><a
-							class="notification"> <span> gio hang </span> <span
-								class="badge" color="red">5</span>
-						</a>
-							<div class="dropdown-menu">
-								<a href="./alarm?Alarm=abc" class="notification2">Gio hang</a>
+						<li class=" nav-item dropdown" id=""><div
+								style="cursor: pointer" class=" gioHangclick notification">
+								<span> Cart </span> <span class="badge" color="red"><%=sum%></span>
 							</div></li>
 					</ul>
-					<span class="badge2">5</span>
+
 				</div>
+
 			</div>
 		</div>
 	</nav>
@@ -471,8 +538,8 @@ select, input {
 						<tr>
 							<th>Code</th>
 							<th>Loai SP</th>
-							<th>#
-								<span id = "disableFilter" style="float: right; color: red; cursor: pointer; display: none"> X</span>
+							<th># <span id="disableFilter"
+								style="float: right; color: red; cursor: pointer; display: none">X</span>
 							</th>
 						</tr>
 					</thead>
@@ -485,10 +552,13 @@ select, input {
 						<tr>
 							<td><%=dmsp.getLoaiSPCode()%></td>
 							<td><%=dmsp.getTenLoaiSP()%></td>
-							<td class = "productCodeAction">
-		    					<button style="width: 50px; height: auto;" type="submit"  class="viewAct btn btn-success btn-sm">View</button>
-								<button style="width: 50px; height: auto;" type="button"  class="btn btn-success btn-sm">Edit</button>
-								<button style="width: 50px; height: auto;" type="button"  class="btn btn-success btn-sm">Delete</button>
+							<td class="productCodeAction">
+								<button style="width: 50px; height: auto;" type="submit"
+									class="viewAct btn btn-success btn-sm">View</button>
+								<button style="width: 50px; height: auto;" type="button"
+									class="btn btn-success btn-sm">Edit</button>
+								<button style="width: 50px; height: auto;" type="button"
+									class="btn btn-success btn-sm">Delete</button>
 							</td>
 
 						</tr>
@@ -502,31 +572,30 @@ select, input {
 
 			</div>
 		</div>
-		<div class="Content">
+		<div class="content">
 			<table
 				class="table table-striped table-bordered table-hover table-sm"
-				style="margin-top: 30px;">
+				style="margin-top: 30px; text-align: center;">
 				<caption class="text-uppercase">
 					<i18n:i18ntag>index.proTable.caption</i18n:i18ntag>
-					<button type="button" class="addNew btn btn-success btn-sm">
-						<i18n:i18ntag>form.action.add</i18n:i18ntag>
-					</button>					
+					<div style="float: right">
+						<button type="button" class="addNew btn btn-success btn-sm">
+							<i18n:i18ntag>form.action.add</i18n:i18ntag>
+						</button>
+					</div>
 				</caption>
 				<thead>
 					<tr>
-						<th>No</th>
+						<th style="width: 50px;">No</th>
 						<th><i18n:i18ntag>index.proTable.name</i18n:i18ntag></th>
 						<th><i18n:i18ntag>index.proTable.type</i18n:i18ntag></th>
 						<th><i18n:i18ntag>index.proTable.provider</i18n:i18ntag></th>
-						<th style="width: 70px;">#</th>
+						<th style="width: 100px;">#</th>
 					</tr>
 				</thead>
-				
 				<tbody id="productViewBody">
-			
 
 				</tbody>
-
 
 			</table>
 		</div>
@@ -596,22 +665,6 @@ select, input {
 		function changeBackgroudWhite(element) {
 			element.style.background = "white";
 		}
-
-// 		var proTypes = [ "Smart Phone", "Tablet", "Laptop", "Máy bàn",
-// 				"Máy in", "Test" ];
-// 		proTypes.sort();
-
-// 		var proTypElement = document.getElementById("proType");
-
-// 		for (i = 0; i < proTypes.length; i++) {
-// 			optElement = document.createElement("option");
-// 			textElement = document.createTextNode(proTypes[i]);
-
-// 			optElement.setAttribute("value", (i + 1));
-// 			optElement.appendChild(textElement);
-
-// 			proTypElement.appendChild(optElement);
-// 		}
 
 		function deleteRow(rowId) {
 			var proTable = document.getElementById("proList");

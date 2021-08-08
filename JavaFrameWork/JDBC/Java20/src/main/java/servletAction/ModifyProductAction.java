@@ -39,12 +39,14 @@ public class ModifyProductAction extends HttpServlet {
 		DaoChiTietSanPham daoProduct = new DaoChiTietSanPham();
 		DaoLoaiSanPham daoLSP = new DaoLoaiSanPham();
 		
-		int productID = (request.getParameter("productID") == null) ? 0 : Integer.parseInt(request.getParameter("productID"));
+		int productID = (request.getParameter("productID") != null)?
+						Integer.parseInt(request.getParameter("productID")):0;
 		
 		
 		try {
 			request.setAttribute("editItemInfo", daoProduct.getParticularSanPhamByID(productID));
-			request.setAttribute("loatSanPhamList", daoLSP.getAllLoaiSanPham());
+			request.setAttribute("loaiSanPhamList", daoLSP.getAllLoaiSanPham());
+			
 		} 
 		catch (SQLException e) {
 			// TODO Auto-generated catch block

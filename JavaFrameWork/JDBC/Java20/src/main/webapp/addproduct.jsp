@@ -1,9 +1,8 @@
-<%@page import="dao.DaoLoaiSanPham"%>>
-<%@page import="model.ModelLoaiSanPham"%>>
-<%@ page import="model.ModelChiTietSanPham"%>
-<%@ page import = "java.util.Date" %>
-<%@ page import = "java.text.SimpleDateFormat" %>
 <%@page import="java.util.List"%>
+<%@page import="model.ModelLoaiSanPham"%>
+<%@ page import="model.ModelChiTietSanPham"%>
+<%@ page import="java.util.Date"%>
+<%@ page import="java.text.SimpleDateFormat"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 
@@ -11,6 +10,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Thông Tin Sản Phẩm</title>
 </head>
 <body>
@@ -31,17 +31,18 @@
 				<tr>
 					<td>Loại sản phẩm</td>
 					<td>
-						<select name="productType">
+						<select name="productType" style = "width: 95%;padding: 1px 2px;">
 							<%
-							List loatSanPhamList = (List) request.getAttribute("loatSanPhamList");
+							List loaiSanPhamList = (List) request.getAttribute("loaiSanPhamList");
 							try {
 								ModelLoaiSanPham lsp;
-								for (Object objLsp : loatSanPhamList) {
+								for (Object objLsp : loaiSanPhamList) {
 										lsp = (ModelLoaiSanPham)objLsp;
 							%>
 									<option <%=((lsp.getLoaiSPCode() == obj.getLoaiSPCode())?
 													"selected=\"selected\"":"")%>
-											value="<%=lsp.getLoaiSPCode()%>"><%=lsp.getTenLoaiSP()%><option>
+											value="<%=lsp.getLoaiSPCode()%>"><%=lsp.getTenLoaiSP()%>
+									</option>
 
 							<%
 								}
@@ -61,7 +62,8 @@
 				</tr>
 				<tr>
 					<td>Ngày Nhập</td>
-					<td><input type="date" name="importDate" value=<%=importDate%>></td>
+					<td><input type="date" style ="width: 95%; padding: 1px 2px;" 
+							   name="importDate" value=<%=importDate%>></td>
 				</tr>
 				<tr>
 					<td>Giá Nhập</td>

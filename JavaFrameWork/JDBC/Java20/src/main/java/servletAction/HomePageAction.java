@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import dao.DaoChiTietSanPham;
 import dao.DaoDanhMucSanPham;
+import dao.DaoGioHang;
 
 /**
  * Servlet implementation class HomePageAction
@@ -36,9 +37,12 @@ public class HomePageAction extends HttpServlet {
 			throws ServletException, IOException {
 		DaoChiTietSanPham daoCTSP = new DaoChiTietSanPham();
 		DaoDanhMucSanPham daoDMSP= new DaoDanhMucSanPham();
+		DaoGioHang daoCart2 = new DaoGioHang();
+		
 		try {
 			request.setAttribute("spListdm", daoDMSP.getAllDanhMucSP());
 			request.setAttribute("spList", daoCTSP.getAllSanPham());
+//			request.setAttribute("cartList2", daoCart2.getAllGioHang());
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -46,6 +50,16 @@ public class HomePageAction extends HttpServlet {
 		RequestDispatcher rd = request.getRequestDispatcher("./homepage.jsp");
 		rd.forward(request, response);
 	}
+	/*
+	 * protected void doGet(HttpServletRequest request, HttpServletResponse
+	 * response) throws ServletException, IOException { DaoChiTietSanPham daoCTSP =
+	 * new DaoChiTietSanPham(); DaoDanhMucSanPham daoDMSP= new DaoDanhMucSanPham();
+	 * try { request.setAttribute("spListdm", daoDMSP.getAllDanhMucSP());
+	 * request.setAttribute("spList", daoCTSP.getAllSanPham()); } catch
+	 * (SQLException e) { // TODO Auto-generated catch block e.printStackTrace(); }
+	 * RequestDispatcher rd = request.getRequestDispatcher("./homepage.jsp");
+	 * rd.forward(request, response); }
+	 */
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse

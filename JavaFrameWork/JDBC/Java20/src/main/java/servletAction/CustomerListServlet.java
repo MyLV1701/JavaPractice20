@@ -33,31 +33,28 @@ public class CustomerListServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
 		// TODO Auto-generated method stub
-		
 		PrintWriter pw = response.getWriter();
 
 		StringBuilder sb = new StringBuilder();
-		
 		sb.append("<!DOCTYPE html>");
 		sb.append("<html>");
 		sb.append("<head>");
-		sb.append("<meta charset=\"ISO-8859-1\">");
+		sb.append("<meta charset=\"UTF-8\">");
 		sb.append("<title>Insert title here</title>");
 		sb.append("</head>");
 		sb.append("<body>");
 
+		sb.append("<h1>Hello Wolrd</h1>");
+		sb.append("<h2>My First Servlet Page</h2>");
 		sb.append("<table border=\"1\" style=\"border-collapse: collapse;\">");
 		sb.append("<tr>");
-		sb.append("	<td>Mã SP</td>");
-		sb.append("	<td>Tên SP</td>");
-		sb.append("	<td>Loại SP</td>");
-		sb.append("	<td>Nhà cung cấp</td>");
+		sb.append("	<th>Mã SP</th>");
+		sb.append("	<th>Tên SP</th>");
+		sb.append("	<th>Loại SP</th>");
+		sb.append("	<th>Nhà cung cấp</th>");
 		sb.append("</tr>");
-
 		DaoChiTietSanPham daoCTSP = new DaoChiTietSanPham();
-		
 		try {
 			for (ModelChiTietSanPham msp : daoCTSP.getAllSanPham()) {
 				sb.append("<tr>");
@@ -73,7 +70,6 @@ public class CustomerListServlet extends HttpServlet {
 		}
 
 		sb.append("</table>");
-
 		sb.append("</body>");
 		sb.append("</html>");
 
