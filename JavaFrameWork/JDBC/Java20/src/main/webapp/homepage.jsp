@@ -3,6 +3,7 @@
 <%@ taglib uri="/WEB-INF/i18ntag.tld" prefix="i18n"%>
 <%@page import="java.io.IOException"%>
 <%@page import="java.util.List"%>
+<%@page import="java.util.HashMap"%>
 <%@page import="com.google.gson.Gson"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="model.ModelChiTietSanPham"%>
@@ -14,7 +15,6 @@
 
 <jsp:useBean id="spList" class="java.util.ArrayList" scope="request" />
 <jsp:useBean id="spListdm" class="java.util.ArrayList" scope="request" />
-<jsp:useBean id="cartList2" class="java.util.ArrayList" scope="request" />
 
 <html>
 <head>
@@ -180,9 +180,20 @@ select, input {
 	font-size: bold;
 	padding-right: 10px;
 }
+
+a {
+	text-decoration: none;	
+}
 </style>
 
 <script>
+
+
+	function selectedItemsImpl(){
+
+		console.log("=======================- gioHangclick ============================");
+		
+	}
 
 	function showProduct(productCodeView) {
 		var xmlhttp = new XMLHttpRequest();
@@ -207,7 +218,7 @@ select, input {
 								+ '	<td>'
 								+ '		<form action="./gioHangAction" method="post" style="width: 30px; float: left;">'
 								+ '			<input type="hidden" name="productId" value="' + ptList[i].sanPhamCode +'">'
-								+ '			<button type="submit" class="btn btn-success btn-sm">+</button>'
+								+ '			<button type="submit" class="selectedItem btn btn-success btn-sm">+</button>'
 								+ '		</form>'
 								+ '		<form style="width: 30px; float: left; margin-left: 5px;">'
 								+ '			<input type="hidden" name="productId" value="' + ptList[i].sanPhamCode +'">'
@@ -314,34 +325,6 @@ select, input {
 		}
 
 	}
-	
-// 	function getGioHangForm() {
-// 		var xmlhttp = new XMLHttpRequest();
-// 		xmlhttp.open("GET", "./gioHangAction", true);
-// 		xmlhttp.send();
-
-// 		xmlhttp.onreadystatechange = function() {
-// 			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-// 				var gioHangPage = xmlhttp.responseText;
-// 				var formBody = document.getElementById("formBody");
-// 				formBody.innerHTML = gioHangPage;
-// 			}
-// 		}
-// 	}
-
-	function getEditProductForm() {
-		var xmlhttp = new XMLHttpRequest();
-		xmlhttp.open("GET", "./modifyAction", true);
-		xmlhttp.send();
-
-		xmlhttp.onreadystatechange = function() {
-			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-				var editProductPage = xmlhttp.responseText;
-				var formBody = document.getElementById("formBody");
-				formBody.innerHTML = editProductPage;
-			}
-		}
-	}
 
 
 	function popUpHandler() {
@@ -349,7 +332,7 @@ select, input {
 				left : '750px',
 				top : '200px'
 			});
-			$("#productForm").slideDown(500);
+			$("#productForm").slideDown(150);
 			$("#productForm").css("z-index", "1000");
 			//$("#productForm").fadeToggle(800);
 
@@ -368,7 +351,22 @@ select, input {
 			document.body.append(layer);
 	}
 
-
+	
+	
+	$(document).on("click", '.selectedItem', function(event) { 
+		
+		console.log("selectedItem -----------------> item seletected");
+	});
+	
+	
+	$(document).on("click", '.editItem', function(event) { 
+		popUpHandler();
+		var productID = $(this).prev().val();
+		getProductForm(productID);		
+	});
+	
+	
+	
 	var masID = "masLayer";
 	$(document).ready(function() {
 
@@ -386,23 +384,11 @@ select, input {
 		});
 		
 		$(".gioHangclick").click(function() {
-			popUpHandler();
-			getGioHangForm();
-		});
 		
-		$(".editProduct").click(function() {
-			popUpHandler();
-			getEditProductForm();
-		});
-		
-		$(document).on("click", '.editItem', function(event) { 
-			popUpHandler();
-			var productID = $(this).prev().val();
-			getProductForm(productID);
-// 			editProductForm(productID);
+			selectedItemsImpl();
 			
 		});
-			
+		
 		$(".viewAct").click(function() {
 			var productCodeVal = $(this).closest('td').prev().prev().text();
 			showProduct(productCodeVal);
@@ -413,24 +399,6 @@ select, input {
 		$("#disableFilter").click(function(){
 			showProduct("");
 			$("#disableFilter").css("display", "none");
-		});
-
-
-		$(document).on("mouseenter", "tr", function() {
-			//		$(this).css("background-color", "gray");
-			$(this).addClass("selectedRow");
-		});
-
-		$(document).on("mouseleave", "tr", function() {
-			//		$(this).css("background-color", "yellow");
-			$(this).removeClass("selectedRow");
-		});
-		$(document).on("mouseenter", "button", function() {
-			$(this).addClass("selectedRow");
-		});
-
-		$(document).on("mouseleave", "button", function() {
-			$(this).removeClass("selectedRow");
 		});
 
 	});
@@ -498,21 +466,22 @@ select, input {
 						</div></li>
 				</ul>
 
-				<%
-				ModelGioHang cart2;
-				int sum = 0;
-				for (Object obj : cartList2) {
-					cart2 = (ModelGioHang) obj;
-					sum = sum + cart2.getSoLuong();
-
-				}
-				%>
 				<div class="form-inline my-2 my-lg-0" style="margin-right: 20px;">
 					<ul class="navbar-nav mr-auto">
-						<li class=" nav-item dropdown" id=""><div
-								style="cursor: pointer" class=" gioHangclick notification">
-								<span> Cart </span> <span class="badge" color="red"><%=sum%></span>
-							</div></li>
+						<li class=" nav-item dropdown" id="">
+							<div style="cursor: pointer" class=" gioHangclick notification">
+
+								<a href="./gioHangAction">
+									<% 
+										HashMap<String, Boolean> amount = (HashMap<String, Boolean>) request.getSession().getAttribute("selectedItems");
+										int selectedItems = (amount != null)? amount.size() : 0 ;
+										
+										System.out.println("xin kinh chao quy khach ------------------ : " + selectedItems);
+									%>
+									<span> Cart </span> <span class="badge" color= red ><%=selectedItems%></span>
+								</a>
+							</div>
+						</li>
 					</ul>
 
 				</div>
@@ -553,11 +522,11 @@ select, input {
 							<td><%=dmsp.getLoaiSPCode()%></td>
 							<td><%=dmsp.getTenLoaiSP()%></td>
 							<td class="productCodeAction">
-								<button style="width: 50px; height: auto;" type="submit"
+								<button style="width: 50px; height: auto; margin: 5px 0px;" type="submit"
 									class="viewAct btn btn-success btn-sm">View</button>
-								<button style="width: 50px; height: auto;" type="button"
+								<button style="width: 50px; height: auto; margin: 5px 0px;" type="button"
 									class="btn btn-success btn-sm">Edit</button>
-								<button style="width: 50px; height: auto;" type="button"
+								<button style="width: 50px; height: auto; margin: 5px 0px;" type="button"
 									class="btn btn-success btn-sm">Delete</button>
 							</td>
 
@@ -605,115 +574,6 @@ select, input {
 		<div class="author">Tac Gia</div>
 	</div>
 
-
-	<script type="text/javascript">
-		var inputTexts = document.getElementsByTagName("input");
-		for (i = 0; i < inputTexts.length; i++) {
-			if (inputTexts[i].getAttribute("type") == "text"
-					|| inputTexts[i].getAttribute("type") == "password") {
-				inputTexts[i].setAttribute("onfocus",
-						"changeBackgroudYellow(this)");
-				inputTexts[i].setAttribute("onblur",
-						"changeBackgroudWhite(this)");
-			}
-		}
-
-		function validateData() {
-			// xac nhan cac truong not-null
-			code = document.getElementById("proCode").value;
-			name = document.getElementById("proName").value;
-			if (code == null || code == "") {
-				alert("Mã sản phẩm không được bỏ trống");
-				return false;
-			}
-
-			if (name == null || name == "") {
-				alert("Tên sản phẩm không được bỏ trống");
-				return false;
-			}
-
-			// phai la kieu so
-			try {
-				cost = parseInt(document.getElementById("proCost").value);
-				price = parseInt(document.getElementById("proPri").value);
-				if (isNaN(cost) || isNaN(price)) {
-					alert("Giá trị nhập vào cho 'Giá nhập về' hoặc 'Giá bán ra' không hợp lệ");
-					return false;
-				}
-			} catch (err) {
-				alert(err
-						+ "\t-> Giá trị nhập vào cho 'Giá nhập về' hoặc 'Giá bán ra' không hợp lệ");
-				return false;
-			}
-
-			// rang buoc du lieu: GiaBanRa > GiaNhapVe
-			if (cost > price) {
-				alert("Giá bán ra phải lớn hơn giá nhập về");
-				return false;
-			}
-			return true;
-		}
-
-		function changeProCode(element) {
-			element.value = element.value.toUpperCase();
-		}
-
-		function changeBackgroudYellow(element) {
-			element.style.background = "yellow";
-		}
-
-		function changeBackgroudWhite(element) {
-			element.style.background = "white";
-		}
-
-		function deleteRow(rowId) {
-			var proTable = document.getElementById("proList");
-			var trEle = document.getElementById(rowId);
-			proTable.removeChild(trEle);
-		}
-
-		function saveProduct() {
-			if (validateData()) {
-				var proTable = document.getElementById("proList");
-				var trEle = document.createElement("tr");
-				var trId = "tr_" + document.getElementById("proCode").value;
-				trEle.setAttribute("id", trId);
-
-				var tdProCode = document.createElement("td");
-				var tdProName = document.createElement("td");
-				var tdProCost = document.createElement("td");
-				var tdProPri = document.createElement("td");
-				var tdAction = document.createElement("td");
-
-				var btEle = document.createElement("BUTTON");
-				btEle.appendChild(document.createTextNode("Delete"));
-				btEle.setAttribute("onclick", "deleteRow('" + trId + "')");
-
-				tdProCode.appendChild(document.createTextNode(document
-						.getElementById("proCode").value));
-				tdProName.appendChild(document.createTextNode(document
-						.getElementById("proName").value));
-				tdProCost.appendChild(document.createTextNode(document
-						.getElementById("proCost").value));
-				tdProPri.appendChild(document.createTextNode(document
-						.getElementById("proPri").value));
-				tdAction.appendChild(btEle);
-
-				trEle.appendChild(tdProCode);
-				trEle.appendChild(tdProName);
-				trEle.appendChild(tdProCost);
-				trEle.appendChild(tdProPri);
-				trEle.appendChild(tdAction);
-
-				proTable.appendChild(trEle);
-
-				var layer = document.getElementById(masID);
-				document.body.removeChild(layer);
-				var productForm = document.getElementById("productForm");
-				productForm.style.display = "none";
-			}
-		}
-	</script>
 </body>
 
 </html>

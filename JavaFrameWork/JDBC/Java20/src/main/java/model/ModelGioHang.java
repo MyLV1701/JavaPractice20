@@ -1,39 +1,30 @@
 package model;
 
 public class ModelGioHang {
-	int sanPhamCode;
-	String tenSP;
-	String moTa;
-	int soLuong;
-	int thanhtien;
+	private String tenSP;
+	private int giaSP;
+	private int soLuong;
+	private String sdtKH;
+	private String tenKH;
+	private String diaChiKH;
 
-	public ModelGioHang(int sanPhamCode, String tenSP, String moTa, int soLuong, int thanhtien) {
+	public ModelGioHang() {
+		this.tenSP = "";
+		this.giaSP = 0;
+		this.soLuong = 0;
+		this.sdtKH = "";
+		this.tenKH = "";
+		this.diaChiKH = "";
+	}
+
+	public ModelGioHang(String tenSP, int giaSP, int soLuong, String sdtKH, String tenKH, String diaChiKH) {
 		super();
-		this.sanPhamCode = sanPhamCode;
 		this.tenSP = tenSP;
-		this.moTa = moTa;
+		this.giaSP = giaSP;
 		this.soLuong = soLuong;
-		this.thanhtien = thanhtien;
-	}
-
-	public String toString() {
-		StringBuilder sb = new StringBuilder();
-		sb.append("Sp-Code:").append(this.sanPhamCode).append("\n");
-		sb.append("Sp-Name:").append(this.tenSP).append("\n");
-		sb.append("Sp-mota:").append(this.moTa).append("\n");
-		sb.append("Sp-soLuong:").append(this.soLuong).append("\n");
-		sb.append("Sp-thanhtien:").append(this.thanhtien).append("\n");
-
-		sb.append("------------------------------------------\n");
-		return sb.toString();
-	}
-
-	public int getSanPhamCode() {
-		return sanPhamCode;
-	}
-
-	public void setSanPhamCode(int sanPhamCode) {
-		this.sanPhamCode = sanPhamCode;
+		this.sdtKH = sdtKH;
+		this.tenKH = tenKH;
+		this.diaChiKH = diaChiKH;
 	}
 
 	public String getTenSP() {
@@ -44,12 +35,12 @@ public class ModelGioHang {
 		this.tenSP = tenSP;
 	}
 
-	public String getMoTa() {
-		return moTa;
+	public int getGiaSP() {
+		return giaSP;
 	}
 
-	public void setMoTa(String moTa) {
-		this.moTa = moTa;
+	public void setGiaSP(int giaSP) {
+		this.giaSP = giaSP;
 	}
 
 	public int getSoLuong() {
@@ -60,12 +51,28 @@ public class ModelGioHang {
 		this.soLuong = soLuong;
 	}
 
-	public int getThanhtien() {
-		return thanhtien;
+	public String getSdtKH() {
+		return sdtKH;
 	}
 
-	public void setThanhtien(int thanhtien) {
-		this.thanhtien = thanhtien;
+	public void setSdtKH(String sdtKH) {
+		this.sdtKH = sdtKH;
+	}
+
+	public String getTenKH() {
+		return tenKH;
+	}
+
+	public void setTenKH(String tenKH) {
+		this.tenKH = tenKH;
+	}
+
+	public String getDiaChiKH() {
+		return diaChiKH;
+	}
+
+	public void setDiaChiKH(String diaChiKH) {
+		this.diaChiKH = diaChiKH;
 	}
 
 }

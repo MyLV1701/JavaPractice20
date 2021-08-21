@@ -6,78 +6,89 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import dbConnection.DBConnection;
 import model.ModelGioHang;
 
 public class DaoGioHang {
-	int SPcode;
-	String tenSP;
-	int soLuong;
-	private String hoTenKH;
-	private String phone;
-	private String email;
-	private String address;
-	private String userNameLogin;
-	private String passwordLogin;
-	Connection consp = null;
-	Statement stmt = null;
 
-	String sqlcart = ("select g.SPCode as maSanPham, sp.tenSP, l.moTa, g.soLuong, (c.giaBan * g.soLuong) as thanhtien "
-			+ "from sanpham sp, chitietdonhang c, giohang g, loaisp l " + 
-			"where  g.SPCode = sp.sanPhamCode and sp.sanPhamCode = c.sanPhamCode and "
-			+ "sp.loaiSPCode = l.loaiSPCode");
+	public void createGioHang(String userName) {
+		String sqlCMD = "CREATE table IF NOT EXISTS GioHang" + userName + "("
+				+ "	gioHangID      int primary key auto_increment, " + "	KhachHangCode  int NOT NULL, "
+				+ "	SanPhamCode	   int NOT NULL, "
+				+ "	constraint `KhachHangCode` foreign key (`KhachHangCode`) references `khachHang` (`khachHangCode`), "
+				+ "	constraint `SanPhamCode` foreign key (`SanPhamCode`) references `sanpham` (`sanPhamCode`) " + ");";
 
-	public List<ModelGioHang> getAllGioHang() throws SQLException {
-		List<ModelGioHang> cartList = new ArrayList<ModelGioHang>();
 		Connection connection = DBConnection.GET_CONNECTION();
-		Statement sta = connection.createStatement();
-		ResultSet rs = sta.executeQuery(sqlcart);
-		ModelGioHang mcart = null;
-		while (rs.next()) {
-			mcart = new ModelGioHang(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getInt(5));
-			cartList.add(mcart);
-		}
-		connection.close();
-		return cartList;
 
-	}
-
-	public void update(int SPcode, String tenSP, int soLuong, String hoTenKH, String phone, String address,
-			String email, String userNameLogin) {
-		this.SPcode = SPcode;
-		this.tenSP = tenSP;
-		this.soLuong = soLuong;
-		this.hoTenKH = hoTenKH;
-		this.phone = phone;
-		this.email = email;
-		this.address = address;
-		this.userNameLogin = userNameLogin;
 		try {
+			Statement stmt = connection.createStatement();
+			stmt.executeUpdate(sqlCMD);
 
-			consp = DBConnection.GET_CONNECTION();
-			String upsql = "insert into giohang(SPcode,tenSP,soLuong, hotenKH, "
-					+ "phone,address, email, userName) values (?,?,?,?,?,?,?,?)";
-			// stmt = consp.createStatement();// what is this?
-			PreparedStatement stmt = consp.prepareStatement(upsql);
-			stmt.setInt(1, this.SPcode);
-			stmt.setString(2, this.tenSP);
-			stmt.setInt(3, this.soLuong);
-			stmt.setString(4, this.hoTenKH);
-			stmt.setString(5, this.phone);
-			stmt.setString(6, this.address);
-			stmt.setString(7, this.email);
-			stmt.setString(8, this.userNameLogin);
-			stmt.executeUpdate();
-			consp.close();
-
-			// DBConnection.CLOST_CONNECTION();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
 
+	public List<ModelGioHang> getAllGioHang(String userName) throws SQLException {
+
+		String sql = "select SP.tenSP, SP.giaBan , CTGH.SoLuong, KH.phone, KH.hoTen, KH.diaChi " 
+				+ "from GioHang" + userName + " GH, ChiTietGioHang" + userName + " CTGH, sanpham SP, khachhang KH "
+				+ "where (GH.KhachHangCode = KH.khachHangCode) and " 
+				+ " (GH.SanPhamCode = SP.sanPhamCode) and "
+				+ " (CTGH.SanPhamCode = SP.SanPhamCode);";
+		
+		System.out.println("List<ModelGioHang> getAllGioHang(String userName) : sql = " + sql);
+
+		List<ModelGioHang> ghList = new ArrayList<ModelGioHang>();
+		Connection connection = DBConnection.GET_CONNECTION();
+
+		Statement sta = connection.createStatement();
+		ResultSet rs = sta.executeQuery(sql);
+
+		ModelGioHang gh = null;
+
+		while (rs.next()) {
+			gh = new ModelGioHang(rs.getString(1), rs.getInt(2), rs.getInt(3), rs.getString(4), rs.getString(5),
+					rs.getString(6));
+
+			ghList.add(gh);
+		}
+		return ghList;
+
+	}
+
+	public void addNewItems(String userName, int spCode, int khachHangCode) throws SQLException {
+
+		String sql = "insert into GioHang" + userName + "(KhachHangCode, SanPhamCode) values (?,?)";
+
+		Connection connection = DBConnection.GET_CONNECTION();
+		PreparedStatement stmt = connection.prepareStatement(sql);
+
+		stmt.setInt(1, khachHangCode);
+		stmt.setInt(2, spCode);
+		stmt.executeUpdate();
+
+	}
+
+	public HashMap<String, Boolean> getAllSPcode(String userName) throws SQLException {
+		
+//		HashSet<String> spCodeList = new HashSet<String>();
+		HashMap<String, Boolean> spCodeList = new HashMap<String, Boolean>();
+		String sqlQuery = "select SanPhamCode from GioHang" + userName;
+		
+		Connection connection = DBConnection.GET_CONNECTION();
+		Statement sta = connection.createStatement();
+		ResultSet rs = sta.executeQuery(sqlQuery);
+
+		while (rs.next()) {
+			spCodeList.put(rs.getString(1),false);
+		}
+
+		return spCodeList;
 	}
 
 }

@@ -2,6 +2,7 @@ package servletAction;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.HashMap;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,6 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import dao.DaoChiTietGioHang;
+import dao.DaoGioHang;
 import dao.DaoKhachHang;
 import model.ModelKhachHang;
 
@@ -51,9 +54,18 @@ public class LoginAction extends HttpServlet {
 						userName + "\tpassWord: " + passWord);
 
 		DaoKhachHang daoKH = new DaoKhachHang();
+		DaoChiTietGioHang daoCTGH = new DaoChiTietGioHang();
+		DaoGioHang daoGH = new DaoGioHang();
 		ModelKhachHang khachHang = null;
+//		HashSet<String> selectedGoods = new HashSet<String>();
+		HashMap<String, Boolean> selectedGoods = new HashMap<String, Boolean>();
+		
 		try {
 			khachHang = daoKH.login(userName, passWord);
+			daoGH.createGioHang(khachHang.getUserName());
+			daoCTGH.createChiTietGioHang(khachHang.getUserName());
+			selectedGoods = daoGH.getAllSPcode(khachHang.getUserName());
+			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -62,7 +74,7 @@ public class LoginAction extends HttpServlet {
 		if (khachHang != null) {
 			HttpSession session = request.getSession();
 			session.setAttribute("currentUser", khachHang);
-			
+			session.setAttribute("selectedItems", selectedGoods);			
 			response.sendRedirect("./homePageAction");
 		} else {
 			response.sendRedirect("./login.jsp");

@@ -2,7 +2,6 @@ eclipse.preferences.version=1
 encoding//src/main/java/dao/DaoGioHang.java=UTF-8
 encoding//src/main/java/servletAction/CustomerListServlet.java=UTF-8
 encoding//src/main/java/servletAction/GioHangAction.java=UTF-8
-encoding//src/main/java/servletAction/HomePageAction2.java=UTF-8
 encoding//src/main/java/servletAction/ProductViewController.java=UTF-8
 encoding//src/main/webapp/Index.jsp=UTF-8
 encoding//src/main/webapp/home.jsp=UTF-8

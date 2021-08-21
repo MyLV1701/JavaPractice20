@@ -2,6 +2,8 @@ package servletAction;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.HashSet;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -10,8 +12,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import dao.DaoChiTietGioHang;
 import dao.DaoGioHang;
-import dao.gioHang;
 import model.ModelKhachHang;
 
 /**
@@ -24,83 +26,58 @@ public class GioHangAction extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		String cartclick = request.getParameter("click");
 
-		DaoGioHang daoCart1 = new DaoGioHang();
+		response.getWriter().append("Served at: ").append(request.getContextPath());
+
+		RequestDispatcher rd = request.getRequestDispatcher("./shoppingCart.jsp");
+		rd.forward(request, response);
+
+		System.out.println("public class GioHangAction extends HttpServlet ===> enterd");
+
+	}
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
+		// get productID ( san pham code)
+
+		// get session selectedItems --> validate EXIST
+		// if(exist)
+		// get soluong from session invoke updateSoLuong(boolean increase, int soluong)
+		// inside daoChiTietGioHang
+		// else
+		// invoke addNewItems() -> daoGioHang, daoChiTietGioHang
+		// get session -> add hashset into session
+
+		String spCode = request.getParameter("productId");
+		HashMap<String, Boolean> selectedItems = (HashMap<String, Boolean>) request.getSession().getAttribute("selectedItems");
+		DaoGioHang daoGH = new DaoGioHang();
+		DaoChiTietGioHang daoCTGH = new DaoChiTietGioHang();
+		String userName = ((ModelKhachHang) request.getSession().getAttribute("currentUser")).getUserName();
+
 		try {
-//			request.setAttribute("cartList1", daoCart1.getAllGioHang());
+			if ((spCode != null) && (selectedItems.containsKey(spCode))) {
+
+				daoCTGH.updateQuantity(true, userName, Integer.parseInt(spCode), 1);
+
+			} else {
+
+				int KHCode = ((ModelKhachHang) request.getSession().getAttribute("currentUser")).getKhachHangCode();
+				int soLuong = 1;
+				selectedItems.put(spCode,true);
+				request.getSession().setAttribute("selectedItems", selectedItems);
+				daoGH.addNewItems(userName, Integer.parseInt(spCode), KHCode);
+				daoCTGH.addNewItems(userName, Integer.parseInt(spCode), KHCode, soLuong);
+			}
+
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
-		RequestDispatcher rdc = request.getRequestDispatcher("./giohang.jsp");
-		rdc.forward(request, response);
-	}
-
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		int sanPhamCode = 0, soLuong = 1;
-		int productId2 = 0;
-
-		ModelKhachHang khachHang = (ModelKhachHang) request.getSession().getAttribute("currentUser");
-
-		gioHang cart1 = new gioHang();
-		gioHang cart2 = new gioHang();
-
-		String prId = request.getParameter("productId2");
-
-		String SPc = request.getParameter("productId");
-		if (SPc != null) {
-
-			sanPhamCode = Integer.parseInt(SPc);
-			cart1.giohang(sanPhamCode, soLuong, khachHang.getHoTen(), khachHang.getPhone(), khachHang.getEmail(),
-					khachHang.getDiaChi(), khachHang.getUserName());
-
-		} else {
-			sanPhamCode = 0;
-		}
-		if (prId != null) {
-			productId2 = Integer.parseInt(prId);
-			try {
-				cart2.deleteCartElement(productId2);
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-
-		} else {
-			productId2 = 0;
-		}
-
 		response.sendRedirect("./homePageAction");
+//		request.getRequestDispatcher("./homePageAction").include(request, response);
 
 	}
-
-	/*
-	 * protected void doGet(HttpServletRequest request, HttpServletResponse
-	 * response) throws ServletException, IOException { // TODO Auto-generated
-	 * method stub
-	 * response.getWriter().append("Served at: ").append(request.getContextPath());
-	 * 
-	 * }
-	 * 
-	 * protected void doPost(HttpServletRequest request, HttpServletResponse
-	 * response) throws ServletException, IOException { int SPcode = 0, soLuong = 1;
-	 * DaoGioHang upd = new DaoGioHang(); String SPc =
-	 * request.getParameter("productId"); if (SPc != null) { SPcode =
-	 * Integer.parseInt(SPc); } else { SPcode = 0; }
-	 * 
-	 * String tenSP = request.getParameter("product's name");
-	 * 
-	 * ModelKhachHang khachHang = (ModelKhachHang)
-	 * request.getSession().getAttribute("currentUser");
-	 * 
-	 * upd.update(SPcode, tenSP, soLuong, khachHang.getHoTen(),
-	 * khachHang.getPhone(), khachHang.getEmail(), khachHang.getDiaChi(),
-	 * khachHang.getUserName()); response.sendRedirect("./homePageAction");
-	 * 
-	 * }
-	 */
 
 }
