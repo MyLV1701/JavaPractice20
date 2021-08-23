@@ -70,7 +70,7 @@ function isSelectedAll() {
 
 $(".qty-decrease").bind( "click", function() {
     console.log('fucntion qtyDecreaseImpl enterd =  ' + $( this ).next('input').val());
-   
+
     var target = parseInt($( this ).next('input').val());
     if(target == 0)
     {
@@ -87,7 +87,7 @@ $(".qty-decrease").bind( "click", function() {
 
 
 $(".qty-increase").bind( "click", function() {
-    // console.log('fucntion qtyDecreaseImpl enterd =  ' + $( this ).prev('input').val());
+    console.log('fucntion qtyDecreaseImpl enterd =  ' + $( this ).prev('input').val());
 
     var target = parseInt($( this ).prev('input').val())  + 1;
     $( this ).prev('input').val(target);

@@ -188,13 +188,6 @@ a {
 
 <script>
 
-
-	function selectedItemsImpl(){
-
-		console.log("=======================- gioHangclick ============================");
-		
-	}
-
 	function showProduct(productCodeView) {
 		var xmlhttp = new XMLHttpRequest();
 		xmlhttp.open("GET", "./productViewController?productCode=" + productCodeView, true);
@@ -228,6 +221,7 @@ a {
 								+ '</tr>'; 
 						
 					tbodyView.innerHTML += genHTML;
+					
 					
 					/* 
 					trDom = document.createElement("tr");
@@ -350,13 +344,6 @@ a {
 			$(layer).css("opacity", "0.25");
 			document.body.append(layer);
 	}
-
-	
-	
-	$(document).on("click", '.selectedItem', function(event) { 
-		
-		console.log("selectedItem -----------------> item seletected");
-	});
 	
 	
 	$(document).on("click", '.editItem', function(event) { 
@@ -366,12 +353,11 @@ a {
 	});
 	
 	
-	
 	var masID = "masLayer";
 	$(document).ready(function() {
 
 		showProduct("");
-		
+				
 		$("#Cancel").click(function() {
 			$("#productForm").fadeOut(500);
 			var layer = document.getElementById(masID);
@@ -381,12 +367,6 @@ a {
 		$(".addNew").click(function() {
 			popUpHandler();
 			getProductForm(0);
-		});
-		
-		$(".gioHangclick").click(function() {
-		
-			selectedItemsImpl();
-			
 		});
 		
 		$(".viewAct").click(function() {
@@ -473,11 +453,11 @@ a {
 
 								<a href="./gioHangAction">
 									<% 
-										HashMap<String, Boolean> amount = (HashMap<String, Boolean>) request.getSession().getAttribute("selectedItems");
-										int selectedItems = (amount != null)? amount.size() : 0 ;
-										
-										System.out.println("xin kinh chao quy khach ------------------ : " + selectedItems);
-									%>
+									HashMap<String, Boolean> amount = (HashMap<String, Boolean>) request.getSession().getAttribute("selectedItems");
+									int selectedItems = (amount != null)? amount.size() : 0 ;
+									
+									System.out.println("So Luong san pham duoc lua chon : " + selectedItems);
+							        %> 
 									<span> Cart </span> <span class="badge" color= red ><%=selectedItems%></span>
 								</a>
 							</div>

@@ -94,8 +94,7 @@
 				</tr>
 
 				<tr>
-					<td><input type="hidden" name="updateItemId"
-						value=<%=obj.getSanPhamCode()%>></td>
+					<td><input type="hidden" name="updateItemId" value=<%=obj.getSanPhamCode()%>></td>
 				</tr>
 			</tbody>
 		</table>

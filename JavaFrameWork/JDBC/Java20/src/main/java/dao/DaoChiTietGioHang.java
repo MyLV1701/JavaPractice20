@@ -54,5 +54,26 @@ public class DaoChiTietGioHang {
 		stmt.setInt(2, spCode);
 		stmt.executeUpdate();
 	}
+	
+	public void updateQuantityOnChange(String userName, int spCode, int soLuong) throws SQLException {
+
+		String sql = "update ChiTietGioHang" + userName + " set SoLuong = " + soLuong + " where SanPhamCode = " + spCode;
+
+		Connection connection = DBConnection.GET_CONNECTION();
+		
+		Statement stmt  = connection.createStatement();
+		stmt.executeUpdate(sql);
+	}
+	
+	
+	public void removeItems(String userName, int spCode) throws SQLException {
+
+		String sql = "delete from ChiTietGioHang" + userName + "  where SanPhamCode = " + spCode;
+		
+		Connection connection = DBConnection.GET_CONNECTION();
+		Statement stmt  = connection.createStatement();
+		
+		stmt.executeUpdate(sql);
+	}
 
 }

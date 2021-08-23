@@ -35,13 +35,13 @@ public class DaoGioHang {
 
 	public List<ModelGioHang> getAllGioHang(String userName) throws SQLException {
 
-		String sql = "select SP.tenSP, SP.giaBan , CTGH.SoLuong, KH.phone, KH.hoTen, KH.diaChi " 
+		String sql = "select SP.tenSP, SP.giaBan , CTGH.SoLuong, KH.phone, KH.hoTen, KH.diaChi, SP.sanPhamCode " 
 				+ "from GioHang" + userName + " GH, ChiTietGioHang" + userName + " CTGH, sanpham SP, khachhang KH "
 				+ "where (GH.KhachHangCode = KH.khachHangCode) and " 
 				+ " (GH.SanPhamCode = SP.sanPhamCode) and "
 				+ " (CTGH.SanPhamCode = SP.SanPhamCode);";
 		
-		System.out.println("List<ModelGioHang> getAllGioHang(String userName) : sql = " + sql);
+//		System.out.println("List<ModelGioHang> getAllGioHang(String userName) : sql = " + sql);
 
 		List<ModelGioHang> ghList = new ArrayList<ModelGioHang>();
 		Connection connection = DBConnection.GET_CONNECTION();
@@ -50,10 +50,10 @@ public class DaoGioHang {
 		ResultSet rs = sta.executeQuery(sql);
 
 		ModelGioHang gh = null;
-
+		
 		while (rs.next()) {
 			gh = new ModelGioHang(rs.getString(1), rs.getInt(2), rs.getInt(3), rs.getString(4), rs.getString(5),
-					rs.getString(6));
+					rs.getString(6), rs.getInt(7));
 
 			ghList.add(gh);
 		}
@@ -73,6 +73,17 @@ public class DaoGioHang {
 		stmt.executeUpdate();
 
 	}
+	
+	public void removeItems(String userName, int spCode) throws SQLException {
+
+		String sql = "delete from GioHang" + userName + "  where SanPhamCode = " + spCode;
+
+		Connection connection = DBConnection.GET_CONNECTION();
+		Statement stmt  = connection.createStatement();
+		stmt.executeUpdate(sql);
+	}
+	
+	
 
 	public HashMap<String, Boolean> getAllSPcode(String userName) throws SQLException {
 		
