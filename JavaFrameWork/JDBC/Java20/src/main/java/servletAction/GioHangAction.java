@@ -26,12 +26,7 @@ import model.ModelKhachHang;
 public class GioHangAction extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		// TODO Auto-generated method stub
-
-//		response.getWriter().append("Served at: ").append(request.getContextPath());
-		
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String action   = (request.getParameter("Action") != null) ? request.getParameter("Action") : "";
 		String SpCode   = (request.getParameter("SpCode") != null) ? request.getParameter("SpCode") : "";
 		String userName = ((ModelKhachHang) request.getSession().getAttribute("currentUser")).getUserName();
@@ -138,22 +133,12 @@ public class GioHangAction extends HttpServlet {
 			}
 
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
 		RequestDispatcher rd = request.getRequestDispatcher("./shoppingCart.jsp");
 		rd.forward(request, response);
-		
-		
-//		if(action.equals("editUserInfor")) {
-//			RequestDispatcher rd = request.getRequestDispatcher("./userInformation.jsp");
-//			rd.forward(request, response);
-//		}
-//		else {
-//			RequestDispatcher rd = request.getRequestDispatcher("./shoppingCart.jsp");
-//			rd.forward(request, response);
-//		}
+
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)

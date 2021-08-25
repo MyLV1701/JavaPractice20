@@ -3,9 +3,6 @@
 <%@ page import="model.ModelChiTietSanPham"%>
 <%@ page import="java.util.Date"%>
 <%@ page import="java.text.SimpleDateFormat"%>
-
-<%@page import="model.ModelKhachHang"%>
-
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 
@@ -25,52 +22,96 @@
 </head>
 <body>
 
-<div style="width: 500px; height: auto; margin: 5px 10px">
-    <div class="modal-content usrInforChange">
-        <div class="modal-body">
-            <form>
-                <div class="form-group">
-                    <label for="recipient-name" class="form-control-label">Full Name</label>
-                    <input type="text" class="form-control name" value="le van my">
-                </div>
-                <div class="form-group">
-                    <label for="recipient-name" class="form-control-label">Phone Number</label>
-                    <input type="text" class="form-control phone" value="0977 539 566">
-                </div>
-                <div class="form-group">
-                    <label for="recipient-name" class="form-control-label">Email</label>
-                    <input type="text" class="form-control email" value="mydonghung@gmail.com">
-                </div>
-                <div class="form-group">
-                    <label for="message-text" class="form-control-label">Address</label>
-                    <textarea class="form-control message-text"
-                        style="margin-top: 0px; margin-bottom: 0px; height: 50px;"> chung toi la chien sy</textarea>
-                </div>
-            </form>
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="Cancel btn btn-secondary" data-dismiss="modal">Cancel</button>
-            <button type="button" class="changeInfo btn btn-primary">Update</button>
-        </div>
-    </div>
-</div>
+
+	<%
+	ModelChiTietSanPham obj = (ModelChiTietSanPham) request.getAttribute("editItemInfo");
+	if (obj == null) {
+		obj = new ModelChiTietSanPham();
+	}
+	SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+	String importDate = formatter.format(obj.getNgayNhap());
+	%>
+
+	<h2>THÔNG TIN SẢN PHẨM:</h2>
+
+	<form action="./modifyProductAction" method="post">
+		<table style="background-color: yellow;">
+			<tbody>
+				<tr>
+					<td>Loại sản phẩm</td>
+					<td>
+						<select name="productType" style = "width: 95%;padding: 1px 2px;">
+							<%
+							List loaiSanPhamList = (List) request.getAttribute("loaiSanPhamList");
+							try {
+								ModelLoaiSanPham lsp;
+								for (Object objLsp : loaiSanPhamList) {
+										lsp = (ModelLoaiSanPham)objLsp;
+							%>
+									<option <%=((lsp.getLoaiSPCode() == obj.getLoaiSPCode())?
+													"selected=\"selected\"":"")%>
+											value="<%=lsp.getLoaiSPCode()%>"><%=lsp.getTenLoaiSP()%>
+									</option>
+
+							<%
+								}
+							} catch (Exception ex) {
+								ex.printStackTrace();
+							}
+							%>
+							
+						</select>
+					</td>
+				</tr>
+
+				<tr>
+					<td>Tên Sản Phẩm</td>
+					<td><input type="text" name="productName"
+						value="<%=obj.getTenSP()%>"></td>
+				</tr>
+				<tr>
+					<td>Ngày Nhập</td>
+					<td><input type="date" style ="width: 95%; padding: 1px 2px;" 
+							   name="importDate" value=<%=importDate%>></td>
+				</tr>
+				<tr>
+					<td>Giá Nhập</td>
+					<td><input type="number" name="importPrice"
+						value=<%=obj.getGiaNhap()%>></td>
+				</tr>
+				<tr>
+					<td>Giá Bán</td>
+					<td><input type="number" name="exportPrice"
+						value=<%=obj.getGiaBan()%>></td>
+				</tr>
+
+				<tr>
+					<td>Số Lượng</td>
+					<td><input type="number" name="aMount"
+						value=<%=obj.getSoLuong()%>></td>
+				</tr>
+				<tr>
+					<td>Giảm Giá</td>
+					<td><input type="number" name="Discount"
+						value=<%=obj.getGiamGia()%>></td>
+				</tr>
+
+				<tr>
+					<td>Mã Nhà Cung Cấp</td>
+					<td><input type="number" name="supplierCode"
+						value=<%=obj.getNhaCungCapCode()%>></td>
+				</tr>
+
+				<tr>
+					<td><input type="hidden" name="updateItemId" value=<%=obj.getSanPhamCode()%>></td>
+				</tr>
+			</tbody>
+		</table>
 
 
+		<button type="submit">Hoàn Thành</button>
+	</form>
 </body>
 
-<script >
-$(".changeInfo").bind('click', function () {
-	var parent   = $(this).closest(".usrInforChange");
-	
-	var userName = parent.find(".name").val();
-	var phoneNum = parent.find(".phone").val();
-	var email    = parent.find(".email").val();
-	var address  = parent.find(".message-text").val();
-	
-	console.log("changeinfo action result :" +  "userName = " + userName + "phoneNum = " + phoneNum + "email = " + email + "address = " + address );
-});
-
-</script>
-
-
+</body>
 </html>
