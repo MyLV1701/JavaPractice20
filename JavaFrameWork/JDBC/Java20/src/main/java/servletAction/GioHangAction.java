@@ -1,11 +1,10 @@
 package servletAction;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
@@ -17,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import dao.DaoChiTietGioHang;
 import dao.DaoGioHang;
+import dao.DaoKhachHang;
 import model.ModelKhachHang;
 
 /**
@@ -30,15 +30,15 @@ public class GioHangAction extends HttpServlet {
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+//		response.getWriter().append("Served at: ").append(request.getContextPath());
 		
-		String action = (request.getParameter("Action") != null) ? request.getParameter("Action") : "";
-		String SpCode = (request.getParameter("SpCode") != null) ? request.getParameter("SpCode") : "";
+		String action   = (request.getParameter("Action") != null) ? request.getParameter("Action") : "";
+		String SpCode   = (request.getParameter("SpCode") != null) ? request.getParameter("SpCode") : "";
 		String userName = ((ModelKhachHang) request.getSession().getAttribute("currentUser")).getUserName();
-		int soluong = 1;
+		int soluong     = 1;
 		
 		DaoChiTietGioHang daoCTGH = new DaoChiTietGioHang();
-		DaoGioHang daoGH = new DaoGioHang();
+		DaoGioHang        daoGH   = new DaoGioHang();
 
 		try {
 			switch (action) {
@@ -114,14 +114,22 @@ public class GioHangAction extends HttpServlet {
 				break;
 				
 			case "editUserInfor":
-				// update DB thru DAO
-				String khName      = (String) request.getParameter("UsrName");
-				String phoneNumber = (String) request.getParameter("UsrPhone");
-				String address     = (String) request.getParameter("UsrAddress");
+				RequestDispatcher rd = request.getRequestDispatcher("./userInformation.jsp");
+				rd.forward(request, response);
+				return;
 				
-				System.out.println("test ajax data passing khName : " + khName + " phoneNumber : " + phoneNumber + " address : " + address );
+			case "usrInforUpdated":
 				
-				// update session
+				PrintWriter pw = response.getWriter();
+				String usrInfoHtml = updateUsrInformation(request,response);
+				pw.append(usrInfoHtml);
+				
+				return;
+				
+				
+			case "MuaHangAction":
+				// get all thanh phần phù hợp với user selected
+				
 				break;
 				
 			default:
@@ -133,10 +141,19 @@ public class GioHangAction extends HttpServlet {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
+		
 		RequestDispatcher rd = request.getRequestDispatcher("./shoppingCart.jsp");
 		rd.forward(request, response);
-
+		
+		
+//		if(action.equals("editUserInfor")) {
+//			RequestDispatcher rd = request.getRequestDispatcher("./userInformation.jsp");
+//			rd.forward(request, response);
+//		}
+//		else {
+//			RequestDispatcher rd = request.getRequestDispatcher("./shoppingCart.jsp");
+//			rd.forward(request, response);
+//		}
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -169,4 +186,38 @@ public class GioHangAction extends HttpServlet {
 		}
 		response.sendRedirect("./homePageAction");
 	}
+	
+	
+	private String updateUsrInformation(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
+		ModelKhachHang mdlKH = ((ModelKhachHang) request.getSession().getAttribute("currentUser"));
+		String khName      = (String) request.getParameter("UsrFullName");
+		String phoneNumber = (String) request.getParameter("UsrPhone");
+		String email       = (String) request.getParameter("UsrEmail");
+		String address     = (String) request.getParameter("UsrAddress");
+		int    khCode      = mdlKH.getKhachHangCode();
+		
+		// invoke udpate thong tin Khach Hang 
+		DaoKhachHang KH = new DaoKhachHang();
+		KH.updateUsrInfo(khName, phoneNumber, address, email, khCode);
+		
+		// update session 
+		mdlKH.setHoTen(khName);
+		mdlKH.setPhone(phoneNumber);
+		mdlKH.setEmail(email);
+		mdlKH.setDiaChi(address);
+		
+		request.getSession().setAttribute("currentUser", mdlKH);
+
+		String genHTML = "<p class=\"title\">"
+						+ "<b class=\"name\">"  + khName  + "</b>"
+						+ "<b class=\"phone\">" + phoneNumber + "</b>"
+				        + "</p>"
+				        + "<p class=\"address\">" + address + "</p>";
+		
+		System.out.println("updateUsrInformation fucntion send data : " + genHTML);
+		
+		return genHTML;
+	}
+	
+	
 }

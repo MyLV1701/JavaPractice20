@@ -304,7 +304,7 @@ a {
 
 	function getProductForm(productID) {
 		
-		var xmlhttp = new XMLHttpRequest(productID);
+		var xmlhttp = new XMLHttpRequest();
 		
 		xmlhttp.open("GET", "./modifyProductAction?productID=" + productID, true);
 		xmlhttp.send();
@@ -352,14 +352,13 @@ a {
 		getProductForm(productID);		
 	});
 	
-	
 	var masID = "masLayer";
 	$(document).ready(function() {
 
 		showProduct("");
 				
 		$("#Cancel").click(function() {
-			$("#productForm").fadeOut(500);
+			$("#productForm").fadeOut(150);
 			var layer = document.getElementById(masID);
 			document.body.removeChild(layer);
 		});

@@ -16,6 +16,7 @@
 <title>Shopping cart</title>
 <link rel="stylesheet" href="css/style.css">
 
+
 <link rel="stylesheet" href="./bootstrap/bootstrap.min.css">
 <script src="./bootstrap/jquery.min.js"></script>
 <script src="./bootstrap/popper.min.js"></script>
@@ -23,6 +24,20 @@
 
 </head>
 <body>
+	<div id="productForm"
+		style="display: none; border: 1px solid blue; padding: 5px; width: auto; min-width: 150px; position: absolute; background-color: white;">
+		<div
+			style="width: 100%; height: 32px; line-height: 25px; background-color: lightgray; padding-right: 5px;">
+			<div id="Cancel"
+				style="cursor: pointer; border: 1px solid black; padding: 2px; width: 30px; float: right; text-align: center;">X</div>
+		</div>
+		<div
+			style="margin-top: 5px; padding: 5px; min-height: 100px; border: 1px solid gray;"
+			id="formBody">
+			
+		</div>
+
+	</div>
 
     <main>
         <div class="Container-sc-itwfbd-0 hfMLFx" style="border: 1px solid red;">
@@ -142,12 +157,18 @@
 	                                    <span class="text">Giao tới</span>
 	                                    <span data-view-id="cart_shipping_location.change" class="link">Thay đổi</span>
                                     </p>
-                                    
-                                    <%
-                                    ModelKhachHang KH = (ModelKhachHang)request.getSession().getAttribute("currentUser");
-                                    %>
-                                    <p class="title"><b class="name"><%=KH.getHoTen() %></b><b class="phone"><%=KH.getPhone() %></b></p>
-                                    <p class="address"><%=KH.getDiaChi() %></p>
+                                    <div id = "usrInforDetails">
+                                    	<%
+									 	 ModelKhachHang Cus = (ModelKhachHang)request.getSession().getAttribute("currentUser");
+										 System.out.println("  user informaton handling MODIFIED  : DiaChi  " + Cus.getDiaChi());
+									  	%>
+										<p class="title">
+											<b class="name">"<%=Cus.getHoTen()%>"</b>
+											<b class="phone">"<%=Cus.getPhone()%>"</b>
+										</p>
+										<p class="address">"<%=Cus.getDiaChi() %>" </p>
+										
+                                    </div>
                                 </div>
                                 
                                 <div class="styles__StyledCartPrices-sc-1op1gws-0 cdzcxd">
@@ -180,6 +201,7 @@
 
 </body>
 <script>
+
 function quantityChange(eventListen, tar){
 	var xhr = new XMLHttpRequest();
 	var spcode = tar.find(".maSanPham").val();
@@ -250,33 +272,113 @@ $(".qty-input").bind('change', function () {
 });
 
 
-$(".link").bind('click', function () {
+var masID = "masLayer";
+function popUpHandler() {
+	$("#productForm").animate({
+			left : '750px',
+			top : '200px'
+		});
 	
+		$("#productForm").slideDown(100);
+		$("#productForm").css("z-index", "1000");
+		//$("#productForm").fadeToggle(800);
+
+		var layer = document.createElement("div");
+		layer.setAttribute("id", masID);
+		$(layer).css("position", "absolute");
+		$(layer).animate({
+			left : '0px',
+			top : '0px'
+		});
+		$(layer).css("width", "100%");
+		$(layer).css("height", "100%");
+		$(layer).css("background-color", "gray");
+		$(layer).css("z-index", "500");
+		$(layer).css("opacity", "0.25");
+		document.body.append(layer);
+}
+
+function removePopupIpl() {
+	$("#productForm").fadeOut(150);
+	var layer = document.getElementById(masID);
+	document.body.removeChild(layer);
+}
+
+$("#Cancel").click(function() {
+	removePopupIpl()
+});
+
+
+$(document).on("click", '.Cancel', function() {
+	removePopupIpl();
+});
+
+
+$(".link").bind('click', function () {
+	popUpHandler();
+
 	var eventListen = "editUserInfor";
-	var parent   = $(this).closest(".juqUnC");
-	var userName = parent.find(".name").text();
-	var phoneNum = parent.find(".phone").text();
-	var address  = parent.find(".address").text();
+	var xmlhttp     = new XMLHttpRequest();
+	xmlhttp.open("GET", "./gioHangAction?Action=" + eventListen, true);
+	xmlhttp.send();
+	xmlhttp.onreadystatechange = function() {
+		if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+			var productPage = xmlhttp.responseText;
+			var formBody = document.getElementById("formBody");
+			formBody.innerHTML = productPage;
+		}
+	}
+});
+
+
+$(document).on("click", '.changeInfo', function() { 
+// $(".changeInfo").bind('click', function () {  ==> KHONG THE BAT SU KIEN
+	
+	var eventListen = "usrInforUpdated";
+	var parent      = $(this).closest(".usrInforChange");
+	var userName    = parent.find(".name").val();
+	var phoneNum    = parent.find(".phone").val();
+	var email       = parent.find(".email").val();
+	var address     = parent.find(".message-text").val();
+	
+	console.log("changeinfo action result :" +  "userName = " + userName + "phoneNum = " + phoneNum + "email = " + email + "address = " + address );
 	
     $.ajax({
-		
 		url: "/Java20/gioHangAction",
 		type: "get", //send it through get method
 		data :{
 			Action : eventListen ,
-			UsrName : userName ,
+			UsrFullName : userName ,
 			UsrPhone : phoneNum ,
+			UsrEmail : email ,
 			UsrAddress : address
 		},
-		success: function(data) {
-		//Do Something
-
+		success: function(responseData) {
+			var usrInforView = document.getElementById("usrInforDetails");
+			usrInforView.innerHTML = responseData;
+			
 		},
 		error: function(xhr) {
 		//Do Something to handle error
 		}
 	});
+    
+    removePopupIpl();
+	
 });
+
+$(".cart__submit").bind('click', function () {
+	// load tat ca thang gio hang ma isSelectedItems === true
+	// nguoc lai voi thang removeAll
+	var eventListen = "MuaHangAction";
+	
+	var xhr = new XMLHttpRequest();
+    xhr.open('GET', './gioHangAction?Action=' + eventListen, true);
+    xhr.send();
+	
+	
+});
+
 
 </script>
 

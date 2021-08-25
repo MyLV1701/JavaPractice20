@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 import dbConnection.DBConnection;
 import model.ModelKhachHang;
@@ -28,5 +29,21 @@ public class DaoKhachHang {
 					rs.getString(6), rs.getString(7));
 		}
 		return mKH;
+	}
+	
+	
+	public void updateUsrInfo(String HoTen, String sdt, String diachi,  String email, int KhachhangID) throws SQLException {
+		
+		String sql = "update khachhang set hoTen = \"" + HoTen 
+					+ "\", phone  = \"" + sdt 
+					+ "\", diaChi = \"" + diachi 
+					+ "\", email  = \"" + email
+					+ "\" where khachHangCode =" + KhachhangID;
+		
+//		System.out.println(" **** DaoKhachHang **** sql command line : " + sql);
+		
+		Connection connection  = DBConnection.GET_CONNECTION();
+		Statement stmt  = connection.createStatement();
+		stmt.executeUpdate(sql);
 	}
 }
