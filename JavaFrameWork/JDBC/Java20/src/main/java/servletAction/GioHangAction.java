@@ -124,8 +124,12 @@ public class GioHangAction extends HttpServlet {
 				
 			case "MuaHangAction":
 				// get all thanh phần phù hợp với user selected
+				RequestDispatcher payMent = request.getRequestDispatcher("./payment.jsp");
+				payMent.forward(request, response);
 				
-				break;
+				System.out.println(" ==============-- GioHangAction ================= :  click mau hang");
+				
+				return;
 				
 			default:
 				break;
@@ -199,7 +203,7 @@ public class GioHangAction extends HttpServlet {
 				        + "</p>"
 				        + "<p class=\"address\">" + address + "</p>";
 		
-		System.out.println("updateUsrInformation fucntion send data : " + genHTML);
+//		System.out.println("updateUsrInformation fucntion send data : " + genHTML);
 		
 		return genHTML;
 	}

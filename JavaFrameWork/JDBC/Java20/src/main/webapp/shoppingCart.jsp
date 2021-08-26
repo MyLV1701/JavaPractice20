@@ -14,7 +14,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <title>Shopping cart</title>
-<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/shoppingCard_style.css">
 
 
 <link rel="stylesheet" href="./bootstrap/bootstrap.min.css">
@@ -96,7 +96,7 @@
 																			    %>
 																			    
 																				<input onclick="isSelectedAll()" type="checkbox" name="color"
-																					   <%=selectedStatus.get(Integer.toString(gh.getSpCode())) ? "checked='checked'" : "" %>>
+																					   <%=(isSelected) ? "checked='checked'" : "" %>>
 																				<span class="checkbox-fake"></span> 
 																				<span><%=gh.getTenSP()%></span>
 																			</label>
@@ -160,7 +160,7 @@
                                     <div id = "usrInforDetails">
                                     	<%
 									 	 ModelKhachHang Cus = (ModelKhachHang)request.getSession().getAttribute("currentUser");
-										 System.out.println("  user informaton handling MODIFIED  : DiaChi  " + Cus.getDiaChi());
+// 										 System.out.println("  user informaton handling MODIFIED  : DiaChi  " + Cus.getDiaChi());
 									  	%>
 										<p class="title">
 											<b class="name">"<%=Cus.getHoTen()%>"</b>
@@ -189,7 +189,11 @@
                                                 <!--i>(Đã bao gồm VAT nếu có)</i-->
                                             </span></p>
                                     </div>
-                                </div><button type="button" class="cart__submit">Mua Hàng</button>
+                                </div>
+                                	<form action="./gioHangAction" method="get">
+                                		<input type="hidden" name="Action" value = "MuaHangAction">
+		                                <button type="submit" class="cart__submit">Mua Hàng </button>
+	                                </form>
                             </div>
                         </div>
                     </div>
@@ -367,17 +371,19 @@ $(document).on("click", '.changeInfo', function() {
 	
 });
 
-$(".cart__submit").bind('click', function () {
-	// load tat ca thang gio hang ma isSelectedItems === true
-	// nguoc lai voi thang removeAll
-	var eventListen = "MuaHangAction";
+// $(".cart__submit").bind('click', function () {
+// 	// load tat ca thang gio hang ma isSelectedItems === true
+// 	// nguoc lai voi thang removeAll
+// 	var eventListen = "MuaHangAction";
 	
-	var xhr = new XMLHttpRequest();
-    xhr.open('GET', './gioHangAction?Action=' + eventListen, true);
-    xhr.send();
+// 	console.log("==================== CLICK MUA HANG ====================");
+	
+// 	var xhr = new XMLHttpRequest();
+//     xhr.open('GET', './gioHangAction?Action=' + eventListen, true);
+//     xhr.send();
 	
 	
-});
+// });
 
 
 </script>

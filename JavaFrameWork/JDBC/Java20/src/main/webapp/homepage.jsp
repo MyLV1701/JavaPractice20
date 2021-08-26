@@ -455,7 +455,7 @@ a {
 									HashMap<String, Boolean> amount = (HashMap<String, Boolean>) request.getSession().getAttribute("selectedItems");
 									int selectedItems = (amount != null)? amount.size() : 0 ;
 									
-									System.out.println("So Luong san pham duoc lua chon : " + selectedItems);
+// 									System.out.println("So Luong san pham duoc lua chon : " + selectedItems);
 							        %> 
 									<span> Cart </span> <span class="badge" color= red ><%=selectedItems%></span>
 								</a>

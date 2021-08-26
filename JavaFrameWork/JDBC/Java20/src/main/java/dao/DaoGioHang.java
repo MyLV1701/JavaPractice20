@@ -7,7 +7,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import dbConnection.DBConnection;
 import model.ModelGioHang;
@@ -60,6 +62,57 @@ public class DaoGioHang {
 		return ghList;
 
 	}
+	
+	
+	public List<ModelGioHang> getAllSelectedProducts(String userName, HashMap<String, Boolean> IsSelectedItems) throws SQLException {
+
+		
+		// filter HashMap -> removing un-ticked items  -> result: selectedItems
+		// NEED TO USE DEEPCOPY to avoid affect to original HashMap
+		
+		HashMap<String, Boolean> DeepCopyhmImpl = new HashMap<String, Boolean>();
+		DeepCopyhmImpl.putAll(IsSelectedItems);
+		Iterator hmIterator = DeepCopyhmImpl.entrySet().iterator();
+
+		while (hmIterator.hasNext()) {
+			Map.Entry mapElement = (Map.Entry)hmIterator.next();
+            Boolean isRemove = (Boolean)mapElement.getValue();
+           if(isRemove == false) {
+        	   hmIterator.remove();
+           }
+       }
+		
+		String sql = "select SP.tenSP, SP.giaBan , CTGH.SoLuong, KH.phone, KH.hoTen, KH.diaChi, SP.sanPhamCode " 
+				+ "from GioHang" + userName + " GH, ChiTietGioHang" + userName + " CTGH, sanpham SP, khachhang KH "
+				+ "where (GH.KhachHangCode = KH.khachHangCode) and " 
+				+ " (GH.SanPhamCode = SP.sanPhamCode) and "
+				+ " (CTGH.SanPhamCode = SP.SanPhamCode);";
+		
+
+		List<ModelGioHang> spList = new ArrayList<ModelGioHang>();
+		Connection connection = DBConnection.GET_CONNECTION();
+
+		Statement sta = connection.createStatement();
+		ResultSet rs = sta.executeQuery(sql);
+
+		ModelGioHang gh = null;
+		
+		while (rs.next()) {
+			
+			// if ( selectedItems contains ( rs.getInt(7) ) )
+			String spCode = rs.getString(7);
+			if(DeepCopyhmImpl.containsKey(spCode))
+			{
+				gh = new ModelGioHang(rs.getString(1), rs.getInt(2), rs.getInt(3), rs.getString(4), rs.getString(5),
+						rs.getString(6), rs.getInt(7));
+				spList.add(gh);
+			}
+		}
+		return spList;
+	}
+	
+	
+	
 
 	public void addNewItems(String userName, int spCode, int khachHangCode) throws SQLException {
 

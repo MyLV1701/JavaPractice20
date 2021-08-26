@@ -1,0 +1,230 @@
+
+
+
+html {
+    font-family: Roboto,Helvetica,Arial,sans-serif;
+    font-size: 14px;
+    background-color: #efefef;
+}
+
+html {
+    line-height: 1.15;
+    text-size-adjust: 100%;
+}
+
+
+.hfMLFx {
+    width: 1270px;
+    padding-left: 15px;
+    padding-right: 15px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.hxalIh {
+    width: 850px;
+    padding: 15px 15px 0px 20px;
+}
+
+.kxnMeC {
+    opacity: 1;
+}
+
+.hxalIh .order-button {
+    width: 50%;
+}
+
+.ilOLpb {
+    background: rgb(255, 255, 255);
+    color: rgb(51, 51, 51);
+    padding: 15px 25px 10px 15px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    border: 1px solid rgb(221, 221, 221);
+}
+
+.ilOLpb .list {
+    margin: 0px;
+    padding: 0px;
+    list-style: none;
+}
+
+.cHcpqx {
+    font-size: 14px;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    align-content: space-between;
+}
+
+.hxalIh .order-button button {
+    margin: 10px 0px 0px;
+    padding: 4px 12px;
+    width: 360px;
+    height: 50px;
+    line-height: 2;
+    color: rgb(255, 255, 255);
+    font-size: 18px;
+    border: 1px solid rgb(172, 34, 39);
+    outline-color: rgb(204, 204, 204);
+    border-radius: 3px;
+    cursor: pointer;
+    background: linear-gradient(rgb(239, 57, 89), rgb(215, 32, 65));
+}
+
+.hxalIh .order-button p {
+    text-align: left;
+    margin: 10px 0px;
+    color: rgb(80, 80, 80);
+    font-size: 13px;
+}
+
+.jNysKx {
+    width: 320px;
+    padding: 30px 15px 0px;
+}
+
+.huqEVv {
+    padding: 10px 15px;
+    background-color: rgb(255, 255, 255);
+    border: 1px solid rgb(221, 221, 221);
+    color: rgb(51, 51, 51);
+    border-radius: 3px;
+    margin-top: 15px;
+}
+
+.huqEVv .address .name {
+    font-size: 15px;
+    font-weight: 700;
+    margin-top: 15px;
+    margin-bottom: 10px;
+}
+
+.huqEVv .address span {
+    display: block;
+    font-size: 13px;
+}
+
+.huqEVv .address .street, .huqEVv .address .phone {
+    padding: 2px 0px;
+}
+
+.hDDZPk {
+    padding: 10px 15px;
+    background-color: rgb(255, 255, 255);
+    border: 1px solid rgb(221, 221, 221);
+    border-radius: 3px;
+    color: rgb(51, 51, 51);
+    margin-top: 15px;
+}
+
+.hDDZPk .cart {
+    font-size: 12px;
+}
+.ddOYgv {
+    margin-bottom: 4px;
+    position: relative;
+}
+
+.ddOYgv .inner {
+    display: flex;
+    -webkit-box-pack: justify;
+    justify-content: space-between;
+    font-size: 13px;
+    line-height: 20px;
+}
+
+.ddOYgv .inner .name {
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+}
+
+.hDDZPk .cart .price-summary .total {
+    display: flex;
+    -webkit-box-pack: justify;
+    justify-content: space-between;
+    padding-top: 8px;
+    margin-bottom: 0px;
+    line-height: 19px;
+    font-weight: 700;
+}
+
+.hDDZPk .cart .price-summary .total .value {
+    color: rgb(238, 35, 71);
+    font-size: 19px;
+    font-weight: 400;
+    text-align: right;
+}
+
+img {
+    vertical-align: middle;
+    border-style: none;
+    margin-right: 10px;
+}
+
+.stt {
+    text-align: center;
+    width: 30px;
+    padding-left: 0px;
+    /* padding-right: 25px; */
+    margin-right: 20px;
+}
+
+.col-1- {
+    width: 250px;
+    padding: 0px 5px;
+    display: flex;
+    flex-direction: column;
+}
+
+.col-2- {
+    width: 150px;
+    padding: 0px 5px;
+}
+
+.col-3- {
+    width: 250px;
+    padding: 0px 5px;
+}
+
+
+.col-4- {
+    width: 100px;
+    padding: 0px 5px;
+}
+
+
+.fFVJQZ {
+    background: rgb(255, 255, 255);
+    color: rgb(51, 51, 51);
+    padding: 15px 25px 10px 15px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    border: 1px solid rgb(221, 221, 221);
+}
+
+
+input[type="radio"] {
+    height: 20px;
+    width: 20px;
+    clip: rect(0px, 0px, 0px, 0px);
+    margin-right: 10px;
+}
+
+.row__ {
+    display: flex;
+    margin-bottom: 5px;
+    margin-top: 10px;
+    align-items: center;
+}
+
+.glclPp::after {
+    content: "";
+    background: rgb(210 195 195);
+    width: 40%;
+    height: 1px;
+    position: absolute;
+    padding-left: -10px;
+    margin-bottom: 50px;
+}
