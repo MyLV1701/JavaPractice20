@@ -40,7 +40,7 @@
 				<tr>
 					<td>Loại sản phẩm</td>
 					<td>
-						<select name="productType" style = "width: 95%;padding: 1px 2px;">
+						<select name="productType" style = "width: 100%;padding: 1px 2px;">
 							<%
 							List loaiSanPhamList = (List) request.getAttribute("loaiSanPhamList");
 							try {
@@ -71,7 +71,7 @@
 				</tr>
 				<tr>
 					<td>Ngày Nhập</td>
-					<td><input type="date" style ="width: 95%; padding: 1px 2px;" 
+					<td><input type="date" style ="width: 100%; padding: 1px 2px;" 
 							   name="importDate" value=<%=importDate%>></td>
 				</tr>
 				<tr>

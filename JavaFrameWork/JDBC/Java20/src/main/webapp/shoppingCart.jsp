@@ -163,10 +163,10 @@
 // 										 System.out.println("  user informaton handling MODIFIED  : DiaChi  " + Cus.getDiaChi());
 									  	%>
 										<p class="title">
-											<b class="name">"<%=Cus.getHoTen()%>"</b>
-											<b class="phone">"<%=Cus.getPhone()%>"</b>
+											<b class="name"><%=Cus.getHoTen()%></b>
+											<b class="phone"><%=Cus.getPhone()%></b>
 										</p>
-										<p class="address">"<%=Cus.getDiaChi() %>" </p>
+										<p class="address"><%=Cus.getDiaChi() %> </p>
 										
                                     </div>
                                 </div>

@@ -31,159 +31,332 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <style>
-body {
-	font-family: Arial, Helvetica, sans-serif;
-}
 
+body {
+       font-family: Arial, Helvetica, sans-serif;
+   }
+   
 .notification {
-	background-color: auto;
-	color: white;
-	text-decoration: none;
-	padding: 10px 10px;
-	position: relative;
-	display: table;
-	border-radius: 2px;
+    background-color: auto;
+    color: white;
+    text-decoration: none;
+    padding: 10px 10px;
+    position: relative;
+    display: table;
+    border-radius: 2px;
 }
 
 .notification:hover {
-	background: auto;
+    background: auto;
 }
 
 .notification .badge {
-	position: absolute;
-	top: -10px;
-	right: -10px;
-	padding: 5px 10px;
-	border-radius: 50%;
-	background-color: red;
-	color: white;
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    padding: 5px 10px;
+    border-radius: 50%;
+    background-color: red;
+    color: white;
 }
 
 h1 {
-	color: blue;
-	text-shadow: 2px 2px 5px lightblue;
+    color: blue;
+    text-shadow: 2px 2px 5px lightblue;
 }
 
 p {
-	border: 1px solid black;
-	border-radius: 5px;
-	padding-left: 10px;
+    border: 1px solid black;
+    border-radius: 5px;
+    padding-left: 10px;
 }
 
 .p1 {
-	color: DodgerBlue;
-	border-left: 3px solid blue;
-	padding-left: 10px;
+    color: DodgerBlue;
+    border-left: 3px solid blue;
+    padding-left: 10px;
 }
 
 .p2 {
-	color: MediumSeaGreen;
+    color: MediumSeaGreen;
 }
 
 .p3 {
-	color: RGB(255, 255, 255);
-	background-color: lightblue;
-	padding: 5px;
+    color: RGB(255, 255, 255);
+    background-color: lightblue;
+    padding: 5px;
 }
 
 .div01 {
-	background-image: url("../imgs/ICanNotUnderstandForYou.jpg");
-	background-repeat: no-repeat;
-	color: white;
-	width: 100%;
-	height: 500px;
-	border: 1px double red;
+    background-image: url("../imgs/ICanNotUnderstandForYou.jpg");
+    background-repeat: no-repeat;
+    color: white;
+    width: 100%;
+    height: 500px;
+    border: 1px double red;
 }
 
 .grid-container {
-	display: grid;
-	grid-template-areas:
-		'lMenu lMenu header header header header header header header header header header'
-		'lMenu lMenu content content content content content content content rMenu rMenu rMenu'
-		'footer footer footer footer footer footer footer footer footer rMenu rMenu rMenu'
-		'author author author author author author author author author author author author';
-	grid-gap: 5px;
-	padding: 5px 10px 5px 5px;
-	margin: 5px 10px;
+    display: grid;
+    grid-template-areas:
+        'lMenu lMenu header header header header header header header header header header'
+        'lMenu lMenu content content content content content content content rMenu rMenu rMenu'
+        'footer footer footer footer footer footer footer footer footer rMenu rMenu rMenu'
+        'author author author author author author author author author author author author';
+    grid-gap: 5px;
+    padding: 5px 10px 5px 5px;
+    margin: 5px 10px;
 }
 
 .grid-container>div {
-	border: 1px solid blue;
-	padding: 5px;
+    border: 1px solid blue;
+    padding: 5px;
 }
 
 .header {
-	grid-area: header;
-	min-height: 100px;
-	line-height: 100px;
-	font-size: 28px;
-	text-align: center;
-	font-weight: bolder;
-	text-decoration: underline;
-	text-transform: uppercase;
+    grid-area: header;
+    min-height: 100px;
+    line-height: 100px;
+    font-size: 28px;
+    text-align: center;
+    font-weight: bolder;
+    text-decoration: underline;
+    text-transform: uppercase;
 }
 
 .leftMenu {
-	grid-area: lMenu;
+    grid-area: lMenu;
 }
 
 .content {
-	grid-area: content;
+    grid-area: content;
 }
 
 .rightMenu {
-	grid-area: rMenu;
+    grid-area: rMenu;
 }
 
 .footer {
-	grid-area: footer;
+    grid-area: footer;
 }
 
 .author {
-	grid-area: author;
+    grid-area: author;
 }
 
 .addNew {
-	float: right;
-	margin-right: 30px;
+    float: right;
+    margin-right: 30px;
 }
 
 .selectedRow {
-	color: auto;
-	font-weight: bold;
+    color: auto;
+    font-weight: bold;
 }
 
 td {
 /* 	padding-top: 2px; */
 /* 	padding-left: 5px; */
 /* 	padding-right: 2px; */
-	text-align: top;
+    text-align: top;
 }
 
 .table td, .table th
 {
-	vertical-align: middle;
-	text-align: left;     
+    vertical-align: middle;
+    text-align: left;     
 }
 
 select, input {
-	margin: 2px 5px;
+    margin: 2px 5px;
 }
 
 #proName {
-	background-color: yellow;
+    background-color: yellow;
 }
 
 .tdHead {
-	color: blue;
-	text-align: right;
-	font-size: bold;
-	padding-right: 10px;
+    color: blue;
+    text-align: right;
+    font-size: bold;
+    padding-right: 10px;
 }
 
 a {
-	text-decoration: none;	
+    text-decoration: none;	
 }
+
+
+.iuPmMC {
+    cursor: pointer;
+    margin: 0px 0px 0px 16px;
+    -webkit-box-align: center;
+    align-items: center;
+    display: flex;
+    color: rgb(255, 255, 255);
+    font-size: 12px;
+    position: relative;
+    letter-spacing: 0.7px;
+}
+
+.profile-icon {
+        width: 32px;
+        height: 32px;
+        margin-right: 8px;
+        border-radius: 2px;
+    }
+
+.hWbsMd {
+    color: rgb(255, 255, 255);
+    font-weight: 400;
+    white-space: nowrap;
+    display: flex;
+    flex-direction: column;
+}
+.jYzpxy {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    display: inline-block;
+    overflow: hidden;
+    text-transform: capitalize;
+    font-size: 12px;
+    /* line-height: 16px; */
+}
+.iuPmMC .account-label {
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    font-size: 13px;
+    line-height: 20px;
+    min-width: 100px;
+}
+
+.iuPmMC .account-label > span {
+    max-width: 104px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.arrowIcon {
+    width: 16px;
+    height: 16px;
+}
+
+li {
+    list-style-type: none;
+}
+
+.navbar-dark .navbar-nav .nav-link {
+    color: rgba(255,255,255);
+}
+
+@media all and (min-width: 992px) {
+    .navbar .nav-item .dropdown-menu{ display: none; }
+    .navbar .nav-item:hover .dropdown-menu{ display: block; }
+    .navbar .nav-item .dropdown-menu{ margin-top:0px; }
+}
+
+.fPLoMu {
+    flex: 1 1 0%;
+}
+
+.dPyAZH {
+    width: 100%;
+    display: flex;
+    position: relative;
+    box-shadow: rgb(98 98 98 / 50%) 0px 1px 2px 0px;
+}
+
+.gBxvSE {
+    border: 0px;
+    padding: 0px 12px;
+    font-size: 13px;
+    border-radius: 2px 0px 0px 2px;
+    flex: 1 1 0%;
+    outline: none;
+}
+
+button, input, optgroup, select, textarea {
+    font-family: inherit;
+    font-size: 100%;
+    line-height: 1.15;
+    margin: 0px;
+}
+
+.bUpWwh {
+    cursor: pointer;
+    border: 0px;
+    width: 120px;
+    background: #28a745;
+    height: 40px;
+    border-radius: 0px 2px 2px 0px;
+    color: white;
+    font-size: 13px;
+    font-weight: 500;
+    outline: none;
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    justify-content: center;
+}
+
+.bUpWwh .icon-search {
+    width: 20px;
+    height: 20px;
+    margin: 0px 8px 0px 0px;
+}
+
+img {
+    max-width: 100%;
+}
+
+img {
+    border-style: none;
+}
+
+
+
+.shoppingCart {
+    cursor: pointer;
+    margin: 0px 16px 0px 0px;
+    -webkit-box-align: center;
+    display: flex;
+    color: rgb(255, 255, 255);
+    font-size: 12px;
+    position: relative;
+    letter-spacing: 0.7px;
+    align-items: flex-end;
+}
+
+.cart-wrapper {
+    position: relative;
+    margin-right: 8px;
+    display: flex;
+}
+
+.cart-wrapper .cart-icon {
+    width: 32px;
+    height: 32px;
+}
+
+.amountItems {
+    color: rgb(36, 36, 36);
+    background: rgb(253, 216, 53);
+    height: 20px;
+    left: 20px;
+    top: -2px;
+    border-radius: 40px;
+    display: inline-block;
+    text-align: center;
+    line-height: 20px;
+    font-size: 13px;
+    font-weight: 500;
+    position: absolute;
+    padding: 0px 7px;
+}
+
 </style>
 
 <script>
@@ -401,76 +574,106 @@ a {
 
 	</div>
 
-	<nav class="navbar navbar-expand-lg bg-dark navbar-dark fixed-top">
-		<a class="navbar-brand" href="#">Logo</a>
-		<button class="navbar-toggler navbar-toggler-right" type="button"
-			data-toggle="collapse" data-target="#navbMenu" aria-expanded="true">
-			<span class="navbar-toggler-icon"></span>
-		</button>
-		<div class="collapse navbar-collapse" id="navbMenu">
-			<ul class="navbar-nav mr-auto">
-				<li class="nav-item"><a href="#" class="nav-link"><i18n:i18ntag>index.menu.homepage</i18n:i18ntag></a></li>
+     <nav class="nav_edit  navbar navbar-expand-lg bg-dark navbar-dark fixed-top">
+         
+         <div class="logoImg" style=" flex-basis: 200px; flex-grow: 5; padding-left: 80px; ">
+                 <a class="navbar-brand" href="#" style=" margin-right: 0; ">Logo</a>
+         </div>
 
-				<li class="nav-item dropdown"><a
-					class="nav-link dropdown-toggle " id="" data-toggle="dropdown"><i18n:i18ntag>index.menu.products</i18n:i18ntag></a>
-					<div class="dropdown-menu">
-						<a href="./daoDanhMucAction?DanhMucSP=dm" class="dropdown-item">Danhmuc SP</a>
-					</div></li>
+         <div class="nav_container" id="navbMenu" style=" display: flex; flex-grow: 90; ">
+             <div class="part1" style="  display: flex; align-items: center; flex-grow: 1; ">
+                 <ul class="navbar-nav mr-auto" style=" flex-grow: 0.1; ">
+                     <li class="nav-item"><a href="#" class="nav-link">Trang chủ</a></li>
+     
+                     <li class="nav-item dropdown">
+                     	<a style = "color: rgba(255,255,255);" class="nav-link dropdown-toggle " id="" data-toggle="dropdown">Sản phẩm</a>
+                         <div class="dropdown-menu">
+                             <a style = "color: rgba(255,255,255);" href="./daoDanhMucAction?DanhMucSP=dm" class="dropdown-item">Danhmuc SP</a>
+                         </div></li>
+     
+                     <li class="nav-item"><a style = "color: rgba(255,255,255);" href="#" class="nav-link">Đơn hàng</a></li>
+                     <li class="nav-item dropdown">
+                     	<a style = "color: rgba(255,255,255);" href="#" class="nav-link dropdown-toggle" id="" data-toggle="dropdown" aria-expanded="false">Quản trị</a>
+                         <div class="dropdown-menu">
+                             <a href="#" class="dropdown-item">Người dùng</a>
+                             <a href="#" class="dropdown-item">Loại sản phẩm</a>
+                             <a href="#" class="dropdown-item">Nhà cung cấp</a>
+                         </div></li>
+                 </ul>
 
-				<li class="nav-item"><a href="#" class="nav-link"><i18n:i18ntag>index.menu.order</i18n:i18ntag></a></li>
-				<li class="nav-item dropdown"><a href="#"
-					class="nav-link dropdown-toggle" id="" data-toggle="dropdown"><i18n:i18ntag>index.menu.admin.admin</i18n:i18ntag></a>
-					<div class="dropdown-menu">
-						<a href="#" class="dropdown-item"><i18n:i18ntag>index.menu.admin.user</i18n:i18ntag></a>
-						<a href="#" class="dropdown-item"><i18n:i18ntag>index.menu.admin.category</i18n:i18ntag></a>
-						<a href="#" class="dropdown-item"><i18n:i18ntag>index.proTable.provider</i18n:i18ntag></a>
-					</div></li>
-			</ul>
+                 <div class=" fPLoMu">
+                     <div class=" dPyAZH">
+                             <input type="text" style="margin: 0px;" data-view-id="main_search_form_input" value="" placeholder="Tìm sản phẩm ..." class=" gBxvSE">
+                             <button data-view-id="main_search_form_button" class=" bUpWwh">
+                                 <img class="icon-search" src="https://salt.tikicdn.com/ts/upload/ed/5e/b8/8538366274240326978318348ea8af7c.png">
+                                 Tìm Kiếm
+                             </button>
+                     </div>
+                 </div>
+             </div>
 
-			<form class="form-inline my-2 my-lg-0" action="#"
-				style="margin-right: 15px;">
-				<input class="form-control mr-sm-2" type="text" placeholder="Search">
-				<button class="btn btn-success my-2 my-sm-0" type="submit">Search</button>
-			</form>
+             <div class="part2" style=" flex-grow: 0.05; display: flex; ">
+                     <!-- <div data-view-id="header_header_account_container" class=" iuPmMC"> -->
+                     <div data-view-id="header_header_account_container" style="margin-left: 20px;">
+                     <li class="nav-item dropdown">
+                         <div class="iuPmMC" style="cursor: pointer">
+                             <img class="profile-icon" src="https://salt.tikicdn.com/ts/upload/67/de/1e/90e54b0a7a59948dd910ba50954c702e.png">
+                             <span class="Userstyle__ItemText-sc-6e6am-2 hWbsMd">
+                                 <span class="Userstyle__NoWrap-sc-6e6am-11 jYzpxy">Tài Khoản</span>
+                                 <span class="account-label">
+                                     <span>Việt Nam</span>
+                                     <img class="arrowIcon" src="https://salt.tikicdn.com/ts/upload/d7/d4/a8/34939af2da1ceeeae9f95b7485784233.png">
+                                 </span>
+                             </span>
+                         </div>
+                         <!-- <div class="dropdown-menu fQQQgg toggler"> -->
+                         <div class="dropdown-menu ">
+                             <a href="#" class="dropdown-item">Đơn hàng của tôi </a>
+                             <a href="#" class="dropdown-item">Tài khoản của tôi </a>
+                             <a href="#" class="dropdown-item">Nhận xét sản phẩm đã mua </a>
+                             <a href="#" class="dropdown-item">Thoát tài khoản </a>
+                         </div>
+                     </li>
+                 </div>
 
-			<div class="form-inline my-2 my-lg-0" style="margin-right: 40px;">
-
-				<ul class="navbar-nav mr-auto">
-					<li class="nav-item dropdown"><a
-						class="nav-link dropdown-toggle " id="" data-toggle="dropdown"
-						style="cursor: pointer">Languages</a>
-						<div class="dropdown-menu">
-							<a href="./changeLanguage?Language=vi" class="dropdown-item">Vietnamese</a>
-							<a href="./changeLanguage?Language=en" class="dropdown-item">English</a>
-						</div></li>
-				</ul>
-
-				<div class="form-inline my-2 my-lg-0" style="margin-right: 20px;">
-					<ul class="navbar-nav mr-auto">
-						<li class=" nav-item dropdown" id="">
-							<div style="cursor: pointer" class=" gioHangclick notification">
-
-								<a href="./gioHangAction">
-									<% 
-									HashMap<String, Boolean> amount = (HashMap<String, Boolean>) request.getSession().getAttribute("selectedItems");
-									int selectedItems = (amount != null)? amount.size() : 0 ;
-									
-// 									System.out.println("So Luong san pham duoc lua chon : " + selectedItems);
-							        %> 
-									<span> Cart </span> <span class="badge" color= red ><%=selectedItems%></span>
-								</a>
-							</div>
-						</li>
-					</ul>
-
-				</div>
-
-			</div>
-		</div>
-	</nav>
+     
+                 <div class="form-inline my-2 my-lg-0" style="/* margin-right: 30px; *//* flex-grow: 1; */">
+                 		
+                 	    <div>
+                 	    	<a style="text-decoration: none; color: #FFFFFF;" class="shoppingCart" href="./gioHangAction">
+                 	    		<% 
+								HashMap<String, Boolean> amount = (HashMap<String, Boolean>) request.getSession().getAttribute("selectedItems");
+								int selectedItems = (amount != null)? amount.size() : 0 ;
+								
+                                  // System.out.println("So Luong san pham duoc lua chon : " + selectedItems);
+						        %> 
+								        
+	                            <div class="cart-wrapper">
+	                                <img class="cart-icon" src="https://salt.tikicdn.com/ts/upload/40/44/6c/b80ad73e5e84aeb71c08e5d8d438eaa1.png">
+	                                <span class="amountItems"><%=selectedItems%></span>
+	                            </div>
+	                            <span class="cart-text">Giỏ Hàng</span>
+                         	</a>
+                        </div>
+                       
+     
+                     <ul class="navbar-nav mr-auto">
+                         <li class="nav-item dropdown">
+                             <!-- <a class="nav-link dropdown-toggle " id="" data-toggle="dropdown" style="cursor: pointer">Languages</a> -->
+                             <a class="nav-link dropdown-toggle " id="" style = "cursor: pointer; color: rgba(255,255,255);">Languages</a>
+                             <div class="dropdown-menu">
+                                 <a href="./changeLanguage?Language=vi" class="dropdown-item">Vietnamese</a>
+                                 <a href="./changeLanguage?Language=en" class="dropdown-item">English</a>
+                             </div>
+                         </li>
+                     </ul>
+                 </div>
+             </div>
+         </div>
+     </nav>
 
 	<div class="grid-container"
-		style="border: 1px solid red; margin-top: 60px;">
+		style="border: 1px solid red; margin-top: 70px;">
 		<div class="header">
 			<h1 class="text-uppercase">
 				<i18n:i18ntag>index.menu.admin.admin</i18n:i18ntag>
