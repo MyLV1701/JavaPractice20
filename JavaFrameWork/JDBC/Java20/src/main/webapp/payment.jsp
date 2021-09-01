@@ -294,9 +294,6 @@ $(".HoanThanhDatMua").bind("click", function(){
 
 });
 
-jQuery( document ).ajaxSuccess(function( event, xhr, settings ) {
-	  window.location.href = 'http://google.com';
-});
 
 
 // // thử choi theo kiểu list json object

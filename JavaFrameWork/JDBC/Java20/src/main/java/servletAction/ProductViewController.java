@@ -69,7 +69,6 @@ public class ProductViewController extends HttpServlet {
         
         pw.print(jsonString);
         pw.flush();
-
 		
 	}
 

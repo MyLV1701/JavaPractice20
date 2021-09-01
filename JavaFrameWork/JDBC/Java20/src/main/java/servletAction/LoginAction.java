@@ -50,8 +50,7 @@ public class LoginAction extends HttpServlet {
 		String userName = request.getParameter("userName");
 		String passWord = request.getParameter("passWord");
 
-		System.out.println("\n\n\n\n>>>>>> userName: " + 
-						userName + "\tpassWord: " + passWord);
+		System.out.println("\n\n\n\n>>>>>> userName: " +  userName + "\tpassWord: " + passWord);
 
 		DaoKhachHang daoKH = new DaoKhachHang();
 		DaoChiTietGioHang daoCTGH = new DaoChiTietGioHang();

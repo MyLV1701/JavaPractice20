@@ -39,7 +39,7 @@ public class ModelDonHang {
 		this.dsSP 				= new ArrayList<sanPhamDS>();
 	}
 	
-	private class sanPhamDS{
+	public class sanPhamDS{
 		private String 	tenSP;
 		private int 	giaSP;
 		private int 	soLuong;
