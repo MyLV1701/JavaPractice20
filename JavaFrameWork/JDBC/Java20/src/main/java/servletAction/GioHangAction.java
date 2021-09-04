@@ -39,13 +39,8 @@ public class GioHangAction extends HttpServlet {
 			switch (action) {
 
 			case "increase":
-				int currentAmount = Integer.parseInt(request.getParameter("currentAmount"));
-				int soluong       = 1;
-				
-				// get soluong ton tai duoi DB 
-				if(currentAmount > 1) {
-					daoCTGH.updateQuantity(true, userName, Integer.parseInt(SpCode), soluong);
-				}
+				int soluong = 1;
+				daoCTGH.updateQuantity(true, userName, Integer.parseInt(SpCode), soluong);
 				break;
 
 			case "decrease":
@@ -85,8 +80,6 @@ public class GioHangAction extends HttpServlet {
 						daoCTGH.removeItems(userName, Integer.parseInt(hmSpCode));
 						
 						hmIterator.remove();
-						
-						//removeAll.remove(hmSpCode);   //--> throws a ConcurrentModificationException caused by 
 		            }
 		        }
 				
@@ -128,9 +121,7 @@ public class GioHangAction extends HttpServlet {
 				PrintWriter pw = response.getWriter();
 				String usrInfoHtml = updateUsrInformation(request,response);
 				pw.append(usrInfoHtml);
-				
 				return;
-				
 				
 			case "MuaHangAction":
 				// get all thanh phần phù hợp với user selected
@@ -139,12 +130,9 @@ public class GioHangAction extends HttpServlet {
 				if(hmSelecteValidate.containsValue(true)) {
 					RequestDispatcher payMent = request.getRequestDispatcher("./payment.jsp");
 					payMent.forward(request, response);
-					// System.out.println(" ==============-- GioHangAction ================= :  click mau hang");
 					return;
 				}
-				
 				break;
-				
 				
 			default:
 				break;
@@ -217,8 +205,6 @@ public class GioHangAction extends HttpServlet {
 						+ "<b class=\"phone\">" + phoneNumber + "</b>"
 				        + "</p>"
 				        + "<p class=\"address\">" + address + "</p>";
-		
-//		// System.out.println("updateUsrInformation fucntion send data : " + genHTML);
 		
 		return genHTML;
 	}

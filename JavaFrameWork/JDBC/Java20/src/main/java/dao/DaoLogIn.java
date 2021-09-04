@@ -21,8 +21,6 @@ public class DaoLogIn {
 		PreparedStatement ps = connection.prepareStatement(loginSQL);
 		ps.setString(1, userName);
 		ps.setString(2, passWord);
-
-		//ResultSet rs = ps.executeQuery();
 		
 		ResultSet rs = ps.executeQuery();
 

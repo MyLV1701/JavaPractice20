@@ -52,15 +52,12 @@ public class LoginAction extends HttpServlet {
 		String userName = request.getParameter("userName");
 		String passWord = request.getParameter("passWord");
 
-		// System.out.println("\n\n\n\n>>>>>> userName: " +  userName + "\tpassWord: " + passWord);
-
 		DaoKhachHang daoKH        = new DaoKhachHang();
 		DaoChiTietGioHang daoCTGH = new DaoChiTietGioHang();
 		DaoGioHang daoGH          = new DaoGioHang();
 		DaoDonHang daoDH          = new DaoDonHang();
 		DaoChiTietDonHang daoCTDH = new DaoChiTietDonHang();
 		ModelKhachHang khachHang  = null;
-//		HashSet<String> selectedGoods = new HashSet<String>();
 		HashMap<String, Boolean> selectedGoods = new HashMap<String, Boolean>();
 		
 		try {

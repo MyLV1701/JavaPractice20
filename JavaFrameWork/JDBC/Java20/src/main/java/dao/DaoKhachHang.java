@@ -40,8 +40,6 @@ public class DaoKhachHang {
 					+ "\", email  = \"" + email
 					+ "\" where khachHangCode =" + KhachhangID;
 		
-//		// System.out.println(" **** DaoKhachHang **** sql command line : " + sql);
-		
 		Connection connection  = DBConnection.GET_CONNECTION();
 		Statement stmt  = connection.createStatement();
 		stmt.executeUpdate(sql);

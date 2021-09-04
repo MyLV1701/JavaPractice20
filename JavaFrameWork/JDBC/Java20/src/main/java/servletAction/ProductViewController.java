@@ -46,9 +46,7 @@ public class ProductViewController extends HttpServlet {
 		try {
 			for (ModelChiTietSanPham sp : daoCTSP.getAllSanPham()) {
 
-				int productCodeView = request.getParameter("productCode").isEmpty() ? 
-						0  : Integer.parseInt(request.getParameter("productCode"));
-
+				int productCodeView = request.getParameter("productCode").isEmpty() ?  0  : Integer.parseInt(request.getParameter("productCode"));
 				
 				if ((0 == productCodeView) || (sp.getLoaiSPCode() == productCodeView)) {
 					productListShow.add(sp);
@@ -60,8 +58,6 @@ public class ProductViewController extends HttpServlet {
 		}
 
 		String jsonString = new Gson().toJson(productListShow);
-
-		
 		PrintWriter pw = response.getWriter();
 		
         response.setContentType("application/json");

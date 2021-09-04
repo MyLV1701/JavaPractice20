@@ -43,8 +43,6 @@ public class DaoGioHang {
 				+ " (GH.SanPhamCode = SP.sanPhamCode) and "
 				+ " (CTGH.SanPhamCode = SP.SanPhamCode);";
 		
-//		// System.out.println("List<ModelGioHang> getAllGioHang(String userName) : sql = " + sql);
-
 		List<ModelGioHang> ghList = new ArrayList<ModelGioHang>();
 		Connection connection = DBConnection.GET_CONNECTION();
 
@@ -104,9 +102,6 @@ public class DaoGioHang {
 			if(DeepCopyhmImpl.containsKey(spCode))
 			{
 				double thanhTienVal = (double)((rs.getInt(2) - rs.getInt(3)) * rs.getInt(4));
-				
-				// System.out.println("List<ModelGioHang> getAllSelectedProducts : " + thanhTienVal);
-				
 				gh = new ModelGioHang(rs.getString(1), rs.getInt(2), rs.getInt(3), rs.getInt(4), thanhTienVal, 
 						              rs.getInt(5), rs.getString(6), rs.getString(7), rs.getString(8));
 				spList.add(gh);
@@ -114,8 +109,6 @@ public class DaoGioHang {
 		}
 		return spList;
 	}
-	
-	
 	
 
 	public void addNewItems(String userName, int spCode, int khachHangCode) throws SQLException {
@@ -143,8 +136,6 @@ public class DaoGioHang {
 	
 
 	public HashMap<String, Boolean> getAllSPcode(String userName) throws SQLException {
-		
-//		HashSet<String> spCodeList = new HashSet<String>();
 		HashMap<String, Boolean> spCodeList = new HashMap<String, Boolean>();
 		String sqlQuery = "select SanPhamCode from GioHang" + userName;
 		

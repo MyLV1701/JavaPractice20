@@ -41,7 +41,6 @@ public class DaoDonHang {
 			stmt.executeUpdate(sqlCMD);
 
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -54,11 +53,8 @@ public class DaoDonHang {
 				   +                       "diaChiNhanhang, hinhThucThanhToan, loaiGiaoHang, phiVanChuyen, tongChiPhi) "
 				   +  "values (?,?,?,?,?,?,?,?,?,?)";
 
-		
-		// convert Date type to String 
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 		String importDate = formatter.format(ngayDatHang);
-		
 		
 		Connection connection  = DBConnection.GET_CONNECTION();
 		PreparedStatement stmt = connection.prepareStatement(sql);
@@ -77,14 +73,6 @@ public class DaoDonHang {
 		stmt.executeUpdate();
 	}
 
-	
-	/**
-	 *  use when user click on specified orderCode
-	 * @param donHangCode
-	 * @return
-	 * @throws SQLException
-	 */
-	
 	public ModelDonHang getDonHangExist(String donHangCode) throws SQLException {
 				
 		String sql = " select DH.donHangCode, DH.ngayDatHang, DH.trangThai, DH.diaChiNhanhang, DH.phone, DH.tenNguoiNhan, DH.hinhThucThanhToan, "
@@ -102,11 +90,6 @@ public class DaoDonHang {
 		while (rs.next()) {
 
 			if(isUpdateDH){
-				// convert String to java.util.Date
-//				SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MMM-dd", Locale.ENGLISH);
-//				String dateInString = rs.getString(2);
-//				Date date = formatter.parse(dateInString);
-				
 				gh.setDonhangID(rs.getInt(1));
 				gh.setNgayDatHang(rs.getDate(2));
 				gh.setTrangThai(rs.getString(3));
@@ -127,12 +110,6 @@ public class DaoDonHang {
 		
 		return gh;
 	}
-
-	
-	/***
-	 * use when user click on my order on homepage
-	 * @throws SQLException 
-	 */
 	
 	public HashSet<String> getAllDonHangCodeExist() throws SQLException{
 		

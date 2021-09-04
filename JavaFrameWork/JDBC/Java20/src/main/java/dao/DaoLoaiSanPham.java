@@ -35,18 +35,5 @@ public class DaoLoaiSanPham {
 
 		return loaiSPList;
 	}
-	
-	
-	public static void main(String ... args) throws SQLException {
-		
-		DaoLoaiSanPham test = new DaoLoaiSanPham();
-		
-		List<ModelLoaiSanPham> LSP = test.getAllLoaiSanPham();
-		
-		for (ModelLoaiSanPham l : LSP) {
-			// System.out.println(l.toString());
-		}
-		
-	}
 
 }

@@ -67,10 +67,8 @@ public class ModifyProductAction extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		
-		
+
 		DaoChiTietSanPham addSP = new DaoChiTietSanPham();
-		
 		
 		int productTypeCode = Integer.parseInt(request.getParameter("productType"));
 		String productName 	= request.getParameter("productName");
@@ -97,7 +95,5 @@ public class ModifyProductAction extends HttpServlet {
 		}
 		
 		response.sendRedirect("./homePageAction");
-		
 	}
-
 }

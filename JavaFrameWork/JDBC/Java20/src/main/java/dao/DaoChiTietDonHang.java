@@ -57,18 +57,5 @@ public class DaoChiTietDonHang {
 		stmt.executeUpdate(sql);
 		
 	}
-	
-	
-	public static void main(String ...strings) {
-		
-		try {
-			new DaoChiTietDonHang().addNewItems(3,1,1200,10,1190);
-			//https://stackoverflow.com/questions/4120482/foreign-key-problem-in-jdbc
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-	}
 
 }
