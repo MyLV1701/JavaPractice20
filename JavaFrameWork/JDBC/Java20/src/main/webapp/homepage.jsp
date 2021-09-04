@@ -645,7 +645,7 @@ img {
 								HashMap<String, Boolean> amount = (HashMap<String, Boolean>) request.getSession().getAttribute("selectedItems");
 								int selectedItems = (amount != null)? amount.size() : 0 ;
 								
-                                  // System.out.println("So Luong san pham duoc lua chon : " + selectedItems);
+                                  // // System.out.println("So Luong san pham duoc lua chon : " + selectedItems);
 						        %> 
 								        
 	                            <div class="cart-wrapper">

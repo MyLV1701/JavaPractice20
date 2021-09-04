@@ -23,7 +23,7 @@
 
 <%
 ModelKhachHang khachHang = (ModelKhachHang) request.getSession().getAttribute("currentUser");
-// System.out.println(" *********************** Chỉnh Sửa Thông Tin Khách Hàng *********************** ");
+// // System.out.println(" *********************** Chỉnh Sửa Thông Tin Khách Hàng *********************** ");
 %>
 
 <div style="width: 500px; height: auto; margin: 5px 10px">

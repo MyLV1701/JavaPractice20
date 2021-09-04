@@ -23,6 +23,65 @@
 <script src="./bootstrap/bootstrap.min.js"></script>
 
 </head>
+<style>
+
+.__header_ {
+    flex-basis: 100%;
+    padding: 0px 6px;
+    margin: 0px 0px 10px;
+    height: 41px;
+    border: none;
+    position: relative;
+}
+
+.__header_ .background {
+    background: rgb(241, 241, 241);
+    position: absolute;
+    width: 100vw;
+    left: calc(-50vw + 50%);
+    height: 41px;
+}
+
+
+.__header_ .item {
+    padding: 13px 0px;
+    font-size: 13px;
+    display: inline-block;
+    position: relative;
+}
+
+
+.__header_ .item a {
+    color: #0062cc;
+    background-color: transparent;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 15px;
+    outline: none;
+    cursor: pointer;
+}
+
+
+.__header_ .item.active {
+    color: #0062cc;
+    font-weight: bold;
+    padding-left: 45px;
+}
+
+.__header_ .item.active::before {
+    background: url(https://frontend.tikicdn.com/_desktop-next/static/img/icons/breadcrumb.svg);
+    width: 20px;
+    height: 41px;
+    content: "";
+    display: inline-block;
+    position: absolute;
+    left: 10px;
+    top: 0px;
+    color: rgb(204, 204, 204);
+}
+
+</style>
+
 <body>
 	<div id="productForm"
 		style="display: none; border: 1px solid blue; padding: 5px; width: auto; min-width: 150px; position: absolute; background-color: white;">
@@ -40,25 +99,37 @@
 	</div>
 
     <main>
-        <div class="Container-sc-itwfbd-0 hfMLFx" style="border: 1px solid red;">
+        <div class="Container-sc-itwfbd-0 hfMLFx">
             <div class="styles__StyledCartPage-sc-1e4yxbp-0 ljbDGD">
+            
+	            <div class="__header_" style=" font-weight: bold; ">
+	                <div class="background"></div>
+	                <div class="item" ><a href="./homePageAction">Trang chủ</a></div>
+	                <div class="item active">Shopping Card</div>
+	            </div>
+            
                 <div class="wrap-intended-cart">
                     <div class="cart">
+						<% 
+						double tamTinhVal = 0; 
+						double giamGiaVal = 0; 
+						%>            
                         <div class="cart-inner">
                             <div class="styles__StyledProductsV2-sc-rkft9e-0 dioUnE">
                                 <h4 class="productsV2__title">Giỏ hàng</h4>
                                 <div class="productsV2-heading">
                                     <div class="row">
-                                        <div class="col-1-">
-                                            <label class="styles__StyledCheckbox-sc-kvz5pc-0 hNjxWW selectAll">
-                                                <input onclick="SelectedAllClick()" type="checkbox" id="btn" >
-                                                <span class="checkbox-fake">  </span>
-                                                <span class="label">Tất cả (2 sản phẩm)</span>
-                                            </label>
-                                        </div>
-                                        <div class="col-2-">Đơn giá</div>
-                                        <div class="col-3-">Số lượng</div>
-                                        <div class="col-4-">Thành tiền</div>
+										<div class="col-1-">
+											<label class="styles__StyledCheckbox-sc-kvz5pc-0 hNjxWW selectAll">
+												<input onclick="SelectedAllClick()" type="checkbox" id="btn">
+												<span class="checkbox-fake">  </span>
+												<span class="label">Tất Cả (2 sản phẩm)</span>
+											</label>
+										</div>
+										<div class="col-2-">Đơn Giá</div>
+										<div class="col-6-">Giảm Giá</div>
+										<div class="col-3-">Số Lượng</div>
+										<div class="col-4-">Thành Tiền</div>
                                         <div class="col-5-">
                                             <span class="productsV2__remove-all">
                                                 <img onclick="onDeleteAllItemSelected()" id="btnDelAll" src="https://frontend.tikicdn.com/_desktop-next/static/img/icons/trash.svg" alt="deleted">
@@ -78,6 +149,8 @@
 														try {
 															String userName = ((ModelKhachHang) request.getSession().getAttribute("currentUser")).getUserName();
 															for (ModelGioHang gh : daoGH.getAllGioHang(userName)) {
+																
+																
 														%>
 														<li
 															class="styles__StyledIntendedProduct-sc-1idi3y3-0 glclPp">
@@ -91,7 +164,16 @@
 																			    HashMap<String, Boolean> selectedStatus = (HashMap<String, Boolean>)request.getSession().getAttribute("selectedItems");
 																			    Boolean isSelected = selectedStatus.get(Integer.toString(gh.getSpCode()));
 																			    
-// 																			    System.out.println("styles__StyledCheckbox-sc-kvz5pc-0 spCode : " + isSelected);
+																			     
+																			    if(isSelected){
+																			    	tamTinhVal += (double)(gh.getGiaSP()   * gh.getSoLuong()); 
+																				   	giamGiaVal += (double)(gh.getGiamGia() * gh.getSoLuong());
+																				   	 
+																				   	// System.out.println(tamTinhVal);
+																				   	// System.out.println(giamGiaVal);
+																			    }
+																			    
+// 																			    // System.out.println("styles__StyledCheckbox-sc-kvz5pc-0 spCode : " + isSelected);
 																			    
 																			    %>
 																			    
@@ -105,6 +187,9 @@
 																</div>
 																<div class="col-2-">
 																	<span class="intended__real-prices"><%=gh.getGiaSP()%>đ</span>
+																</div>
+																<div class="col-6-">
+																	<span class="intended__discount"><%=gh.getGiamGia()%>đ</span>
 																</div>
 																<div class="col-3-">
 
@@ -122,7 +207,7 @@
 																	</div>
 																</div>
 																<div class="col-4-">
-																	<span class="intended__final-prices"><%=gh.getGiaSP()%>đ</span>
+																	<span class="intended__final-prices"><%=String.format("%.0f", gh.getThanhTien())%>đ</span>
 																	
 																</div>
 																<div class="col-5-">
@@ -160,7 +245,7 @@
                                     <div id = "usrInforDetails">
                                     	<%
 									 	 ModelKhachHang Cus = (ModelKhachHang)request.getSession().getAttribute("currentUser");
-// 										 System.out.println("  user informaton handling MODIFIED  : DiaChi  " + Cus.getDiaChi());
+// 										 // System.out.println("  user informaton handling MODIFIED  : DiaChi  " + Cus.getDiaChi());
 									  	%>
 										<p class="title">
 											<b class="name"><%=Cus.getHoTen()%></b>
@@ -176,16 +261,16 @@
                                         <ul class="prices__items">
                                             <li class="prices__item">
                                                 <span class="acture_prices__text">Tạm tính</span>
-                                                <span class="acture_prices__value">0đ</span>
+                                                <span class="acture_prices__value"><%=String.format("%.0f", tamTinhVal)  %></span>
                                             </li>
                                             <li class="prices__item">
                                                 <span class="fake_prices__text">Giảm giá</span>
-                                                <span class="fake_prices__value">50.000đ</span>
+                                                <span class="fake_prices__value"><%=String.format("%.0f",giamGiaVal)%></span>
                                             </li>
                                         </ul>
                                         <p class="prices__total">
                                             <span class="prices__text">Tổng cộng</span>
-                                            <span class="prices__value prices__value--final">0đ
+                                            <span class="prices__value prices__value--final"><%=String.format("%.0f",(tamTinhVal - giamGiaVal))%>
                                                 <!--i>(Đã bao gồm VAT nếu có)</i-->
                                             </span></p>
                                     </div>
@@ -206,12 +291,29 @@
 </body>
 <script>
 
+
 function quantityChange(eventListen, tar){
-	var xhr = new XMLHttpRequest();
-	var spcode = tar.find(".maSanPham").val();
-	 
-    xhr.open('GET', './gioHangAction?Action=' + eventListen + "&SpCode=" + spcode, true);
-    xhr.send();
+// 	var xhr           = new XMLHttpRequest();
+	var spcode        = tar.find(".maSanPham").val();
+	var currentAmount = tar.find(".qty-input").val();
+//     xhr.open('GET', './gioHangAction?Action=' + eventListen + "&SpCode=" + spcode, true);
+//     xhr.send();
+
+	$.ajax({
+		url: "/Java20/gioHangAction",
+		type: "get", //send it through get method
+		data :{
+			"Action" : eventListen ,
+			"SpCode" : spcode ,
+			"currentAmount" : currentAmount
+		},
+		success: function(responseData) {
+		},
+		error: function(xhr) {
+		}
+	});
+    
+    
 }
 
 $(".qty-increase").bind( "click", function() {
@@ -270,6 +372,11 @@ $(".qty-input").bind('change', function () {
 	var eventListen = "UserInputQuantity";
 	var	soLuong = $(this).val();
 	var spcode = $(this).next().next().val();
+	
+	var par = $(this).closest('.row');
+    updatePiceItem(par, soLuong);
+    updateTotalMoney();
+    
 	var xhr = new XMLHttpRequest();
     xhr.open('GET', './gioHangAction?Action=' + eventListen + "&SpCode=" + spcode + "&soLuong=" + soLuong, true);
     xhr.send();
@@ -345,7 +452,7 @@ $(document).on("click", '.changeInfo', function() {
 	var email       = parent.find(".email").val();
 	var address     = parent.find(".message-text").val();
 	
-	console.log("changeinfo action result :" +  "userName = " + userName + "phoneNum = " + phoneNum + "email = " + email + "address = " + address );
+	//console.log("changeinfo action result :" +  "userName = " + userName + "phoneNum = " + phoneNum + "email = " + email + "address = " + address );
 	
     $.ajax({
 		url: "/Java20/gioHangAction",
@@ -370,6 +477,26 @@ $(document).on("click", '.changeInfo', function() {
     removePopupIpl();
 	
 });
+
+
+$(".cart__submit").bind('click', function () {
+	
+	const cbs = document.querySelectorAll('input[name="color"]');
+	let selectedCnt = 0;
+	cbs.forEach((cb) => {
+       if(cb.checked === true){
+    	   selectedCnt++;
+       }
+       
+	 });
+	
+	if(selectedCnt === 0){
+		alert("【Warning】 NO ITEMS SELECTED!!!");
+	}
+		
+});
+
+
 
 // $(".cart__submit").bind('click', function () {
 // 	// load tat ca thang gio hang ma isSelectedItems === true

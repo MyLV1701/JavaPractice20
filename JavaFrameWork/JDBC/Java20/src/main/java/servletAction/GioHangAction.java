@@ -30,7 +30,7 @@ public class GioHangAction extends HttpServlet {
 		String action   = (request.getParameter("Action") != null) ? request.getParameter("Action") : "";
 		String SpCode   = (request.getParameter("SpCode") != null) ? request.getParameter("SpCode") : "";
 		String userName = ((ModelKhachHang) request.getSession().getAttribute("currentUser")).getUserName();
-		int soluong     = 1;
+		
 		
 		DaoChiTietGioHang daoCTGH = new DaoChiTietGioHang();
 		DaoGioHang        daoGH   = new DaoGioHang();
@@ -39,11 +39,21 @@ public class GioHangAction extends HttpServlet {
 			switch (action) {
 
 			case "increase":
-				daoCTGH.updateQuantity(true, userName, Integer.parseInt(SpCode), soluong);
+				int currentAmount = Integer.parseInt(request.getParameter("currentAmount"));
+				int soluong       = 1;
+				
+				// get soluong ton tai duoi DB 
+				if(currentAmount > 1) {
+					daoCTGH.updateQuantity(true, userName, Integer.parseInt(SpCode), soluong);
+				}
 				break;
 
 			case "decrease":
-				daoCTGH.updateQuantity(false, userName, Integer.parseInt(SpCode), soluong);
+				int SL        = 1;
+				int curAmount = Integer.parseInt(request.getParameter("currentAmount"));
+				if(curAmount > 1) {
+					daoCTGH.updateQuantity(false, userName, Integer.parseInt(SpCode), SL);
+				}
 				break;
 				
 			case "UserInputQuantity":
@@ -124,12 +134,17 @@ public class GioHangAction extends HttpServlet {
 				
 			case "MuaHangAction":
 				// get all thanh phần phù hợp với user selected
-				RequestDispatcher payMent = request.getRequestDispatcher("./payment.jsp");
-				payMent.forward(request, response);
+				HashMap<String, Boolean> hmSelecteValidate = (HashMap<String, Boolean>) request.getSession().getAttribute("selectedItems");
 				
-				System.out.println(" ==============-- GioHangAction ================= :  click mau hang");
+				if(hmSelecteValidate.containsValue(true)) {
+					RequestDispatcher payMent = request.getRequestDispatcher("./payment.jsp");
+					payMent.forward(request, response);
+					// System.out.println(" ==============-- GioHangAction ================= :  click mau hang");
+					return;
+				}
 				
-				return;
+				break;
+				
 				
 			default:
 				break;
@@ -203,7 +218,7 @@ public class GioHangAction extends HttpServlet {
 				        + "</p>"
 				        + "<p class=\"address\">" + address + "</p>";
 		
-//		System.out.println("updateUsrInformation fucntion send data : " + genHTML);
+//		// System.out.println("updateUsrInformation fucntion send data : " + genHTML);
 		
 		return genHTML;
 	}

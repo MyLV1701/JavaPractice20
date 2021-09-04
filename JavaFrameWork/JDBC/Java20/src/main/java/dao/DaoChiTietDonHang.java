@@ -56,11 +56,6 @@ public class DaoChiTietDonHang {
 		stmt.execute(updateForeinKeyFail);
 		stmt.executeUpdate(sql);
 		
-		System.out.println(stmt.toString());
-		System.out.println(sql);
-		
-		
-		
 	}
 	
 	

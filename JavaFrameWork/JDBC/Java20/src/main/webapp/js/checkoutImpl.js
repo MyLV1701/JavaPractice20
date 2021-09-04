@@ -1,17 +1,60 @@
 
+function updateNumberPricesList(cbs){
+    cbs.forEach((cb)=>{
+        let val = cb.innerText;
+        let intValue = parseStringToInt(val);
+        cb.innerHTML = buildStringMoney(intValue);
+    });
+}
+
+$(document).ready(function() {
+    //console.log('hi guys!');
+
+    const cbDonGia = document.querySelectorAll('.intended__real-prices');
+    updateNumberPricesList(cbDonGia);
+
+    const cbGiamGia = document.querySelectorAll('.intended__discount');
+    updateNumberPricesList(cbGiamGia);
+
+    const cbThanhTien = document.querySelectorAll('.intended__final-prices');
+    updateNumberPricesList(cbThanhTien);
+
+    {
+        const tamTinhVal = document.querySelector(".acture_prices__value");
+        let val = tamTinhVal.innerText;
+        let intValue = parseStringToInt(val);
+        tamTinhVal.innerHTML = buildStringMoney(intValue);
+    }
+
+    {
+        const giamGiaVal = document.querySelector(".fake_prices__value");
+        let val = giamGiaVal.innerText;
+        let intValue = parseStringToInt(val);
+        giamGiaVal.innerHTML = buildStringMoney(intValue);
+    }
+
+    {
+        const tongCongVal = document.querySelector(".prices__value prices__value--final");
+        let val = tongCongVal.innerText;
+        let intValue = parseStringToInt(val);
+        tongCongVal.innerHTML = buildStringMoney(intValue);
+
+    }
+
+});
 
 function check(checked = true) {
     const cbs = document.querySelectorAll('input[name="color"]');
     cbs.forEach((cb) => {
         cb.checked = checked;
 
-        console.log('function check(checked = true) -->>>> entered');
+        //console.log('function check(checked = true) -->>>> entered');
     });
 }
 
 
 function checkAll() {
-    console.log('function checkAll() -->>> entered');
+    //console.log('function checkAll() -->>> entered');
     check();
     // reassign click event handler
     // this.onclick = uncheckAll;
@@ -20,7 +63,7 @@ function checkAll() {
 function uncheckAll() {
     check(false);
 
-    console.log('function uncheckAll() -->>> entered');
+    //console.log('function uncheckAll() -->>> entered');
     // reassign click event handler
     // this.onclick = checkAll;
 }
@@ -32,7 +75,7 @@ function SelectedAllClick() {
     
     // }
 
-    console.log('SelectedAllClick entered this.checked = ' + btn.checked);
+    //console.log('SelectedAllClick entered this.checked = ' + btn.checked);
 
 
     // document.querySelector('#btn').onclick()
@@ -45,7 +88,7 @@ function SelectedAllClick() {
 
 function isSelectedAll() {
 
-    console.log('tooi da vao selectAll checking');
+    //console.log('tooi da vao selectAll checking');
 
     const cbs = document.querySelectorAll('input[name="color"]');
 
@@ -54,10 +97,10 @@ function isSelectedAll() {
     cbs.forEach((cb) => {
 
 
-        console.log('gia tri = ' + cb.checked);
+        //console.log('gia tri = ' + cb.checked);
 
 
-        // console.log("gia tri " + cb.checked);
+        // //console.log("gia tri " + cb.checked);
         if (cb.checked === false) {
             isSelectedAll = false;
         };
@@ -69,10 +112,10 @@ function isSelectedAll() {
 
 
 $(".qty-decrease").bind( "click", function() {
-    console.log('fucntion qtyDecreaseImpl enterd =  ' + $( this ).next('input').val());
+    //console.log('fucntion qtyDecreaseImpl enterd =  ' + $( this ).next('input').val());
 
     var target = parseInt($( this ).next('input').val());
-    if(target == 0)
+    if(target == 1)
     {
         return;
     }
@@ -87,7 +130,7 @@ $(".qty-decrease").bind( "click", function() {
 
 
 $(".qty-increase").bind( "click", function() {
-    console.log('fucntion qtyDecreaseImpl enterd =  ' + $( this ).prev('input').val());
+    //console.log('fucntion qtyDecreaseImpl enterd =  ' + $( this ).prev('input').val());
 
     var target = parseInt($( this ).prev('input').val())  + 1;
     $( this ).prev('input').val(target);
@@ -139,26 +182,29 @@ function deleteItem(item)
 function updateTotalMoney(){
     const cbs = document.querySelectorAll('input[name="color"]');
 
-    let moneyOfItem = document.querySelectorAll('.intended__final-prices');
-    let target = document.querySelectorAll('.qty-input');
-    let totalValue = 0;
-    console.log(moneyOfItem);
+    let moneyOfItem       = document.querySelectorAll('.intended__final-prices');
+    let cbDiscount        = document.querySelectorAll('.intended__discount');
+    let cbselectedAmount  = document.querySelectorAll('.qty-input');
+    let totalValue        = 0;
+    let discountAmount    = 0;
     let i = 0;
+
     cbs.forEach((cb) => {
         if(cb.checked === true){
-            totalValue  += parseStringToInt(moneyOfItem[i].innerHTML);
+            discountAmount += (parseStringToInt(cbDiscount[i].innerText) * parseStringToInt(cbselectedAmount[i].value));
+            totalValue     += parseStringToInt(moneyOfItem[i].innerText);
         }
         i++;
     });
     
     $('.acture_prices__value').text(buildStringMoney(totalValue));
-    console.log(totalValue)
+
     //get giam gia trên theo max san pham hoac theo don hang
-    var decreaseValue = document.querySelector(".fake_prices__value");
+    $('.fake_prices__value').text(buildStringMoney(discountAmount));
 
      // update tong gia tri don hang.
-     totalValue -= parseStringToInt(decreaseValue.innerHTML);
-     console.log("tong gia tri don hang:",totalValue)
+     totalValue -= discountAmount;
+     //console.log("tong gia tri don hang:",totalValue)
     $('.prices__value--final').text(buildStringMoney(totalValue));
 }
 

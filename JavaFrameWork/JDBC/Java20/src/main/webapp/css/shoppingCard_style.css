@@ -94,12 +94,17 @@ h4 {
 }
 
 .dioUnE .col-1- {
-    width: 398px;
+    width: 320px;
     padding: 0px 15px;
 }
 
 .dioUnE .col-2- {
-    width: 190px;
+    width: 120px;
+    padding: 0px 15px;
+}
+
+.dioUnE .col-6- {
+    width: 120px;
     padding: 0px 15px;
 }
 
@@ -118,6 +123,7 @@ h4 {
     width: 50px;
     text-align: right;
 }
+
 
 .dioUnE .productsV2-heading::after {
     content: "";
@@ -558,4 +564,3 @@ b, strong {
     vertical-align: top;
     margin-left: 10px;
 }
-

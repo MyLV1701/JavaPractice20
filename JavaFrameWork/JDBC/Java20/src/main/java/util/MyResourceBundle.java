@@ -32,10 +32,10 @@ public class MyResourceBundle {
 	
 	public static void main(String[] args) {
 		MyResourceBundle mrb = new MyResourceBundle();
-		System.out.println(mrb.getValue("index.proTable.caption"));
+		// System.out.println(mrb.getValue("index.proTable.caption"));
 		
 		mrb.changeLocale("en", "US");
-		System.out.println(mrb.getValue("index.proTable.caption"));
+		// System.out.println(mrb.getValue("index.proTable.caption"));
 		
 	}
 }

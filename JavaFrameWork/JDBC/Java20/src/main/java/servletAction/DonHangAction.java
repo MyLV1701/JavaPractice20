@@ -114,7 +114,7 @@ public class DonHangAction extends HttpServlet {
 				// report an error
 			}
 
-          // System.out.println(jb.toString()); 
+          // // System.out.println(jb.toString()); 
 		  // question : ton tai cach nao read tu ajax nua khong?
 		  
 		  String yourJson = jb.toString(); 
@@ -169,7 +169,7 @@ public class DonHangAction extends HttpServlet {
 						int giaSP = gh.getGiaSP();
 						int giamGia;
 						giamGia = daoCTSP.getParticularSanPhamByID(gh.getSpCode()).getGiamGia();
-						int thanhTien = soLuong * giaSP - giamGia;
+						int thanhTien = soLuong * (giaSP - giamGia);
 						daoCTGH.addNewItems(gh.getSpCode(), soLuong, giaSP, giamGia, thanhTien);
 					}
 

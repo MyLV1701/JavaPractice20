@@ -44,7 +44,7 @@ public class DaoLoaiSanPham {
 		List<ModelLoaiSanPham> LSP = test.getAllLoaiSanPham();
 		
 		for (ModelLoaiSanPham l : LSP) {
-			System.out.println(l.toString());
+			// System.out.println(l.toString());
 		}
 		
 	}

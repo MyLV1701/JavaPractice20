@@ -43,15 +43,20 @@ public class ModelDonHang {
 		private String 	tenSP;
 		private int 	giaSP;
 		private int 	soLuong;
+		private int 	giamGia;
+		private int 	thanhTien;
 		
 		public sanPhamDS() {
 			super();
 		}
 				
-		public sanPhamDS(String tenSP, int giaSP, int soLuong){
+		public sanPhamDS(String tenSP, int giaSP, int soLuong, int giamGia, int thanhTien) {
+			super();
 			this.tenSP = tenSP;
 			this.giaSP = giaSP;
 			this.soLuong = soLuong;
+			this.giamGia = giamGia;
+			this.thanhTien = thanhTien;
 		}
 		
 		public String getTenSP() {
@@ -71,6 +76,21 @@ public class ModelDonHang {
 		}
 		public void setSoLuong(int soLuong) {
 			this.soLuong = soLuong;
+		}
+		public int getGiamGia() {
+			return giamGia;
+		}
+
+		public void setGiamGia(int giamGia) {
+			this.giamGia = giamGia;
+		}
+
+		public int getThanhTien() {
+			return thanhTien;
+		}
+
+		public void setThanhTien(int thanhTien) {
+			this.thanhTien = thanhTien;
 		}
 	}
 	

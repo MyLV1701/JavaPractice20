@@ -64,7 +64,7 @@ public class DonHangAction extends HttpServlet {
 //				// report an error
 //			}
 //
-//		  System.out.println(jb.toString()); 
+//		  // System.out.println(jb.toString()); 
 //		  // question : ton tai cach nao read tu ajax nua khong?
 //		  
 //		  String yourJson = jb.toString(); 
@@ -86,11 +86,11 @@ public class DonHangAction extends HttpServlet {
 		  String conditon = "thanhToan";
 		  
 		  
-		  System.out.println(action3.equals(conditon));
-		  System.out.println(action2.equals(conditon));
+		  // System.out.println(action3.equals(conditon));
+		  // System.out.println(action2.equals(conditon));
 		  if(action.equals(conditon)) {
 			  
-			  System.out.println("ok");
+			  // System.out.println("ok");
 		  }
 		  
 		  String jsonData = jo.get("data").toString();
@@ -99,9 +99,9 @@ public class DonHangAction extends HttpServlet {
 		  
 		  GetDonHangInfo donHangInfo = gson.fromJson(jsonData, GetDonHangInfo.class);
 		  
-		  System.out.println("============================= GAME START =============================" ); 
-		  System.out.println("  phiShip : " + donHangInfo.phiShip);
-		  System.out.println("  tongChiPhi : " + donHangInfo.tongChiPhi 
+		  // System.out.println("============================= GAME START =============================" ); 
+		  // System.out.println("  phiShip : " + donHangInfo.phiShip);
+		  // System.out.println("  tongChiPhi : " + donHangInfo.tongChiPhi 
 				           + "  loaiThanhToan : " + donHangInfo.loaiThanhToan + " donHangInfo : " + donHangInfo.dviGiaoHang);
 		 
 /*
@@ -147,7 +147,7 @@ public class DonHangAction extends HttpServlet {
 					int giaSP = gh.getGiaSP();
 					int giamGia;
 					giamGia = daoCTSP.getParticularSanPhamByID(gh.getSpCode()).getGiamGia();
-					int thanhTien = soLuong * giaSP - giamGia;
+					int thanhTien = soLuong * (giaSP - giamGia);
 					daoCTGH.addNewItems(gh.getSpCode(), soLuong, giaSP, giamGia, thanhTien);
 				}
 

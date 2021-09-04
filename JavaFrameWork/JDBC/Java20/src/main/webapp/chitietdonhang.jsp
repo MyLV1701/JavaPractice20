@@ -37,6 +37,7 @@ html  body{
     padding-right: 15px;
     margin-right: auto;
     margin-left: auto;
+    margin-top: 30px
 }
 
 .ctdhWrapper {
@@ -70,7 +71,9 @@ html  body{
 }
 
 .ctdhHeader .item a {
-    color: #495057;
+	color: #0062cc;
+	font-size: 15px;
+    font-weight: bold;
     background-color: transparent;
     text-decoration: none;
     outline: none;
@@ -79,7 +82,8 @@ html  body{
 
 
 .ctdhHeader .item.active {
-    color: #495057;
+	color: #0062cc;
+    font-weight: bold;
     padding-left: 45px;
 }
 
@@ -292,12 +296,9 @@ tr {
 
 
 
-
-
-
-
-
 </style>
+
+
 <body>
 
 <main>
@@ -306,7 +307,11 @@ tr {
             <div class="ctdhHeader" style=" font-weight: bold; ">
                 <div class="background"></div>
                 <div class="item" ><a href="./homePageAction">Trang chủ</a></div>
-                <div class="item active">Đơn hàng của tôi</div>
+                <div class="item active">Chi Tiết Đơn hàng</div>
+                <div style=" margin-right: 10px;float: right;position: relative;display: inline-block; padding: 13px 0px;">
+			    	<a class="view-list-order" href="./donHangAction">  Quay lại Đơn Hàng </a>
+			    </div>
+			    
             </div>
             <div class="ctdhMainContent">
                 <div class="ctdhContentWrapper">
@@ -317,12 +322,12 @@ tr {
                 	//ModelKhachHang KH = (ModelKhachHang)request.getSession().getAttribute("currentUser");
                 	ModelDonHang   DH = (ModelDonHang)request.getSession().getAttribute("chiTietDonHang");
                 	
-                	System.out.println("  get import date : " + DH.getNgayDatHang().toString());
+                	// System.out.println("  get import date : " + DH.getNgayDatHang().toString());
                 	
             		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 					String importDate = formatter.format(DH.getNgayDatHang()); 
 					
-					System.out.println("  get import date : " + importDate);
+					// System.out.println("  get import date : " + importDate);
 					
                 	%>
                 
@@ -355,6 +360,7 @@ tr {
                         </div>
                     </div>
                     <table class="ctdhProductInfo">
+                    	<% int tamtinh = 0 ;%>
                         <thead>
                             <tr>
                                 <th>Sản phẩm</th>
@@ -367,14 +373,14 @@ tr {
                         <tbody>
                        		<%
 							for(ModelDonHang.sanPhamDS e : DH.getDsSP()){
-							
+								tamtinh += e.getThanhTien() ;
                             %>
                             <tr>
                                 <td class="product-item" style="min-width: 500px;" ><%=e.getTenSP() %> </td>
                                 <td class="price"><%=e.getGiaSP() %></td>
                                 <td class="quantity"><%=e.getSoLuong() %></td>
-                                <td class="discount-amount">10.000 ₫</td>
-                                <td class="raw-total" style="min-width: 200px;">240.000 ₫</td>
+                                <td class="discount-amount"><%=e.getGiamGia() %></td>
+                                <td class="raw-total" style="min-width: 200px;"><%=e.getThanhTien() %></td>
                             </tr>
                             
                             <%
@@ -385,18 +391,18 @@ tr {
                         <tfoot>
                             <tr>
                                 <td colspan="4"><span>Tạm tính</span></td>
-                                <td><%=(DH.getTongTien() - DH.getPhiVanChuyen()) %></td>
+                                <td><span class="footRawTotal"><%=tamtinh %></span> </td>
                             </tr>
                             <tr>
                                 <td colspan="4"><span>Phí vận chuyển</span></td>
-                                <td><%=DH.getPhiVanChuyen() %></td>
+                                <td><span class="footShipFeeTotal"><%=DH.getPhiVanChuyen() %></span> </td>
                             </tr>
                             <tr>
                                 <td colspan="4"><span>Tổng cộng</span></td>
-                                <td><span class="sum"><%=DH.getTongTien() %>₫</span></td>
+                                <td><span class="footsum"><%=DH.getTongTien() %></span></td>
                             </tr>
                         </tfoot>
-                    </table><a class="view-list-order" href="./donHangAction">&lt;&lt; Quay lại đơn hàng của tôi</a>
+                    </table>
                 </div>
             </div>
         </div>
@@ -405,5 +411,86 @@ tr {
 
 </body>
 
+
+<script>
+
+function buildStringMoney( moneyValue ){
+    if(moneyValue <= 0)
+    {
+        return "0đ";
+    }
+
+    let stringMoney = moneyValue.toString();
+    let strReturn = "đ";
+    for(let i = stringMoney.length; i > 0; i-=3 )
+    {   if(i - 3 > 0)
+        {
+            strReturn = stringMoney.slice(i - 3,i) + "." + strReturn;
+        }
+        else
+        {
+            strReturn = stringMoney.slice(0,i) + "." + strReturn;
+        }
+
+    } 
+    strReturn = strReturn.replace(".đ","đ");
+    return strReturn;
+}
+
+function parseStringToInt(strinValue)
+{
+    const strSplits = strinValue.split(".");
+    let money = 0;
+    strSplits.forEach( strSplit=> {
+        if(money === 0)
+        {
+            money = parseInt(strSplit);
+        }
+        else
+        {
+            money = money*1000 +  parseInt(strSplit);
+        }
+    });
+
+   return money;
+}
+
+function updateNumberPricesList(cbs){
+    cbs.forEach((cb)=>{
+        let val = cb.innerText;
+        let intValue = parseStringToInt(val);
+        cb.innerHTML = buildStringMoney(intValue);
+    });
+}
+
+$(document).ready(function(){
+    // set price
+    const cbPriceCol = document.querySelectorAll(".price");
+    updateNumberPricesList(cbPriceCol);
+
+    // set quality
+    const cbDiscountCol = document.querySelectorAll(".discount-amount");
+    updateNumberPricesList(cbDiscountCol);
+
+    // set raw total
+    const cbRawTotal = document.querySelectorAll(".raw-total");
+    updateNumberPricesList(cbRawTotal);
+
+
+// footsecsion hanling:
+    let footRawTotal     = parseStringToInt(document.querySelector(".footRawTotal").innerText);
+    document.querySelector(".footRawTotal").innerHTML = buildStringMoney(footRawTotal);
+
+    let footShipFeeTotal = parseStringToInt(document.querySelector(".footShipFeeTotal").innerText);
+    document.querySelector(".footShipFeeTotal").innerHTML = buildStringMoney(footShipFeeTotal);
+
+    
+    let footsum          = parseStringToInt(document.querySelector(".footsum").innerText);
+    document.querySelector(".footsum").innerHTML = buildStringMoney(footsum);
+
+
+});
+
+</script>
 
 </html>

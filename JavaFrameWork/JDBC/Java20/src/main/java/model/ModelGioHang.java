@@ -4,6 +4,8 @@ public class ModelGioHang {
 	private String tenSP;
 	private int giaSP;
 	private int soLuong;
+	private int giamGia;
+	private double thanhTien;
 	private int spCode;
 	private String sdtKH;
 	private String tenKH;
@@ -19,15 +21,33 @@ public class ModelGioHang {
 		this.spCode = 0;
 	}
 
-	public ModelGioHang(String tenSP, int giaSP, int soLuong, String sdtKH, String tenKH, String diaChiKH, int spCode) {
+	public ModelGioHang(String tenSP, int giaSP, int giamGia, int soLuong, double thanhTien, int spCode, String sdtKH, String tenKH, String diaChiKH) {
 		super();
 		this.tenSP = tenSP;
 		this.giaSP = giaSP;
 		this.soLuong = soLuong;
+		this.giamGia = giamGia;
+		this.thanhTien = thanhTien;
+		this.spCode = spCode;
 		this.sdtKH = sdtKH;
 		this.tenKH = tenKH;
 		this.diaChiKH = diaChiKH;
-		this.spCode = spCode;
+	}
+
+	public int getGiamGia() {
+		return giamGia;
+	}
+
+	public void setGiamGia(int giamGia) {
+		this.giamGia = giamGia;
+	}
+
+	public double getThanhTien() {
+		return thanhTien;
+	}
+
+	public void setThanhTien(double thanhTien) {
+		this.thanhTien = thanhTien;
 	}
 
 	public String getTenSP() {

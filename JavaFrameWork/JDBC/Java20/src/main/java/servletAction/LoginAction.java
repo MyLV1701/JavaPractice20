@@ -11,7 +11,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import dao.DaoChiTietDonHang;
 import dao.DaoChiTietGioHang;
+import dao.DaoDonHang;
 import dao.DaoGioHang;
 import dao.DaoKhachHang;
 import model.ModelKhachHang;
@@ -50,12 +52,14 @@ public class LoginAction extends HttpServlet {
 		String userName = request.getParameter("userName");
 		String passWord = request.getParameter("passWord");
 
-		System.out.println("\n\n\n\n>>>>>> userName: " +  userName + "\tpassWord: " + passWord);
+		// System.out.println("\n\n\n\n>>>>>> userName: " +  userName + "\tpassWord: " + passWord);
 
-		DaoKhachHang daoKH = new DaoKhachHang();
+		DaoKhachHang daoKH        = new DaoKhachHang();
 		DaoChiTietGioHang daoCTGH = new DaoChiTietGioHang();
-		DaoGioHang daoGH = new DaoGioHang();
-		ModelKhachHang khachHang = null;
+		DaoGioHang daoGH          = new DaoGioHang();
+		DaoDonHang daoDH          = new DaoDonHang();
+		DaoChiTietDonHang daoCTDH = new DaoChiTietDonHang();
+		ModelKhachHang khachHang  = null;
 //		HashSet<String> selectedGoods = new HashSet<String>();
 		HashMap<String, Boolean> selectedGoods = new HashMap<String, Boolean>();
 		
@@ -64,6 +68,8 @@ public class LoginAction extends HttpServlet {
 			daoGH.createGioHang(khachHang.getUserName());
 			daoCTGH.createChiTietGioHang(khachHang.getUserName());
 			selectedGoods = daoGH.getAllSPcode(khachHang.getUserName());
+			daoDH.createDonHang();
+			daoCTDH.createChiTietGioHang();
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

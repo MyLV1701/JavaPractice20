@@ -37,13 +37,13 @@ public class DaoGioHang {
 
 	public List<ModelGioHang> getAllGioHang(String userName) throws SQLException {
 
-		String sql = "select SP.tenSP, SP.giaBan , CTGH.SoLuong, KH.phone, KH.hoTen, KH.diaChi, SP.sanPhamCode " 
+		String sql = "select SP.tenSP, SP.giaBan, SP.giamGia , CTGH.SoLuong, SP.sanPhamCode, KH.phone, KH.hoTen, KH.diaChi " 
 				+ "from GioHang" + userName + " GH, ChiTietGioHang" + userName + " CTGH, sanpham SP, khachhang KH "
 				+ "where (GH.KhachHangCode = KH.khachHangCode) and " 
 				+ " (GH.SanPhamCode = SP.sanPhamCode) and "
 				+ " (CTGH.SanPhamCode = SP.SanPhamCode);";
 		
-//		System.out.println("List<ModelGioHang> getAllGioHang(String userName) : sql = " + sql);
+//		// System.out.println("List<ModelGioHang> getAllGioHang(String userName) : sql = " + sql);
 
 		List<ModelGioHang> ghList = new ArrayList<ModelGioHang>();
 		Connection connection = DBConnection.GET_CONNECTION();
@@ -54,13 +54,13 @@ public class DaoGioHang {
 		ModelGioHang gh = null;
 		
 		while (rs.next()) {
-			gh = new ModelGioHang(rs.getString(1), rs.getInt(2), rs.getInt(3), rs.getString(4), rs.getString(5),
-					rs.getString(6), rs.getInt(7));
-
+			double thanhTienVal = (double)((rs.getInt(2) - rs.getInt(3)) * rs.getInt(4));
+			// System.out.println("getAllGioHang : " + thanhTienVal);
+			gh = new ModelGioHang(rs.getString(1), rs.getInt(2), rs.getInt(3), rs.getInt(4), thanhTienVal, 
+					              rs.getInt(5), rs.getString(6), rs.getString(7), rs.getString(8));
 			ghList.add(gh);
 		}
 		return ghList;
-
 	}
 	
 	
@@ -82,7 +82,7 @@ public class DaoGioHang {
            }
        }
 		
-		String sql = "select SP.tenSP, SP.giaBan , CTGH.SoLuong, KH.phone, KH.hoTen, KH.diaChi, SP.sanPhamCode " 
+		String sql = "select SP.tenSP, SP.giaBan, SP.giamGia , CTGH.SoLuong, SP.sanPhamCode, KH.phone, KH.hoTen, KH.diaChi " 
 				+ "from GioHang" + userName + " GH, ChiTietGioHang" + userName + " CTGH, sanpham SP, khachhang KH "
 				+ "where (GH.KhachHangCode = KH.khachHangCode) and " 
 				+ " (GH.SanPhamCode = SP.sanPhamCode) and "
@@ -100,11 +100,15 @@ public class DaoGioHang {
 		while (rs.next()) {
 			
 			// if ( selectedItems contains ( rs.getInt(7) ) )
-			String spCode = rs.getString(7);
+			String spCode = rs.getString(5);
 			if(DeepCopyhmImpl.containsKey(spCode))
 			{
-				gh = new ModelGioHang(rs.getString(1), rs.getInt(2), rs.getInt(3), rs.getString(4), rs.getString(5),
-						rs.getString(6), rs.getInt(7));
+				double thanhTienVal = (double)((rs.getInt(2) - rs.getInt(3)) * rs.getInt(4));
+				
+				// System.out.println("List<ModelGioHang> getAllSelectedProducts : " + thanhTienVal);
+				
+				gh = new ModelGioHang(rs.getString(1), rs.getInt(2), rs.getInt(3), rs.getInt(4), thanhTienVal, 
+						              rs.getInt(5), rs.getString(6), rs.getString(7), rs.getString(8));
 				spList.add(gh);
 			}
 		}
@@ -150,8 +154,8 @@ public class DaoGioHang {
 
 		while (rs.next()) {
 			spCodeList.put(rs.getString(1),false);
-		}
 
+		}
 		return spCodeList;
 	}
 

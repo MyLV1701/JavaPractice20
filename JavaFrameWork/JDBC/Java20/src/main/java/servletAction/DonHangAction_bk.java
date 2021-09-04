@@ -74,8 +74,8 @@ public class DonHangAction extends HttpServlet {
 //	    while (en.hasMoreElements()) {
 //	        start = gson.fromJson((String) en.nextElement(), GameStart.class);
 //	    }
-//	    System.out.println(start.gameID);
-//	    System.out.println(start.playerUIDs[0] +" "+ start.playerUIDs[1]);
+//	    // System.out.println(start.gameID);
+//	    // System.out.println(start.playerUIDs[0] +" "+ start.playerUIDs[1]);
 //	}
 //	
 	
@@ -94,7 +94,7 @@ public class DonHangAction extends HttpServlet {
 //		} catch (Exception e) {
 //			/* report an error */ }
 //
-//		System.out.println(jb.toString());
+//		// System.out.println(jb.toString());
 //
 //		// question : ton tai cach nao read tu ajax nua khong?
 //
@@ -107,9 +107,9 @@ public class DonHangAction extends HttpServlet {
 //		List<GameStart> startList = gson.fromJson(yourJson, new TypeToken<List<GameStart>>(){}.getType());
 //		for (GameStart e : startList) {
 //			
-//			System.out.println("============================= GAME START =============================");
-//			System.out.println(e.gameID);
-//			System.out.println(e.playerUIDs[0] + " " + e.playerUIDs[1]);
+//			// System.out.println("============================= GAME START =============================");
+//			// System.out.println(e.gameID);
+//			// System.out.println(e.playerUIDs[0] + " " + e.playerUIDs[1]);
 //			
 //		}
 //		
@@ -136,7 +136,7 @@ public class DonHangAction extends HttpServlet {
 		} catch (Exception e) {
 			/* report an error */ }
 
-		System.out.println(jb.toString());
+		// System.out.println(jb.toString());
 
 		// question : ton tai cach nao read tu ajax nua khong?
 
@@ -163,9 +163,9 @@ public class DonHangAction extends HttpServlet {
 		GetDonHangInfo donHangInfo = gson.fromJson(jsonData, GetDonHangInfo.class);
 //		GetDonHangInfo donHangInfo = gson.fromJson(yourJson, GetDonHangInfo.class);
 			
-		System.out.println("============================= GAME START =============================");
-		System.out.println("  phiShip : " + donHangInfo.phiShip);
-		System.out.println("  tongChiPhi : " + donHangInfo.tongChiPhi + "  loaiThanhToan : " + donHangInfo.loaiThanhToan 
+		// System.out.println("============================= GAME START =============================");
+		// System.out.println("  phiShip : " + donHangInfo.phiShip);
+		// System.out.println("  tongChiPhi : " + donHangInfo.tongChiPhi + "  loaiThanhToan : " + donHangInfo.loaiThanhToan 
 						 + " donHangInfo : " + donHangInfo.dviGiaoHang);
 		
 		
@@ -190,10 +190,10 @@ public class DonHangAction extends HttpServlet {
 	 * ; Gson gson = new Gson(); GetDonHangInfo donHangInfo =
 	 * gson.fromJson(yourJson, GetDonHangInfo.class);
 	 * 
-	 * System.out.println(donHangInfo.toString()); System.out.
+	 * // System.out.println(donHangInfo.toString()); System.out.
 	 * println("============================= GAME START ============================="
-	 * ); System.out.println("  phiShip : " + donHangInfo.phiShip);
-	 * System.out.println("  tongChiPhi : " + donHangInfo.tongChiPhi +
+	 * ); // System.out.println("  phiShip : " + donHangInfo.phiShip);
+	 * // System.out.println("  tongChiPhi : " + donHangInfo.tongChiPhi +
 	 * "  loaiThanhToan : " + donHangInfo.loaiThanhToan + " donHangInfo : " +
 	 * donHangInfo.dviGiaoHang); }
 	 * 

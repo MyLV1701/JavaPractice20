@@ -88,7 +88,7 @@ public class DaoDonHang {
 	public ModelDonHang getDonHangExist(String donHangCode) throws SQLException {
 				
 		String sql = " select DH.donHangCode, DH.ngayDatHang, DH.trangThai, DH.diaChiNhanhang, DH.phone, DH.tenNguoiNhan, DH.hinhThucThanhToan, "
-				   + " DH.loaiGiaoHang, DH.phiVanChuyen, DH.tongChiPhi, SP.tenSP, CTDH.giaBan, CTDH.soLuong "
+				   + " DH.loaiGiaoHang, DH.phiVanChuyen, DH.tongChiPhi, SP.tenSP, CTDH.giaBan, CTDH.soLuong, CTDH.giamGia, CTDH.thanhTien "
 				   + " from donhang as DH, chitietdonhang as CTDH, sanpham as SP "
 				   + " where (CTDH.sanPhamCode = SP.sanPhamCode) and (DH.donHangCode = CTDH.donHangCode) and (DH.donHangCode = " + donHangCode + "); ";
 
@@ -119,7 +119,7 @@ public class DaoDonHang {
 				gh.setTongTien(rs.getInt(10));
 			};
 
-			ModelDonHang.sanPhamDS spObj = gh.new sanPhamDS(rs.getString(11), rs.getInt(12), rs.getInt(13));
+			ModelDonHang.sanPhamDS spObj = gh.new sanPhamDS(rs.getString(11), rs.getInt(12), rs.getInt(13), rs.getInt(14), rs.getInt(15));
 			
 			gh.setDsSP(spObj);
 			isUpdateDH = false;
@@ -138,7 +138,7 @@ public class DaoDonHang {
 		
 		String sql = "select donHangCode from donhang ";
 
-		HashSet<String> dhCode = new HashSet();
+		HashSet<String> dhCode = new HashSet<String>();
 		Connection connection = DBConnection.GET_CONNECTION();
 		Statement sta = connection.createStatement();
 		ResultSet rs = sta.executeQuery(sql);

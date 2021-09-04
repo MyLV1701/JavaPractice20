@@ -177,7 +177,10 @@ tr {
             <div class="donHangWrapper">
                 <div class="donHangHeader">
                     <div class="background"></div>
-                    <div class="item"><a href="/Java20/homepage.jsp">Trang chủ</a></div>
+                    <!-- <div class="item"><a href="/Java20/homepage.jsp">Trang chủ</a></div>
+                         <!-- ↑ se khong load duoc cac du lieu  -->
+                         
+                    <div class="item"><a href="./homePageAction">Trang chủ</a></div>
                     <div class="item active">Đơn hàng của tôi</div>
                 </div>
                 <div class="donHangContent">
@@ -185,43 +188,55 @@ tr {
                         <div class="heading">Đơn hàng của tôi</div>
                         <div class="donhangList">
                             <table>
-                                <thead>
-                                    <tr>
-                                        <th style = "text-align: center;">Mã đơn hàng</th>
-                                        <th>Ngày mua</th>
-                                        <th>Sản phẩm</th>
-                                        <th>Tổng tiền</th>
-                                        <th>Trạng thái đơn hàng</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                	<% List<ModelDonHang> ls = (List) request.getAttribute("donhangList"); 
-									   for (ModelDonHang e : ls){
-										   StringBuilder ListTenSP = new StringBuilder();
-										   for(ModelDonHang.sanPhamDS subObj : e.getDsSP())
-										   {
-											   ListTenSP.append(subObj.getTenSP());
-											   ListTenSP.append(", ");
-										   }
-										   
-										   // Removing 2 last characters ", "
-										   ListTenSP.setLength(ListTenSP.length() - 2);
-                                	%>
-                                
-                                    <tr>
-                                        <td style=" text-align: center;font-weight: 900;color: blue;cursor: pointer;" class = "goAheadCTDH">
-                                            <%=e.getDonhangID() %></td>
-                                        <td><%=e.getNgayDatHang() %></td>
-                                        <td><%=ListTenSP.toString() %></td>
-                                        <td><%=e.getTongTien() %></td>
-                                        <td><%=e.getTrangThai() %></td>
-                                    </tr>
-                                    
-                                    <%
-                                       }
-									 %>
-                                </tbody>
-                            </table>
+								<thead>
+									<tr>
+										<th style="text-align: center;">Mã đơn hàng</th>
+										<th>Ngày mua</th>
+										<th>Sản phẩm</th>
+										<th>Tổng tiền</th>
+										<th>Trạng thái đơn hàng</th>
+									</tr>
+								</thead>
+
+								<tbody>
+									<%
+									if (request.getAttribute("donhangList") == null) {
+									%>
+									<tr>
+									<td style = "color: red; font-weight: bold; font-size: 20px">Hiện Tại bạn chưa có đơn hàng nào</td>
+									</tr>
+									<%
+									} else {
+
+									List<ModelDonHang> ls = (List) request.getAttribute("donhangList");
+									for (ModelDonHang e : ls) {
+										StringBuilder ListTenSP = new StringBuilder();
+										for (ModelDonHang.sanPhamDS subObj : e.getDsSP()) {
+											ListTenSP.append(subObj.getTenSP());
+											ListTenSP.append(", ");
+										}
+										// Removing 2 last characters ", "
+										ListTenSP.setLength(ListTenSP.length() - 2);
+									%>
+
+									<tr>
+										<td
+											style="text-align: center; font-weight: 900; color: blue; cursor: pointer;"
+											class="goAheadCTDH"><%=e.getDonhangID()%></td>
+										<td><%=e.getNgayDatHang()%></td>
+										<td><%=ListTenSP.toString()%></td>
+										<td><span class="tBodyTongTien"><%=e.getTongTien()%></span>
+										</td>
+										<td><%=e.getTrangThai()%></td>
+									</tr>
+
+									<%
+									}
+									}
+									%>
+								</tbody>
+
+							</table>
                         </div>
                     </div>
                 </div>
@@ -233,9 +248,61 @@ tr {
 
 <script type="text/javascript">
 
+function buildStringMoney( moneyValue ){
+    if(moneyValue <= 0)
+    {
+        return "0đ";
+    }
+
+    let stringMoney = moneyValue.toString();
+    let strReturn = "đ";
+    for(let i = stringMoney.length; i > 0; i-=3 )
+    {   if(i - 3 > 0)
+        {
+            strReturn = stringMoney.slice(i - 3,i) + "." + strReturn;
+        }
+        else
+        {
+            strReturn = stringMoney.slice(0,i) + "." + strReturn;
+        }
+
+    } 
+    strReturn = strReturn.replace(".đ","đ");
+    return strReturn;
+}
+
+function parseStringToInt(strinValue)
+{
+    const strSplits = strinValue.split(".");
+    let money = 0;
+    strSplits.forEach( strSplit=> {
+        if(money === 0)
+        {
+            money = parseInt(strSplit);
+        }
+        else
+        {
+            money = money*1000 +  parseInt(strSplit);
+        }
+    });
+
+   return money;
+}
+
+function updateNumberPricesList(cbs){
+    cbs.forEach((cb)=>{
+        let val = cb.innerText;
+        let intValue = parseStringToInt(val);
+        cb.innerHTML = buildStringMoney(intValue);
+    });
+}
+
+$(document).ready(()=>{
+	const cbTongTienCol = document.querySelectorAll(".tBodyTongTien");
+	updateNumberPricesList(cbTongTienCol);
+});
+
 $(".goAheadCTDH").bind("click", function(){
-	
-	
 	
 	var eventListen = "goChiTietDoHang";
 	var dhCode      = $(this).text();
